@@ -1,0 +1,43 @@
+flowchart TB
+  %% TasK production infrastructure (planned, MVP)
+
+  User["User / Browser"];
+
+  subgraph WebNode["Web node (production-server)"];
+    Nginx["Nginx<br/>TLS termination + vhosts"];
+    PHPFPM["PHP-FPM pool<br/>unix:/run/php-fpm/wwwtask.sock"];
+    Apps["Symfony apps<br/>apps/web + apps/api + apps/blog + apps/docs"];
+    Mercure["Mercure Hub<br/>:3000 (systemd)"];
+    LocalArtifacts[(Local artifacts<br/>/mnt/task/files/*)];
+
+    Nginx -->|FastCGI| PHPFPM --> Apps;
+    Nginx -->|SSE proxy<br/>/.well-known/mercure| Mercure;
+    Nginx -->|X-Accel-Redirect<br/>/artifact-files/*| LocalArtifacts;
+  end;
+
+  subgraph Shared["Shared / external services"];
+    Postgres[(PostgreSQL 17<br/>+ pgvector)];
+    Rabbit["RabbitMQ<br/>vhost: task"];
+    Memcached[(Memcached<br/>cache + rate limit + locks)];
+    S3[(MinIO / S3<br/>buckets: task-*)];
+  end;
+
+  subgraph WorkerNode["Worker node (optional, for heavy Source pipeline)"];
+    Workers["Messenger consumers<br/>messenger:consume source_*"];
+    Tools["Processing tools<br/>whisper.cpp, diarize.py, yt-dlp,<br/>Docling, MinerU, Trafilatura, ffmpeg, ..."];
+    Workers --> Tools;
+  end;
+
+  User -->|HTTPS| Nginx;
+
+  Apps --> Postgres;
+  Apps --> Rabbit;
+  Apps --> Memcached;
+  Apps -->|STORAGE_DRIVER=local| LocalArtifacts;
+  Apps -->|STORAGE_DRIVER=s3| S3;
+
+  Workers --> Rabbit;
+  Workers --> Postgres;
+  Workers --> Memcached;
+  Workers -->|STORAGE_DRIVER=local - single host only| LocalArtifacts;
+  Workers -->|STORAGE_DRIVER=s3| S3;

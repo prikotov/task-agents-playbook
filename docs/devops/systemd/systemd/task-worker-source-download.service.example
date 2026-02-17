@@ -1,0 +1,19 @@
+[Unit]
+Description=TasK Messenger worker (source_download)
+After=network.target
+
+[Service]
+Type=simple
+User=wwwtask
+WorkingDirectory=/var/www/task
+# DSN/vhost/user/password должны совпадать с вашим окружением RabbitMQ
+Environment="RABBITMQ_DSN=amqp://task:task@127.0.0.1:5672/task"
+ExecStart=/usr/bin/php /var/www/task/bin/console messenger:consume source_download --env=prod --no-interaction --sleep=1 --memory-limit=512M --verbose
+StandardOutput=append:/var/log/task/messenger/source_download.log
+StandardError=append:/var/log/task/messenger/source_download.error.log
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
+

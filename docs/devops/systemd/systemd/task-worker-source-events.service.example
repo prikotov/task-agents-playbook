@@ -1,0 +1,18 @@
+[Unit]
+Description=TasK Messenger worker (source_events)
+After=network.target
+
+[Service]
+Type=simple
+User=wwwtask
+WorkingDirectory=/var/www/task
+Environment="RABBITMQ_DSN=amqp://task:task@127.0.0.1:5672/task"
+ExecStart=/usr/bin/php /var/www/task/bin/console messenger:consume source_events --env=prod --no-interaction --sleep=1 --memory-limit=512M --verbose
+StandardOutput=append:/var/log/task/messenger/source_events.log
+StandardError=append:/var/log/task/messenger/source_events.error.log
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
+
