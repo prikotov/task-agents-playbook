@@ -116,3 +116,7 @@ flowchart LR
     J -->|Yes| K[Prep Release]
     K --> L[Release]
 ```
+
+### 📸 Example with Screenshots
+
+[In my blog](https://prikotov.pro/blog/pervyi-opyt-s-glm-5-koding-cherez-kilo-code#primer-raboty-v-kilo-code) — a detailed walkthrough of a real AI agent session with screenshots: from request to finished PR. Shows how the agent works with this playbook in practice.
