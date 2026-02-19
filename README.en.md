@@ -126,6 +126,9 @@ To better understand how these rules work in practice, you can examine real arti
 *   **Code Examples** — implementation logic written by an agent based on these tasks:
     *   [Core](./src/Module/Health) — logic, services, and integrations.
     *   [Web](./apps/web/src/Module/Health) — controllers and page templates.
+*   **Test Examples** — tests created by the agent to verify the implementation:
+    *   [Core Tests](./tests) — unit and integration tests.
+    *   [Web Tests](./apps/web/tests) — unit and e2e tests.
 
 ### 📸 Example with Screenshots
 
