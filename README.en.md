@@ -8,7 +8,7 @@ This repository contains the configuration and rules used for the AI-assisted de
 
 I am publishing these materials as an example of a real-world workflow to share my experience, discuss AI development approaches, and find ways to improve them together. You are free to study, adapt, and apply these practices in your own projects.
 
-## My Workflow
+## Workflow
 
 I have arrived at an approach I call **Task-driven development** — development driven by tasks as specifications.
 
