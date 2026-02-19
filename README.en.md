@@ -124,8 +124,8 @@ To better understand how these rules work in practice, you can examine real arti
 *   **[Epic Example](./todo/EPIC-status-page.todo.md)** — a full specification for a major feature (Status Page), created by an agent in the Analyst role.
 *   **Tasks** — the [`todo/`](./todo/) and [`todo/done/`](./todo/done/) directories contain specific task files into which this epic was decomposed.
 *   **Code Examples** — implementation of system health check logic, written by the agent based on these tasks:
-    *   [Backend](./src/Module/Health) — domain logic and infrastructure checks.
-    *   [Frontend](./apps/web/src/Module/Health) — UI components and API integration.
+    *   [Core/Module](./src/Module/Health) — logic, services, and integrations.
+    *   [Web/UI](./apps/web/src/Module/Health) — controllers and page templates.
 
 ### 📸 Example with Screenshots
 
