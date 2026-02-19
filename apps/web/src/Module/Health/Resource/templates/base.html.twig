@@ -1,0 +1,110 @@
+{% set imageLocale = app.request.locale in ['en', 'ru', 'zh'] ? app.request.locale : 'en' %}
+{% set localeNames = {'en': 'En', 'ru': 'Ru', 'zh': '中文'} %}
+{% set currentRoute = app.request.attributes.get('_route') ?? 'landing_page' %}
+{% set currentRouteParameters = app.request.attributes.get('_route_params')|default({}) %}
+{% set currentQueryParameters = app.request.query.all|default({}) %}
+{% set languageSwitcherParameters = currentRouteParameters|merge(currentQueryParameters) %}
+<!DOCTYPE html>
+<html lang="{{ app.request.locale }}" dir="ltr" data-navigation-type="default" data-navbar-horizontal-shape="default">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>{% block title %}{{ 'status.title'|trans }}{% endblock %}</title>
+
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('logo/mobile-logo.png') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('logo/mobile-logo.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('logo/mobile-logo.png') }}">
+    <link rel="shortcut icon" type="image/x-icon" href="{{ asset('logo/mobile-logo.png') }}">
+    <meta name="msapplication-TileImage" content="{{ asset('logo/mobile-logo.png') }}">
+    <meta name="theme-color" content="#ffffff">
+
+    {% block stylesheets %}
+        <script src="{{ asset('phoenix/vendors/simplebar/simplebar.min.js') }}"></script>
+        <script src="{{ asset('phoenix/assets/js/config.js') }}"></script>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+        <link href="{{ asset('phoenix/vendors/simplebar/simplebar.min.css') }}" rel="stylesheet">
+        <link href="{{ asset('phoenix/assets/css/theme.min.css') }}" type="text/css" rel="stylesheet" id="style-default">
+        <link href="{{ asset('phoenix/assets/css/user.min.css') }}" type="text/css" rel="stylesheet" id="user-style-default">
+        <link href="{{ asset('css/main.css') }}" type="text/css" rel="stylesheet">
+    {% endblock %}
+
+    <meta http-equiv="refresh" content="60">
+</head>
+
+<body style="--phoenix-scroll-margin-top: 1.2rem;">
+
+    <main class="main" id="top">
+        <div class="bg-body-emphasis sticky-top" data-navbar-shadow-on-scroll="data-navbar-shadow-on-scroll">
+            <nav class="navbar navbar-expand-lg container-small px-3 px-lg-7 px-xxl-3">
+                <a class="navbar-brand flex-1 flex-lg-grow-0" href="{{ path('landing_root') }}">
+                    <div class="d-flex align-items-center">
+                        <img src="{{ asset('logo/mobile-logo.png') }}" alt="TasK" width="27" />
+                        <h5 class="logo-text ms-2">TasK</h5>
+                    </div>
+                </a>
+
+                <div class="theme-control-toggle fa-icon-wait px-2 me-lg-2">
+                    <input class="form-check-input ms-0 theme-control-toggle-input" type="checkbox" data-theme-control="phoenixTheme" value="dark" id="themeControlToggle" />
+                    <label class="mb-0 theme-control-toggle-label theme-control-toggle-light" for="themeControlToggle" data-bs-toggle="tooltip" data-bs-placement="left" data-bs-title="Switch theme" style="height:32px;width:32px;"><span class="icon" data-feather="moon"></span></label>
+                    <label class="mb-0 theme-control-toggle-label theme-control-toggle-dark" for="themeControlToggle" data-bs-toggle="tooltip" data-bs-placement="left" data-bs-title="Switch theme" style="height:32px;width:32px;"><span class="icon" data-feather="sun"></span></label>
+                </div>
+            </nav>
+        </div>
+
+        {% block content %}{% endblock %}
+
+        <div class="position-relative">
+            <div class="bg-holder footer-bg" style="background-image:url({{ asset('phoenix/assets/img/bg/bg-19.png') }});background-size:auto;"></div>
+            <div class="bg-holder" style="background-image:url({{ asset('phoenix/assets/img/bg/bg-right-20.png') }});background-position:right;background-size:auto;"></div>
+            <div class="bg-holder" style="background-image:url({{ asset('phoenix/assets/img/bg/bg-left-20.png') }});background-position:left;background-size:auto;"></div>
+            <div class="position-relative">
+                <svg class="w-100 text-white dark__text-gray-1100" preserveAspectRatio="none" viewBox="0 0 1920 368" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M1920 0.44L0 367.74V0H1920V0.44Z" fill="currentColor"></path>
+                </svg>
+                <section class="footer-default">
+                    <div class="container-small px-lg-7 px-xxl-3">
+                        <div class="row position-relative">
+                            <div class="col-12 col-sm-12 col-lg-5 mb-4 order-0 order-sm-0">
+                                <a class="d-flex align-items-center" href="{{ path('landing_root') }}">
+                                    <img src="{{ asset('logo/mobile-logo.png') }}" alt="TasK" width="27" />
+                                    <h5 class="logo-text ms-2 text-white">TasK</h5>
+                                </a>
+                                <p class="text-white opacity-50 mt-3">{{ 'status.footer.subtitle'|trans }}</p>
+                            </div>
+                            <div class="col-lg-7">
+                                <div class="row justify-content-between">
+                                    <div class="col-6 col-sm-4 col-lg-3 mb-3 order-2 order-sm-1">
+                                        <div class="border-dashed border-start border-primary-light ps-3" style="--phoenix-border-opacity: .2;">
+                                            <h5 class="fw-bolder mb-2 text-light">{{ 'status.footer.links.title'|trans }}</h5>
+                                            <ul class="list-unstyled mb-3">
+                                                <li class="mb-1"><a class="text-body-quaternary" href="{{ path('landing_root') }}">{{ 'status.footer.links.home'|trans }}</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        <div class="col-12 col-lg-auto mt-3 mt-lg-0 text-center">
+                            <p class="fs-9 text-body-secondary mb-0">
+                                &copy; 2024-{{ 'now'|date('Y') }} TasK
+                            </p>
+                        </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </main>
+
+    {% block javascripts %}
+        <script src="{{ asset('phoenix/vendors/popper/popper.min.js') }}"></script>
+        <script src="{{ asset('phoenix/vendors/bootstrap/bootstrap.min.js') }}"></script>
+        <script src="{{ asset('phoenix/vendors/feather-icons/feather.min.js') }}"></script>
+        <script src="{{ asset('phoenix/assets/js/phoenix.js') }}"></script>
+    {% endblock %}
+</body>
+
+</html>

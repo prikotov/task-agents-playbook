@@ -1,0 +1,66 @@
+status:
+  title: System Status
+  page_title: System Status - TasK
+  subtitle: Real-time status of all TasK platform services
+  last_updated: Last updated
+  empty: No service status information available
+  
+  overall:
+    operational: All Systems Operational
+    degraded: Some Systems Degraded
+    outage: System Outage
+    maintenance: Maintenance in Progress
+  
+  stats:
+    operational: Operational
+    degraded: Degraded
+    outage: Outage
+    maintenance: Maintenance
+  
+  service:
+    operational: Operational
+    degraded: Degraded
+    outage: Outage
+    maintenance: Maintenance
+  
+  footer:
+    subtitle: Real-time status monitoring for TasK platform
+    links:
+      title: Links
+      home: Home
+
+health:
+  category:
+    infrastructure: Infrastructure
+    llm: LLM Providers
+    external_api: External APIs
+    cli_tool: CLI Tools
+  
+  dashboard:
+    page_title: Health Dashboard - Admin - TasK
+    title: Health Dashboard
+    subtitle: Detailed system monitoring for administrators
+    last_updated: Last updated
+    empty: No services match the selected filters
+    
+    stats:
+      operational: Operational
+      degraded: Degraded
+      outage: Outage
+      maintenance: Maintenance
+    
+    table:
+      service: Service
+      last_check: Last Check
+      response_time: Response Time
+      status: Status
+    
+    filter:
+      category:
+        label: Category
+        placeholder: All categories
+      status:
+        label: Status
+        placeholder: All statuses
+      apply: Apply
+      reset: Reset

@@ -1,0 +1,185 @@
+{% extends '@web.health/base.html.twig' %}
+
+{% block title %}{{ 'status.page_title'|trans }}{% endblock %}
+
+{% block content %}
+<section class="py-8 bg-body-emphasis">
+    <div class="container-small px-lg-7 px-xxl-3">
+        {# Header with overall status #}
+        <div class="row mb-6">
+            <div class="col-12 text-center">
+                <h1 class="mb-3">{{ 'status.title'|trans }}</h1>
+                <p class="text-body-secondary mb-4">{{ 'status.subtitle'|trans }}</p>
+
+                {# Overall Status Badge #}
+                {% set overallStatusClass = {
+                    'operational': 'success',
+                    'degraded': 'warning',
+                    'outage': 'danger',
+                    'maintenance': 'info'
+                } %}
+
+                {% set overallStatusIcon = {
+                    'operational': 'check-circle',
+                    'degraded': 'alert-triangle',
+                    'outage': 'x-circle',
+                    'maintenance': 'tool'
+                } %}
+
+                <div class="d-inline-flex align-items-center px-4 py-2 rounded-pill bg-{{ overallStatusClass[systemHealth.overallStatus.value] ?? 'secondary' }} bg-opacity-10 border border-{{ overallStatusClass[systemHealth.overallStatus.value] ?? 'secondary' }} border-opacity-25">
+                    <span class="fas fa-{{ overallStatusIcon[systemHealth.overallStatus.value] ?? 'question-circle' }} text-{{ overallStatusClass[systemHealth.overallStatus.value] ?? 'secondary' }} me-2"></span>
+                    <span class="fw-semibold text-{{ overallStatusClass[systemHealth.overallStatus.value] ?? 'secondary' }}">
+                        {{ ('status.overall.' ~ systemHealth.overallStatus.value)|trans }}
+                    </span>
+                </div>
+
+                {# Last updated timestamp #}
+                <p class="text-body-tertiary small mt-3">
+                    {{ 'status.last_updated'|trans }}: {{ systemHealth.checkedAt|date('H:i:s d.m.Y', 'UTC') }} UTC
+                </p>
+            </div>
+        </div>
+
+        {# Statistics cards #}
+        <div class="row g-3 mb-6">
+            <div class="col-6 col-md-3">
+                <div class="card h-100 border border-success border-opacity-25">
+                    <div class="card-body text-center py-3">
+                        <div class="fs-4 fw-bold text-success">{{ systemHealth.operationalCount }}</div>
+                        <div class="text-body-secondary small">{{ 'status.stats.operational'|trans }}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6 col-md-3">
+                <div class="card h-100 border border-warning border-opacity-25">
+                    <div class="card-body text-center py-3">
+                        <div class="fs-4 fw-bold text-warning">{{ systemHealth.degradedCount }}</div>
+                        <div class="text-body-secondary small">{{ 'status.stats.degraded'|trans }}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6 col-md-3">
+                <div class="card h-100 border border-danger border-opacity-25">
+                    <div class="card-body text-center py-3">
+                        <div class="fs-4 fw-bold text-danger">{{ systemHealth.outageCount }}</div>
+                        <div class="text-body-secondary small">{{ 'status.stats.outage'|trans }}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6 col-md-3">
+                <div class="card h-100 border border-info border-opacity-25">
+                    <div class="card-body text-center py-3">
+                        <div class="fs-4 fw-bold text-info">{{ systemHealth.maintenanceCount }}</div>
+                        <div class="text-body-secondary small">{{ 'status.stats.maintenance'|trans }}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {# Active Incidents #}
+        {% if activeIncidents is defined and activeIncidents|length > 0 %}
+        <div class="card mb-4 border-danger border-opacity-25">
+            <div class="card-header bg-danger bg-opacity-10">
+                <h5 class="mb-0 text-danger">
+                    <span class="fas fa-exclamation-triangle me-2"></span>
+                    Active Incidents
+                </h5>
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover mb-0">
+                        <tbody>
+                            {% for incident in activeIncidents %}
+                            {% set severityClass = {
+                                'critical': 'danger',
+                                'major': 'warning',
+                                'minor': 'info',
+                                'low': 'secondary'
+                            } %}
+                            <tr>
+                                <td class="ps-4 py-3">
+                                    <div class="fw-medium">{{ incident.title }}</div>
+                                    {% if incident.description %}
+                                    <small class="text-body-secondary">{{ incident.description|slice(0, 150) }}{% if incident.description|length > 150 %}...{% endif %}</small>
+                                    {% endif %}
+                                    {% if incident.affectedServiceNames|length > 0 %}
+                                    <div class="mt-1">
+                                        {% for service in incident.affectedServiceNames %}
+                                        <span class="badge bg-light text-dark me-1">{{ service }}</span>
+                                        {% endfor %}
+                                    </div>
+                                    {% endif %}
+                                </td>
+                                <td class="text-end pe-4 py-3">
+                                    <span class="badge bg-{{ severityClass[incident.severity.value] ?? 'secondary' }} bg-opacity-10 text-{{ severityClass[incident.severity.value] ?? 'secondary' }} px-3 py-2">
+                                        {{ incident.severity.value|title }}
+                                    </span>
+                                </td>
+                                <td class="text-end pe-4 py-3">
+                                    <small class="text-body-tertiary">{{ incident.createdAt|date('d.m.Y H:i') }}</small>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        {# Services by category #}
+        {% for category, services in groupedServices %}
+        <div class="card mb-4">
+            <div class="card-header bg-body-tertiary">
+                <h5 class="mb-0">{{ category }}</h5>
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover mb-0">
+                        <tbody>
+                            {% for service in services %}
+                            {% set statusClass = {
+                                'operational': 'success',
+                                'degraded': 'warning',
+                                'outage': 'danger',
+                                'maintenance': 'info'
+                            } %}
+
+                            {% set statusIcon = {
+                                'operational': 'check-circle',
+                                'degraded': 'alert-triangle',
+                                'outage': 'x-circle',
+                                'maintenance': 'tool'
+                            } %}
+                            <tr>
+                                <td class="ps-4 py-3">
+                                    <span class="fw-medium">{{ service.name }}</span>
+                                    {% if service.message %}
+                                    <br><small class="text-body-secondary">{{ service.message }}</small>
+                                    {% endif %}
+                                </td>
+                                <td class="text-end pe-4 py-3">
+                                    <span class="badge bg-{{ statusClass[service.status.value] ?? 'secondary' }} bg-opacity-10 text-{{ statusClass[service.status.value] ?? 'secondary' }} px-3 py-2">
+                                        <span class="fas fa-{{ statusIcon[service.status.value] ?? 'question-circle' }} me-1"></span>
+                                        {{ ('status.service.' ~ service.status.value)|trans }}
+                                    </span>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+
+        {# Empty state #}
+        {% if groupedServices is empty %}
+        <div class="text-center py-8">
+            <span class="fas fa-server fs-1 text-body-tertiary mb-3 d-block"></span>
+            <p class="text-body-secondary">{{ 'status.empty'|trans }}</p>
+        </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

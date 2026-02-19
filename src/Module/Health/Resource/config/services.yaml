@@ -1,0 +1,157 @@
+parameters:
+  module.health.module_dir: '%kernel.project_dir%/src/Module/Health'
+  module.health.database.timeout: '%env(float:HEALTH_DATABASE_TIMEOUT)%'
+  module.health.rabbitmq.timeout: '%env(float:HEALTH_RABBITMQ_TIMEOUT)%'
+  module.health.minio.timeout: '%env(float:HEALTH_MINIO_TIMEOUT)%'
+
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+
+  Common\Module\Health\:
+    resource: '%module.health.module_dir%/'
+    exclude:
+      - '%module.health.module_dir%/Domain/Entity/'
+      - '%module.health.module_dir%/Resource/'
+      - '%module.health.module_dir%/HealthModule.php'
+
+  monolog.logger.health:
+    class: Monolog\Logger
+    arguments: ['health']
+
+  Common\Module\Health\Infrastructure\Component\DatabaseHealthCheck\DatabaseHealthCheckComponent:
+    arguments:
+      $connection: '@doctrine.dbal.default_connection'
+      $logger: '@monolog.logger.health'
+      $timeout: '%module.health.database.timeout%'
+
+  Common\Module\Health\Infrastructure\Component\DatabaseHealthCheck\DatabaseHealthCheckComponentInterface:
+    alias: Common\Module\Health\Infrastructure\Component\DatabaseHealthCheck\DatabaseHealthCheckComponent
+
+  Common\Module\Health\Infrastructure\Service\HealthChecker\DatabaseHealthCheckerService:
+    tags:
+      - { name: 'health.checker' }
+
+  Common\Module\Health\Infrastructure\Component\RabbitMqHealthCheck\RabbitMqConnection:
+    class: AMQPConnection
+    arguments:
+      - host: '%env(string:RABBITMQ_HOST)%'
+        port: '%env(int:RABBITMQ_PORT)%'
+        vhost: '%env(string:RABBITMQ_VHOST)%'
+        login: '%env(string:RABBITMQ_USER)%'
+        password: '%env(string:RABBITMQ_PASSWORD)%'
+
+  Common\Module\Health\Infrastructure\Component\RabbitMqHealthCheck\RabbitMqHealthCheckComponent:
+    arguments:
+      $connection: '@Common\Module\Health\Infrastructure\Component\RabbitMqHealthCheck\RabbitMqConnection'
+      $logger: '@monolog.logger.health'
+      $timeout: '%module.health.rabbitmq.timeout%'
+
+  Common\Module\Health\Infrastructure\Component\RabbitMqHealthCheck\RabbitMqHealthCheckComponentInterface:
+    alias: Common\Module\Health\Infrastructure\Component\RabbitMqHealthCheck\RabbitMqHealthCheckComponent
+
+  Common\Module\Health\Infrastructure\Service\HealthChecker\RabbitMqHealthCheckerService:
+    tags:
+      - { name: 'health.checker' }
+
+  Common\Module\Health\Infrastructure\Component\MinioHealthCheck\MinioS3Client:
+    class: Aws\S3\S3Client
+    arguments:
+      - version: 'latest'
+        region: '%env(string:STORAGE_S3_REGION)%'
+        endpoint: '%env(string:STORAGE_S3_ENDPOINT)%'
+        use_path_style_endpoint: true
+        credentials:
+          key: '%env(string:STORAGE_S3_KEY)%'
+          secret: '%env(string:STORAGE_S3_SECRET)%'
+        http:
+          connect_timeout: '%env(float:STORAGE_S3_CONNECT_TIMEOUT)%'
+          timeout: '%module.health.minio.timeout%'
+
+  Common\Module\Health\Infrastructure\Component\MinioHealthCheck\MinioHealthCheckComponent:
+    arguments:
+      $client: '@Common\Module\Health\Infrastructure\Component\MinioHealthCheck\MinioS3Client'
+      $logger: '@monolog.logger.health'
+      $bucket: '%env(string:STORAGE_S3_BUCKET_SOURCE)%'
+
+  Common\Module\Health\Infrastructure\Component\MinioHealthCheck\MinioHealthCheckComponentInterface:
+    alias: Common\Module\Health\Infrastructure\Component\MinioHealthCheck\MinioHealthCheckComponent
+
+  Common\Module\Health\Infrastructure\Service\HealthChecker\MinioHealthCheckerService:
+    tags:
+      - { name: 'health.checker' }
+
+  Common\Module\Health\Integration\Service\HealthChecker\YtDlpHealthCheckerService:
+    tags:
+      - { name: 'health.checker' }
+
+  Common\Module\Health\Integration\Service\HealthChecker\WhisperHealthCheckerService:
+    tags:
+      - { name: 'health.checker' }
+
+  Common\Module\Health\Integration\Service\HealthChecker\DjvuHealthCheckerService:
+    tags:
+      - { name: 'health.checker' }
+
+  Common\Module\Health\Integration\Service\HealthChecker\PdfHealthCheckerService:
+    tags:
+      - { name: 'health.checker' }
+
+  Common\Module\Health\Integration\Service\HealthChecker\TBankHealthCheckerService:
+    tags:
+      - { name: 'health.checker' }
+
+  Common\Module\Health\Integration\Service\HealthChecker\EmailHealthCheckerService:
+    tags:
+      - { name: 'health.checker' }
+
+  Common\Module\Health\Integration\Service\HealthChecker\OllamaHealthCheckerService:
+    tags:
+      - { name: 'health.checker' }
+
+  Common\Module\Health\Integration\Service\HealthChecker\OpenAiHealthCheckerService:
+    tags:
+      - { name: 'health.checker' }
+
+  Common\Module\Health\Integration\Service\HealthChecker\GoogleAiHealthCheckerService:
+    tags:
+      - { name: 'health.checker' }
+
+  Common\Module\Health\Integration\Service\HealthChecker\GigaChatHealthCheckerService:
+    tags:
+      - { name: 'health.checker' }
+
+  Common\Module\Health\Integration\Service\HealthChecker\FireworksHealthCheckerService:
+    tags:
+      - { name: 'health.checker' }
+
+  Common\Module\Health\Integration\Service\HealthChecker\YandexFmHealthCheckerService:
+    tags:
+      - { name: 'health.checker' }
+
+  Common\Module\Health\Integration\Service\HealthChecker\OpenRouterHealthCheckerService:
+    tags:
+      - { name: 'health.checker' }
+
+  Common\Module\Health\Integration\Service\HealthChecker\CohereHealthCheckerService:
+    tags:
+      - { name: 'health.checker' }
+
+  Common\Module\Health\Integration\Service\HealthChecker\DeepSeekHealthCheckerService:
+    tags:
+      - { name: 'health.checker' }
+
+  Common\Module\Health\Application\Service\HealthChecker\HealthCheckerRegistryService:
+    arguments:
+      $checkers: !tagged_iterator health.checker
+
+  Common\Module\Health\Domain\Repository\ServiceStatus\ServiceStatusRepositoryInterface:
+    class: Common\Module\Health\Infrastructure\Repository\ServiceStatus\ServiceStatusRepository
+
+  Common\Module\Health\Infrastructure\Repository\ServiceStatus\InMemoryServiceStatusRepository: ~
+
+  Common\Module\Health\Domain\Repository\Incident\IncidentRepositoryInterface:
+    class: Common\Module\Health\Infrastructure\Repository\Incident\IncidentRepository
+
+  Common\Module\Health\Infrastructure\Repository\Incident\InMemoryIncidentRepository: ~

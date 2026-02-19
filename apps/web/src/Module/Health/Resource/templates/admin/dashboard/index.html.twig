@@ -1,0 +1,193 @@
+{% extends '@web.health/base.html.twig' %}
+
+{% block title %}{{ 'health.dashboard.page_title'|trans }}{% endblock %}
+
+{% block content %}
+<section class="py-8 bg-body-emphasis">
+    <div class="container-small px-lg-7 px-xxl-3">
+        {# Header with overall status #}
+        <div class="row mb-6">
+            <div class="col-12">
+                <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
+                    <div>
+                        <h1 class="mb-2">{{ 'health.dashboard.title'|trans }}</h1>
+                        <p class="text-body-secondary mb-0">{{ 'health.dashboard.subtitle'|trans }}</p>
+                    </div>
+
+                    {# Overall Status Badge #}
+                    {% set overallStatusClass = {
+                        'operational': 'success',
+                        'degraded': 'warning',
+                        'outage': 'danger',
+                        'maintenance': 'info'
+                    } %}
+
+                    {% set overallStatusIcon = {
+                        'operational': 'check-circle',
+                        'degraded': 'alert-triangle',
+                        'outage': 'x-circle',
+                        'maintenance': 'tool'
+                    } %}
+
+                    <div class="d-inline-flex align-items-center px-4 py-2 rounded-pill bg-{{ overallStatusClass[systemHealth.overallStatus.value] ?? 'secondary' }} bg-opacity-10 border border-{{ overallStatusClass[systemHealth.overallStatus.value] ?? 'secondary' }} border-opacity-25">
+                        <span class="fas fa-{{ overallStatusIcon[systemHealth.overallStatus.value] ?? 'question-circle' }} text-{{ overallStatusClass[systemHealth.overallStatus.value] ?? 'secondary' }} me-2"></span>
+                        <span class="fw-semibold text-{{ overallStatusClass[systemHealth.overallStatus.value] ?? 'secondary' }}">
+                            {{ ('status.overall.' ~ systemHealth.overallStatus.value)|trans }}
+                        </span>
+                    </div>
+                </div>
+
+                {# Last updated timestamp #}
+                <p class="text-body-tertiary small mt-3">
+                    {{ 'health.dashboard.last_updated'|trans }}: <strong>{{ systemHealth.checkedAt|date('H:i:s d.m.Y', 'UTC') }} UTC</strong>
+                </p>
+            </div>
+        </div>
+
+        {# Statistics cards #}
+        <div class="row g-3 mb-6">
+            <div class="col-6 col-md-3">
+                <div class="card h-100 border border-success border-opacity-25">
+                    <div class="card-body text-center py-3">
+                        <div class="fs-3 fw-bold text-success">{{ systemHealth.operationalCount }}</div>
+                        <div class="text-body-secondary small">{{ 'health.dashboard.stats.operational'|trans }}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6 col-md-3">
+                <div class="card h-100 border border-warning border-opacity-25">
+                    <div class="card-body text-center py-3">
+                        <div class="fs-3 fw-bold text-warning">{{ systemHealth.degradedCount }}</div>
+                        <div class="text-body-secondary small">{{ 'health.dashboard.stats.degraded'|trans }}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6 col-md-3">
+                <div class="card h-100 border border-danger border-opacity-25">
+                    <div class="card-body text-center py-3">
+                        <div class="fs-3 fw-bold text-danger">{{ systemHealth.outageCount }}</div>
+                        <div class="text-body-secondary small">{{ 'health.dashboard.stats.outage'|trans }}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6 col-md-3">
+                <div class="card h-100 border border-info border-opacity-25">
+                    <div class="card-body text-center py-3">
+                        <div class="fs-3 fw-bold text-info">{{ systemHealth.maintenanceCount }}</div>
+                        <div class="text-body-secondary small">{{ 'health.dashboard.stats.maintenance'|trans }}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {# Filter Form #}
+        <div class="card mb-4">
+            <div class="card-body">
+                {{ form_start(filterForm, {'method': 'GET', 'attr': {'class': 'row g-3 align-items-end'}}) }}
+                <div class="col-md-4">
+                    {{ form_label(filterForm.category, null, {'label_attr': {'class': 'form-label small text-body-secondary'}}) }}
+                    {{ form_widget(filterForm.category, {'attr': {'class': 'form-select form-select-sm'}}) }}
+                </div>
+                <div class="col-md-4">
+                    {{ form_label(filterForm.status, null, {'label_attr': {'class': 'form-label small text-body-secondary'}}) }}
+                    {{ form_widget(filterForm.status, {'attr': {'class': 'form-select form-select-sm'}}) }}
+                </div>
+                <div class="col-md-4">
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-sm btn-primary">
+                            <span class="fas fa-filter me-1"></span>
+                            {{ 'health.dashboard.filter.apply'|trans }}
+                        </button>
+                        <a href="{{ path('admin_health_dashboard') }}" class="btn btn-sm btn-outline-secondary">
+                            <span class="fas fa-times me-1"></span>
+                            {{ 'health.dashboard.filter.reset'|trans }}
+                        </a>
+                    </div>
+                </div>
+                {{ form_end(filterForm) }}
+            </div>
+        </div>
+
+        {# Services by category with detailed info #}
+        {% for category, services in groupedServices %}
+        <div class="card mb-4">
+            <div class="card-header bg-body-tertiary d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">{{ category }}</h5>
+                <span class="badge bg-secondary">{{ services|length }}</span>
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th class="ps-4">{{ 'health.dashboard.table.service'|trans }}</th>
+                                <th>{{ 'health.dashboard.table.last_check'|trans }}</th>
+                                <th>{{ 'health.dashboard.table.response_time'|trans }}</th>
+                                <th class="text-end pe-4">{{ 'health.dashboard.table.status'|trans }}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for service in services %}
+                            {% set statusClass = {
+                                'operational': 'success',
+                                'degraded': 'warning',
+                                'outage': 'danger',
+                                'maintenance': 'info'
+                            } %}
+
+                            {% set statusIcon = {
+                                'operational': 'check-circle',
+                                'degraded': 'alert-triangle',
+                                'outage': 'x-circle',
+                                'maintenance': 'tool'
+                            } %}
+                            <tr>
+                                <td class="ps-4 py-3">
+                                    <span class="fw-medium">{{ service.name }}</span>
+                                    {% if service.message %}
+                                    <br><small class="text-body-secondary">{{ service.message }}</small>
+                                    {% endif %}
+                                </td>
+                                <td class="py-3">
+                                    {% if service.lastCheckAt %}
+                                    <small class="text-body-tertiary font-monospace">
+                                        {{ service.lastCheckAt|date('H:i:s d.m.Y', 'UTC') }}
+                                    </small>
+                                    {% else %}
+                                    <small class="text-body-tertiary">—</small>
+                                    {% endif %}
+                                </td>
+                                <td class="py-3">
+                                    {% if service.responseTimeMs is not null %}
+                                    <span class="font-monospace small {% if service.responseTimeMs > 1000 %}text-warning{% elseif service.responseTimeMs > 5000 %}text-danger{% else %}text-success{% endif %}">
+                                        {{ service.responseTimeMs|number_format(0) }} ms
+                                    </span>
+                                    {% else %}
+                                    <small class="text-body-tertiary">—</small>
+                                    {% endif %}
+                                </td>
+                                <td class="text-end pe-4 py-3">
+                                    <span class="badge bg-{{ statusClass[service.status.value] ?? 'secondary' }} bg-opacity-10 text-{{ statusClass[service.status.value] ?? 'secondary' }} px-3 py-2">
+                                        <span class="fas fa-{{ statusIcon[service.status.value] ?? 'question-circle' }} me-1"></span>
+                                        {{ ('status.service.' ~ service.status.value)|trans }}
+                                    </span>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+
+        {# Empty state #}
+        {% if groupedServices is empty %}
+        <div class="text-center py-8">
+            <span class="fas fa-search fs-1 text-body-tertiary mb-3 d-block"></span>
+            <p class="text-body-secondary">{{ 'health.dashboard.empty'|trans }}</p>
+        </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

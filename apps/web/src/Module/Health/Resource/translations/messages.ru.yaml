@@ -1,0 +1,66 @@
+status:
+  title: Статус системы
+  page_title: Статус системы - TasK
+  subtitle: Актуальный статус всех сервисов платформы TasK
+  last_updated: Последнее обновление
+  empty: Информация о статусе сервисов недоступна
+  
+  overall:
+    operational: Все системы работают
+    degraded: Частичная деградация
+    outage: Сбой в работе
+    maintenance: Технические работы
+  
+  stats:
+    operational: Работает
+    degraded: Деградация
+    outage: Недоступно
+    maintenance: Обслуживание
+  
+  service:
+    operational: Работает
+    degraded: Деградация
+    outage: Недоступно
+    maintenance: Обслуживание
+  
+  footer:
+    subtitle: Мониторинг статуса платформы TasK в реальном времени
+    links:
+      title: Ссылки
+      home: Главная
+
+health:
+  category:
+    infrastructure: Инфраструктура
+    llm: LLM Провайдеры
+    external_api: Внешние API
+    cli_tool: CLI Инструменты
+  
+  dashboard:
+    page_title: Панель мониторинга - Администратор - TasK
+    title: Панель мониторинга
+    subtitle: Детальный мониторинг системы для администраторов
+    last_updated: Последнее обновление
+    empty: Нет сервисов, соответствующих выбранным фильтрам
+    
+    stats:
+      operational: Работает
+      degraded: Деградация
+      outage: Недоступно
+      maintenance: Обслуживание
+    
+    table:
+      service: Сервис
+      last_check: Последняя проверка
+      response_time: Время ответа
+      status: Статус
+    
+    filter:
+      category:
+        label: Категория
+        placeholder: Все категории
+      status:
+        label: Статус
+        placeholder: Все статусы
+      apply: Применить
+      reset: Сбросить

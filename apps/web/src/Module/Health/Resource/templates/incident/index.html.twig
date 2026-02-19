@@ -1,0 +1,158 @@
+{% extends '@web.health/base.html.twig' %}
+
+{% block title %}Incidents Admin{% endblock %}
+
+{% block content %}
+<div class="container-small px-3 px-lg-7 px-xxl-3 py-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1>Incidents</h1>
+        {% if grant.canCreate() %}
+        <a href="{{ path(incidentRoute.NEW) }}" class="btn btn-primary">
+            <span class="icon" data-feather="plus"></span>
+            New Incident
+        </a>
+        {% endif %}
+    </div>
+
+    {% for flashMessage in app.flashes('success') %}
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            {{ flashMessage }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    {% endfor %}
+
+    {% for flashMessage in app.flashes('error') %}
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            {{ flashMessage }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    {% endfor %}
+
+    <div class="card mb-4">
+        <div class="card-body">
+            {{ form_start(filterForm, { method: 'GET' }) }}
+            <div class="row g-3">
+                <div class="col-md-3">
+                    {{ form_label(filterForm.status) }}
+                    {{ form_widget(filterForm.status, { attr: { class: 'form-select' } }) }}
+                </div>
+                <div class="col-md-3">
+                    {{ form_label(filterForm.severity) }}
+                    {{ form_widget(filterForm.severity, { attr: { class: 'form-select' } }) }}
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">&nbsp;</label>
+                    <div class="form-check mt-2">
+                        {{ form_widget(filterForm.activeOnly, { attr: { class: 'form-check-input' } }) }}
+                        {{ form_label(filterForm.activeOnly, null, { label_attr: { class: 'form-check-label' } }) }}
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">&nbsp;</label>
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-outline-primary">Filter</button>
+                        <a href="{{ path(incidentRoute.LIST) }}" class="btn btn-outline-secondary">Reset</a>
+                    </div>
+                </div>
+            </div>
+            {{ form_end(filterForm, { render_rest: false }) }}
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover mb-0">
+                    <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Status</th>
+                            <th>Severity</th>
+                            <th>Services</th>
+                            <th>Created</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for incident in incidents %}
+                        <tr>
+                            <td>
+                                <a href="{{ path(incidentRoute.EDIT, {uuid: incident.uuid}) }}">
+                                    {{ incident.title }}
+                                </a>
+                            </td>
+                            <td>
+                                {% set statusBadgeClass = {
+                                    'investigating': 'bg-warning',
+                                    'identified': 'bg-info',
+                                    'monitoring': 'bg-primary',
+                                    'resolved': 'bg-success'
+                                }[incident.status.value] ?? 'bg-secondary' %}
+                                <span class="badge {{ statusBadgeClass }}">{{ incident.status.value|title }}</span>
+                            </td>
+                            <td>
+                                {% set severityBadgeClass = {
+                                    'critical': 'bg-danger',
+                                    'major': 'bg-warning text-dark',
+                                    'minor': 'bg-info',
+                                    'low': 'bg-secondary'
+                                }[incident.severity.value] ?? 'bg-secondary' %}
+                                <span class="badge {{ severityBadgeClass }}">{{ incident.severity.value|title }}</span>
+                            </td>
+                            <td>
+                                {% for service in incident.affectedServiceNames %}
+                                    <span class="badge bg-light text-dark">{{ service }}</span>
+                                {% endfor %}
+                            </td>
+                            <td>
+                                <small class="text-muted">{{ incident.createdAt|date('Y-m-d H:i') }}</small>
+                            </td>
+                            <td>
+                                <div class="d-flex gap-1">
+                                    {% if grant.canEdit() %}
+                                    <a href="{{ path(incidentRoute.EDIT, {uuid: incident.uuid}) }}" class="btn btn-sm btn-outline-primary" title="Edit">
+                                        <span class="icon" data-feather="edit-2"></span>
+                                    </a>
+                                    {% endif %}
+                                    {% if incident.status.value != 'resolved' and grant.canResolve() %}
+                                    <form action="{{ path(incidentRoute.RESOLVE, {uuid: incident.uuid}) }}" method="POST" style="display:inline">
+                                        <button type="submit" class="btn btn-sm btn-outline-success" title="Resolve">
+                                            <span class="icon" data-feather="check"></span>
+                                        </button>
+                                    </form>
+                                    {% endif %}
+                                    {% if grant.canDelete() %}
+                                    <form action="{{ path(incidentRoute.DELETE, {uuid: incident.uuid}) }}" method="POST" style="display:inline" onsubmit="return confirm('Are you sure?')">
+                                        <button type="submit" class="btn btn-sm btn-outline-danger" title="Delete">
+                                            <span class="icon" data-feather="trash-2"></span>
+                                        </button>
+                                    </form>
+                                    {% endif %}
+                                </div>
+                            </td>
+                        </tr>
+                        {% else %}
+                        <tr>
+                            <td colspan="6" class="text-center py-4 text-muted">No incidents found</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    {% if hasMore %}
+    <div class="d-flex justify-content-center mt-4">
+        {% set queryParams = pagination.queryParams | merge(filter) | merge({ page: page + 1 }) %}
+        <a href="{{ path(incidentRoute.LIST, queryParams) }}" class="btn btn-outline-primary">
+            Load More
+        </a>
+    </div>
+    {% endif %}
+
+    <div class="text-center mt-3 text-muted">
+        Showing {{ incidents|length }} of {{ total }} incidents
+    </div>
+</div>
+{% endblock %}

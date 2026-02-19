@@ -1,0 +1,76 @@
+{% extends '@web.health/base.html.twig' %}
+
+{% block title %}New Incident{% endblock %}
+
+{% block content %}
+<div class="container-small px-3 px-lg-7 px-xxl-3 py-5">
+    <nav aria-label="breadcrumb" class="mb-4">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ path(incidentRoute.LIST) }}">Incidents</a></li>
+            <li class="breadcrumb-item active">New</li>
+        </ol>
+    </nav>
+
+    <h1 class="mb-4">New Incident</h1>
+
+    <div class="card">
+        <div class="card-body">
+            {{ form_start(form) }}
+                <div class="mb-3">
+                    {{ form_label(form.title) }}
+                    {{ form_widget(form.title, { attr: { class: 'form-control' } }) }}
+                    {{ form_errors(form.title) }}
+                </div>
+
+                <div class="mb-3">
+                    {{ form_label(form.description) }}
+                    {{ form_widget(form.description, { attr: { class: 'form-control', rows: 4 } }) }}
+                    {{ form_errors(form.description) }}
+                </div>
+
+                <div class="mb-3">
+                    {{ form_label(form.severity) }}
+                    {{ form_widget(form.severity, { attr: { class: 'form-select' } }) }}
+                    {{ form_errors(form.severity) }}
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Affected Services</label>
+                    <div id="services-container">
+                        <div class="input-group mb-2">
+                            <input type="text" class="form-control" name="affectedServiceNames[]" placeholder="Service name (e.g., postgresql, api)">
+                            <button type="button" class="btn btn-outline-secondary" onclick="addServiceField()">
+                                <span class="icon" data-feather="plus"></span>
+                            </button>
+                        </div>
+                    </div>
+                    <small class="form-text text-muted">Enter the names of affected services.</small>
+                </div>
+
+                <div class="d-flex gap-2">
+                    {{ form_widget(form.submit, { attr: { class: 'btn btn-primary' } }) }}
+                    <a href="{{ path(incidentRoute.LIST) }}" class="btn btn-outline-secondary">Cancel</a>
+                </div>
+            {{ form_end(form) }}
+        </div>
+    </div>
+</div>
+
+<script>
+function addServiceField() {
+    const container = document.getElementById('services-container');
+    const div = document.createElement('div');
+    div.className = 'input-group mb-2';
+    div.innerHTML = `
+        <input type="text" class="form-control" name="affectedServiceNames[]" placeholder="Service name">
+        <button type="button" class="btn btn-outline-danger" onclick="this.parentElement.remove()">
+            <span class="icon" data-feather="x"></span>
+        </button>
+    `;
+    container.appendChild(div);
+    if (typeof feather !== 'undefined') {
+        feather.replace();
+    }
+}
+</script>
+{% endblock %}

@@ -1,0 +1,30 @@
+status:
+  title: 系统状态
+  page_title: 系统状态 - TasK
+  subtitle: TasK平台所有服务的实时状态
+  last_updated: 最后更新
+  empty: 暂无服务状态信息
+  
+  overall:
+    operational: 所有系统正常运行
+    degraded: 部分系统降级
+    outage: 系统故障
+    maintenance: 维护中
+  
+  stats:
+    operational: 正常
+    degraded: 降级
+    outage: 故障
+    maintenance: 维护中
+  
+  service:
+    operational: 正常
+    degraded: 降级
+    outage: 故障
+    maintenance: 维护中
+  
+  footer:
+    subtitle: TasK平台实时状态监控
+    links:
+      title: 链接
+      home: 首页
