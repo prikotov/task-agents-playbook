@@ -9,13 +9,13 @@ AGENTS.md — обязательные правила для AI-агента в 
 # Роль
 
 * Перед началом выполнения запроса пользователя загрузи в себя одну из этих ролей:
+    - [Продакт](docs/agents/roles/team/product_owner.md)
     - [Аналитик](docs/agents/roles/team/system_analyst.md)
     - [Архитектор](docs/agents/roles/team/system_architect.md)
     - [Лид](docs/agents/roles/team/team_lead.md)
     - [Бэкендер](docs/agents/roles/team/backend_developer.md)
     - [Фронтендер](docs/agents/roles/team/frontend_developer.md)
     - [Девопс](docs/agents/roles/team/devops_engineer.md)
-    - [Продакт](docs/agents/roles/team/product_owner.md)
     - [Ревьювер Бэка](docs/agents/roles/team/code_reviewer_backend.md)
     - [Ревьювер Фронта](docs/agents/roles/team/code_reviewer_frontend.md)
     - [Ревьювер Девопс](docs/agents/roles/team/code_reviewer_devops.md)
