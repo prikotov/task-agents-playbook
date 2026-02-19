@@ -65,7 +65,7 @@ I no longer write code by hand — only minor edits and markdown documents. But 
 
 1. **Request.** I make a request to the AI agent. Example: `Take on the role of an analyst. I need a status page for the project, create an epic for this task.`
 2. **Generation.** The agent loads the role, task setting requirements, and templates — and generates the task text.
-3. **Self-review.** I ask the agent to check itself. If a specific direction (architecture, devops, frontend, backend) needs work, I ask it to take the corresponding role.
+3. **Self-review.** I ask the agent to check itself. If a specific direction (architect, devops, frontend/backend developer) needs work, I ask it to take the corresponding role.
 4. **Refinement.** If there are comments, I ask for corrections and we return to step 2.
 5. **PR Creation.** If everything is fine, I ask the agent to create a PR.
 6. **Final Review.** I check the task setting myself, going through "comment — correction" iterations with the agent.
@@ -90,7 +90,7 @@ The process is similar to task setting, but the agent performs more checks indep
 
 1. **Request.** Example: `You are a [Backend Developer](docs/agents/roles/team/backend_developer.md). Take the task todo/EPIC-status-page.todo.md to work.`
 2. **Implementation.** The agent fulfills the task requirements and runs checks itself: tests (PHPUnit), static analysis (PHPMD, Deptrac, Psalm), style validation (PHP_CodeSniffer), build (Composer). This creates a self-validation cycle — the agent delivers code that is already clean enough.
-3. **Self-review.** I ask the agent to check the solution. I can ask it to take a role (architecture, devops, frontend, backend) and run checks sequentially.
+3. **Self-review.** I ask the agent to check the solution. I can ask it to take a role (architect, devops, frontend/backend developer) and run checks sequentially.
 4. **Refinement.** If there are comments, I ask for corrections and we return to step 2.
 5. **PR Creation.** If everything is fine, I ask the agent to create a PR.
 6. **Final Review.** I check the code myself, going through "comment — correction" iterations with the agent.
