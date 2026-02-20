@@ -45,6 +45,10 @@ Depending on the task, the agent assumes one of the specialized roles. Role desc
 * **[QA (Backend)](docs/agents/roles/team/qa_backend.md) / [QA (Frontend)](docs/agents/roles/team/qa_frontend.md)** — testing.
 * **[Code Reviewer (Backend)](docs/agents/roles/team/code_reviewer_backend.md)** — code quality check.
 
+**Examples of addressing roles in a request:**
+* `Backend Developer, take the task from todo/EPIC-status-page.todo.md to work`
+* `DevOps, check the changes in devops/nginx/conf.d/dev/task.conf, do we need everything there? Are we overcomplicating it?`
+
 ## 📝 Task Management (Todo)
 
 A file-based task management system in the [`todo/`](./todo/) directory is used for setting tasks. This allows the agent to receive tasks as part of the project context.
