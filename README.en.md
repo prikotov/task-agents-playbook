@@ -117,6 +117,23 @@ flowchart LR
     K --> L[Release]
 ```
 
+### Continuous Improvement Process (Retrospective)
+
+This process aims to continuously increase the agent's autonomy and work quality. It closes the development loop by transforming identified problems into updated standards and automated checks.
+
+1. **Observation.** Monitor the agent's work in real-time. Record any hesitations, context misunderstandings, or errors that surface during the review stage.
+2. **Analysis.** Identify recurring error patterns that waste resources (time, tokens). Seek a systemic solution: how to modify instructions or tools to prevent the error from recurring.
+3. **Improvement.** Apply targeted edits to `AGENTS.md`, task templates, or linter configs. Update the project knowledge base.
+
+```mermaid
+flowchart LR
+    A[Observation] --> B[Analysis]
+    B --> C[Improvement]
+    C --> A
+```
+
+> **Important:** Adhere to the principle of isolated changes. Do not change everything at once — this makes it impossible to track the impact of a specific edit. Implement improvements in small batches and verify the effect immediately.
+
 ## 📂 Implementation Examples
 
 To better understand how these rules work in practice, you can examine real artifacts created by AI agents:
