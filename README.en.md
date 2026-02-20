@@ -48,6 +48,7 @@ Depending on the task, the agent assumes one of the specialized roles. Role desc
 **Examples of addressing roles in a request:**
 * `Backend Developer, take the task from todo/EPIC-status-page.todo.md to work`
 * `DevOps, check the changes in devops/nginx/conf.d/dev/task.conf, do we need everything there? Are we overcomplicating it?`
+* `Frontend Developer, review the file apps/web/assets/controllers/notification-toast_controller.js`
 
 ## 📝 Task Management (Todo)
 
