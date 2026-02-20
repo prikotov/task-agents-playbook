@@ -43,7 +43,7 @@
 * **[QA (Бэкенд)](docs/agents/roles/team/qa_backend.md) / [QA (Фронтенд)](docs/agents/roles/team/qa_frontend.md)** — тестирование.
 * **[Code Reviewer (Бэкенд)](docs/agents/roles/team/code_reviewer_backend.md)** — проверка качества кода.
 
-**Примеры обращения в запросе:**
+**Примеры обращения к ролям в запросе:**
 * `Бэкендер, возьми в работу задачу из todo/EPIC-status-page.todo.md`
 * `Девопс, посмотри правки в devops/nginx/conf.d/dev/task.conf, всё ли нам там нужно? не переусложняем?`
 * `Фронтендер, сделай ревью файлу apps/web/assets/controllers/notification-toast_controller.js`
