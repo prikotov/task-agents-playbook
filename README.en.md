@@ -119,11 +119,11 @@ flowchart LR
 
 ### Continuous Improvement Process (Retrospective)
 
-This process is necessary to increase the efficiency and quality of the agent's work. It closes the development loop, turning problems into updated instructions/rules for the agent and code verification utility configurations.
+This process aims to continuously increase the agent's autonomy and work quality. It closes the development loop by transforming identified problems into updated standards and automated checks.
 
-1. **Observation.** We observe the agent's work. At all stages of its operation, we record the problems it encounters, as well as issues identified during code review.
-2. **Analysis.** We identify the most critical problems that lead to slowing down the agent's work, wasting extra tokens, or wasting my time, and devise a solution.
-3. **Implementation of Improvements.** Based on the analysis, we refine processes, instructions, prompts, and other elements as deemed necessary.
+1. **Observation.** Monitor the agent's work in real-time. Record any hesitations, context misunderstandings, or errors that surface during the review stage.
+2. **Analysis.** Identify recurring error patterns that waste resources (time, tokens). Seek a systemic solution: how to modify instructions or tools to prevent the error from recurring.
+3. **Improvement.** Apply targeted edits to `AGENTS.md`, task templates, or linter configs. Update the project knowledge base.
 
 ```mermaid
 flowchart LR
@@ -132,7 +132,7 @@ flowchart LR
     C --> A
 ```
 
-> **Important:** Do not make a mass of changes at once, as we will not be able to understand what affects the agent's work and how. We need to introduce a few changes, observe, and proceed to step 1.
+> **Important:** Adhere to the principle of isolated changes. Do not change everything at once — this makes it impossible to track the impact of a specific edit. Implement improvements in small batches and verify the effect immediately.
 
 ## 📂 Implementation Examples
 
