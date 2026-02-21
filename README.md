@@ -1,6 +1,7 @@
 # AI-Assisted Development Playbook
 
 [![Read in English](https://img.shields.io/badge/Lang-English-blue)](README.en.md)
+[![繁體中文](https://img.shields.io/badge/Lang-繁體中文-blue)](README.zh.md)
 
 Этот репозиторий содержит конфигурацию и правила, которые используются для AI-разработки проекта [TasK](https://task.ai-aid.pro/). Он служит публичным примером организации документации и рабочих процессов для AI-агентов (в среде Codex CLI, Kilo Code или аналогичных). Здесь собраны правила, ролевые инструкции и шаблоны, которые позволяют эффективно управлять разработкой с помощью LLM.
 
@@ -33,15 +34,21 @@
 
 В зависимости от задачи, агент принимает на себя одну из специализированных ролей. Описания ролей находятся в `docs/agents/roles/team/`:
 
+* **[Продакт](docs/agents/roles/team/product_owner.md)** — управление продуктом.
 * **[Аналитик](docs/agents/roles/team/system_analyst.md)** — анализ требований и декомпозиция.
 * **[Архитектор](docs/agents/roles/team/system_architect.md)** — проектирование системы и контроль целостности.
-* **[Лид (Team Lead)](docs/agents/roles/team/team_lead.md)** — координация и принятие решений.
+* **[Лид](docs/agents/roles/team/team_lead.md)** — координация и принятие решений.
 * **[Бэкендер](docs/agents/roles/team/backend_developer.md)** — разработка серверной части.
+* **[UI/UX Дизайнер](docs/agents/roles/team/ui_ux_designer.md)** — проектирование пользовательского опыта и интерфейсов.
 * **[Фронтендер](docs/agents/roles/team/frontend_developer.md)** — разработка клиентской части.
 * **[Девопс](docs/agents/roles/team/devops_engineer.md)** — инфраструктура и CI/CD.
-* **[Продакт (PO)](docs/agents/roles/team/product_owner.md)** — управление продуктом.
-* **[QA (Бэкенд)](docs/agents/roles/team/qa_backend.md) / [QA (Фронтенд)](docs/agents/roles/team/qa_frontend.md)** — тестирование.
-* **[Code Reviewer (Бэкенд)](docs/agents/roles/team/code_reviewer_backend.md)** — проверка качества кода.
+* **[Ревьювер Бэка](docs/agents/roles/team/code_reviewer_backend.md)** — проверка качества кода.
+* **[Ревьювер Фронта](docs/agents/roles/team/code_reviewer_frontend.md)** — проверка UI/UX и качества кода.
+* **[Ревьювер Девопс](docs/agents/roles/team/code_reviewer_devops.md)** — аудит инфраструктуры и безопасности.
+* **[Тестировщик Бэка](docs/agents/roles/team/qa_backend.md)** — тестирование серверной части.
+* **[Тестировщик Фронта](docs/agents/roles/team/qa_frontend.md)** — тестирование клиентской части.
+* **[Технический писатель](docs/agents/roles/team/technical_writer.md)** — документация пользователя.
+* **[Копирайтер](docs/agents/roles/team/copywriter.md)** — контент-маркетинг и сторителлинг.
 
 **Примеры обращения к ролям в запросе:**
 * `Бэкендер возьми в работу задачу из todo/EPIC-status-page.todo.md`

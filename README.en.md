@@ -1,8 +1,9 @@
 # AI-Assisted Development Playbook
 
 [![Read in Russian](https://img.shields.io/badge/Lang-Русский-blue)](README.md)
+[![繁體中文](https://img.shields.io/badge/Lang-繁體中文-blue)](README.zh.md)
 
-> **Note:** This translation was performed by Gemini CLI (gemini-3-pro-preview).
+> **Note:** This translation was performed by Gemini CLI (gemini-3-flash-preview).
 
 This repository contains the configuration and rules used for the AI-assisted development of the [TasK](https://task.ai-aid.pro/) project. It serves as a public example of organizing documentation and workflows for AI agents (within Gemini CLI, Codex CLI, Kilo Code, or similar environments). Here you will find rules, role instructions, and templates that enable effective development management using LLMs.
 
@@ -18,7 +19,7 @@ In this approach, the unit of truth is not a "general requirement description," 
 
 ## 🧠 Core Manifesto (AGENTS.md)
 
-The [AGENTS.md](./AGENTS.md) file is the entry point and "constitution" for the AI agent. It contains the following sections:
+The [AGENTS.md](./AGENTS.en.md) file is the entry point and "constitution" for the AI agent. It contains the following sections:
 * **Mission** and rule priority.
 * **Role** — selecting a specialized role before starting work.
 * **Reflection** — assessing task complexity, context, and risks.
@@ -35,15 +36,21 @@ The [AGENTS.md](./AGENTS.md) file is the entry point and "constitution" for the 
 
 Depending on the task, the agent assumes one of the specialized roles. Role descriptions are located in `docs/agents/roles/team/` (files are in Russian):
 
-* **[Analyst](docs/agents/roles/team/system_analyst.md)** — requirements analysis and decomposition.
-* **[Architect](docs/agents/roles/team/system_architect.md)** — system design and integrity control.
-* **[Team Lead](docs/agents/roles/team/team_lead.md)** — coordination and decision making.
-* **[Backend Developer](docs/agents/roles/team/backend_developer.md)** — server-side development.
-* **[Frontend Developer](docs/agents/roles/team/frontend_developer.md)** — client-side development.
-* **[DevOps](docs/agents/roles/team/devops_engineer.md)** — infrastructure and CI/CD.
-* **[Product Owner (PO)](docs/agents/roles/team/product_owner.md)** — product management.
-* **[QA (Backend)](docs/agents/roles/team/qa_backend.md) / [QA (Frontend)](docs/agents/roles/team/qa_frontend.md)** — testing.
-* **[Code Reviewer (Backend)](docs/agents/roles/team/code_reviewer_backend.md)** — code quality check.
+* **[Product Owner (PO)](docs/agents/roles/team/product_owner.en.md)** — product management.
+* **[Analyst](docs/agents/roles/team/system_analyst.en.md)** — requirements analysis and decomposition.
+* **[Architect](docs/agents/roles/team/system_architect.en.md)** — system design and integrity control.
+* **[Lead](docs/agents/roles/team/team_lead.en.md)** — coordination and decision making.
+* **[Backend Developer](docs/agents/roles/team/backend_developer.en.md)** — server-side development.
+* **[UI/UX Designer](docs/agents/roles/team/ui_ux_designer.en.md)** — user experience and interface design.
+* **[Frontend Developer](docs/agents/roles/team/frontend_developer.en.md)** — client-side development.
+* **[DevOps](docs/agents/roles/team/devops_engineer.en.md)** — infrastructure and CI/CD.
+* **[Backend Reviewer](docs/agents/roles/team/code_reviewer_backend.en.md)** — code quality check.
+* **[Frontend Reviewer](docs/agents/roles/team/code_reviewer_frontend.en.md)** — UI/UX and code quality check.
+* **[DevOps Reviewer](docs/agents/roles/team/code_reviewer_devops.en.md)** — infrastructure and security review.
+* **[Backend QA](docs/agents/roles/team/qa_backend.en.md)** — server-side testing.
+* **[Frontend QA](docs/agents/roles/team/qa_frontend.en.md)** — client-side testing.
+* **[Technical Writer](docs/agents/roles/team/technical_writer.en.md)** — user documentation and help.
+* **[Copywriter](docs/agents/roles/team/copywriter.en.md)** — content marketing and storytelling.
 
 **Examples of addressing roles in a request:**
 * `Backend Developer take the task from todo/EPIC-status-page.todo.md to work`
@@ -93,7 +100,7 @@ flowchart LR
 
 The process is similar to task setting, but the agent performs more checks independently before showing me the code.
 
-1. **Request.** Example: `You are a [Backend Developer](docs/agents/roles/team/backend_developer.md). Take the task todo/EPIC-status-page.todo.md to work.`
+1. **Request.** Example: `You are a [Backend Developer](docs/agents/roles/team/backend_developer.en.md). Take the task todo/EPIC-status-page.todo.md to work.`
 2. **Implementation.** The agent fulfills the task requirements and runs checks itself: tests (PHPUnit), static analysis (PHPMD, Deptrac, Psalm), style validation (PHP_CodeSniffer), build (Composer). This creates a self-validation cycle — the agent delivers code that is already clean enough.
 3. **Self-review.** I ask the agent to check the solution. I can ask it to take a role (architect, devops, frontend/backend developer) and run checks sequentially.
 4. **Refinement.** If there are comments, I ask for corrections and we return to step 2.
