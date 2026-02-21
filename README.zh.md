@@ -2,7 +2,6 @@
 
 [![Read in English](https://img.shields.io/badge/Lang-English-blue)](README.en.md)
 [![Read in Russian](https://img.shields.io/badge/Lang-Русский-blue)](README.md)
-[![繁體中文](https://img.shields.io/badge/Lang-繁體中文-blue)](README.zh.md)
 
 > **注意：** 此翻譯由 Gemini CLI (gemini-3-flash-preview) 完成。
 
