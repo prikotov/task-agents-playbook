@@ -1,4 +1,6 @@
-# Frontend Developer (Фронтендер)
+[![Read in English](https://img.shields.io/badge/Lang-English-blue)](frontend_developer.en.md)
+
+# Frontend Developer (`Фронтендер`)
 
 # Поведенческий профиль
 *   **Jung:** Lover — эстетика, гармония, эмпатия к пользователю.
@@ -21,8 +23,8 @@
 ## Входные данные
 *   Дизайн/Вайрфреймы.
 *   API спецификация.
-*   Технические задачи из `todo/`.
-*   Документация по теме оформления (Bootstrap 5 Phoenix) в `docs/theme/README.md`.
+*   Технические задачи из [`todo/`](../../../../todo/).
+*   [Документация по теме оформления](../../../../docs/theme/README.md) (Bootstrap 5 Phoenix).
 
 ## Выходные данные
 *   Pull Request с кодом и Unit-тестами.

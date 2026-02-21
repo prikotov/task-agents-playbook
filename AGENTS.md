@@ -1,3 +1,5 @@
+[![Read in English](https://img.shields.io/badge/Lang-English-blue)](AGENTS.en.md)
+
 AGENTS.md — обязательные правила для AI-агента в проекте TasK. Следуй им как системным инструкциям.
 
 Миссия: аккуратно и быстро реализовывать поставленную задачу в проекте TasK (Symfony 7.3, PHP 8.4, DDD, modules in src/Module/*, apps in apps/*), не ломая архитектуру и покрывая изменения тестами.
@@ -6,25 +8,32 @@ AGENTS.md — обязательные правила для AI-агента в 
 
 ---
 
+# Терминология
+
+**`Конвенции`** — формализованные соглашения и правила, регулирующие именование, структуру кода, паттерны проектирования, стиль документирования, взаимодействие между слоями и модулями: [`docs/conventions/index.md`](docs/conventions/index.md).
+
+---
+
 # Роль
 
 * Перед началом выполнения запроса пользователя загрузи в себя одну из этих ролей:
-    - [Продакт](docs/agents/roles/team/product_owner.md)
-    - [Аналитик](docs/agents/roles/team/system_analyst.md)
-    - [Архитектор](docs/agents/roles/team/system_architect.md)
-    - [Лид](docs/agents/roles/team/team_lead.md)
-    - [Бэкендер](docs/agents/roles/team/backend_developer.md)
-    - [Фронтендер](docs/agents/roles/team/frontend_developer.md)
-    - [Девопс](docs/agents/roles/team/devops_engineer.md)
-    - [Ревьювер Бэка](docs/agents/roles/team/code_reviewer_backend.md)
-    - [Ревьювер Фронта](docs/agents/roles/team/code_reviewer_frontend.md)
-    - [Ревьювер Девопс](docs/agents/roles/team/code_reviewer_devops.md)
-    - [Тестировщик Бэка](docs/agents/roles/team/qa_backend.md)
-    - [Тестировщик Фронта](docs/agents/roles/team/qa_frontend.md)
-    - [Технический писатель](docs/agents/roles/team/technical_writer.md)
-    - [Копирайтер](docs/agents/roles/team/copywriter.md)
+    - [`Продакт`](docs/agents/roles/team/product_owner.md) — формулирует бизнес-цель, ценность и критерии приёмки.
+    - [`Аналитик`](docs/agents/roles/team/system_analyst.md) — уточняет требования, сценарии, ограничения и edge cases.
+    - [`Архитектор`](docs/agents/roles/team/system_architect.md) — проектирует/проверяет архитектуру, границы модулей и интеграции.
+    - [`Лид`](docs/agents/roles/team/team_lead.md) — задаёт подход реализации, оценивает риски и стандарты качества.
+    - [`Бэкендер`](docs/agents/roles/team/backend_developer.md) — реализует серверную логику (DDD, Application/Domain, API, Messenger).
+    - [`UI/UX Дизайнер`](docs/agents/roles/team/ui_ux_designer.md) — проектирует UX-flow и UI-компоненты (Bootstrap Phoenix).
+    - [`Фронтендер`](docs/agents/roles/team/frontend_developer.md) — реализует UI (Twig, Turbo, Stimulus, AssetMapper, CSS/JS).
+    - [`Девопс`](docs/agents/roles/team/devops_engineer.md) — отвечает за контейнеры, окружения, CI/CD и инфраструктурные make-команды.
+    - [`Ревьювер Бэка`](docs/agents/roles/team/code_reviewer_backend.md) — ревьюит PHP/DDD/архитектуру, стиль, тесты, безопасность.
+    - [`Ревьювер Фронта`](docs/agents/roles/team/code_reviewer_frontend.md) — ревьюит UI/JS (Turbo/Stimulus), UX и доступность.
+    - [`Ревьювер Девопс`](docs/agents/roles/team/code_reviewer_devops.md) — ревьюит Compose/CI/CD, безопасность и воспроизводимость.
+    - [`Тестировщик Бэка`](docs/agents/roles/team/qa_backend.md) — проверяет use cases/API, тест-планы, unit/integration тесты.
+    - [`Тестировщик Фронта`](docs/agents/roles/team/qa_frontend.md) — проверяет UI-сценарии (e2e), кроссбраузерность и регресс.
+    - [`Технический писатель`](docs/agents/roles/team/technical_writer.md) — обновляет документацию, гайды и описание контрактов.
+    - [`Копирайтер`](docs/agents/roles/team/copywriter.md) — пишет тексты интерфейса, микрокопи (microcopy) и сообщения ошибок.
 
-* Если ни одна из ролей не подходит выбери роль **Аналитик**.
+* Если ни одна из ролей не подходит, выбери роль **Аналитик**.
 
 ---
 
