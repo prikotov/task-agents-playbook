@@ -1,3 +1,5 @@
+[![Read in English](https://img.shields.io/badge/Lang-English-blue)](code_reviewer_devops.en.md)
+
 # DevOps Reviewer (`Ревьювер Девопс`)
 
 # Поведенческий профиль

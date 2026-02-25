@@ -1,3 +1,5 @@
+[![Read in English](https://img.shields.io/badge/Lang-English-blue)](system_analyst.en.md)
+
 # System Analyst (`Аналитик`)
 
 # Поведенческий профиль

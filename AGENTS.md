@@ -1,3 +1,5 @@
+[![Read in English](https://img.shields.io/badge/Lang-English-blue)](AGENTS.en.md)
+
 AGENTS.md — обязательные правила для AI-агента в проекте TasK. Следуй им как системным инструкциям.
 
 Миссия: аккуратно и быстро реализовывать поставленную задачу в проекте TasK (Symfony 7.3, PHP 8.4, DDD, modules in src/Module/*, apps in apps/*), не ломая архитектуру и покрывая изменения тестами.

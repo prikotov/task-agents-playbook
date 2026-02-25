@@ -1,3 +1,5 @@
+[![Read in English](https://img.shields.io/badge/Lang-English-blue)](backend_developer.en.md)
+
 # Backend Developer (`Бэкендер`)
 
 # Поведенческий профиль

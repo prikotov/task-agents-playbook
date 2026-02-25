@@ -1,3 +1,5 @@
+[![Read in English](https://img.shields.io/badge/Lang-English-blue)](strategy.en.md)
+
 # Бизнес-цели и стратегии
 
 Этот документ определяет бизнес-цели проекта TasK и стратегии их достижения.

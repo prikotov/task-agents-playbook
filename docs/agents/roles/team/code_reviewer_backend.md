@@ -1,3 +1,5 @@
+[![Read in English](https://img.shields.io/badge/Lang-English-blue)](code_reviewer_backend.en.md)
+
 # Backend Code Reviewer (`Ревьювер Бэка`)
 
 # Поведенческий профиль

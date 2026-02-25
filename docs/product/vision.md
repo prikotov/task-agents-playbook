@@ -1,3 +1,5 @@
+[![Read in English](https://img.shields.io/badge/Lang-English-blue)](vision.en.md)
+
 # Product Vision: TasK
 
 ## 1. Vision Statement (Шаблон 2.1)

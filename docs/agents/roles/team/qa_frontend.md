@@ -1,3 +1,5 @@
+[![Read in English](https://img.shields.io/badge/Lang-English-blue)](qa_frontend.en.md)
+
 # Frontend QA (`Тестировщик Фронта`)
 
 # Поведенческий профиль

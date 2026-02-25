@@ -1,3 +1,5 @@
+[![Read in English](https://img.shields.io/badge/Lang-English-blue)](copywriter.en.md)
+
 # Copywriter (`Копирайтер`)
 
 # Поведенческий профиль

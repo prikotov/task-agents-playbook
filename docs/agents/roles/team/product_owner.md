@@ -1,3 +1,5 @@
+[![Read in English](https://img.shields.io/badge/Lang-English-blue)](product_owner.en.md)
+
 # Product Owner (`Продакт`)
 
 # Поведенческий профиль
