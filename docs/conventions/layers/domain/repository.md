@@ -18,6 +18,7 @@
 - При soft-delete используем бизнес-методы сущности (`markAsDeleted()`, `deactivate()` и др.).
 - Для поддержки CQRS интерфейсы на чтение и запись рекомендуется разделять на `{EntityName}ReadRepositoryInterface` и `{EntityName}WriteRepositoryInterface`.
 - Репозиторий не управляет Unit of Work (`flush`, `commit`). Контроль транзакции всегда на уровне CommandHandler/UseCase, чтобы обеспечить атомарность бизнес-операции.
+- **Запрещено** вызывать `flush()` внутри методов репозитория (`save()`, `delete()` и др.). Метод `save()` выполняет только `persist()` — регистрацию сущности в Unit of Work. Транзакционная граница (`flush()`) устанавливается в [CommandHandler](../application/command_handler.md) через `PersistenceManagerInterface::flush()`.
 - Репозиторий маппит исключения ORM/SDK в доменные: `NotFoundExceptionInterface` для отсутствия сущности, `InfrastructureExceptionInterface` для ошибок работы хранилища.
 - Реализации интерфейса размещаются в слое [Infrastructure](../infrastructure.md). Интерфейс репозитория — часть домена, реализация — часть инфраструктуры.
 - Правила построения инфраструктурных репозиториев и CriteriaMapper описаны в [разделе Infrastructure](../infrastructure/repository.md); при добавлении реализации следуем этому шаблону.
@@ -115,6 +116,7 @@ final readonly class InitCommandHandler
 - [ ] Исключения ORM маппятся в доменные интерфейсы исключений.
 - [ ] Пагинация/сортировка — через Criteria (Limit/Offset/Sortable).
 - [ ] Принимаемые и возвращаемые типы максимально конкретны; для массивов оформлен PHPDoc.
+- [ ] **Запрещено** вызывать `flush()` в методах репозитория. Метод `save()` делает только `persist()`.
 
 ## In-memory реализация для тестов
 

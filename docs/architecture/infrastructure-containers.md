@@ -70,3 +70,18 @@
 | `make down` | Полная очистка всех ресурсов (удаление сетей, томов и сирот) |
 | `make build` | Форсированная сборка образов |
 | `make tests-e2e-filter TEST_FILTER=...` | Запуск конкретного E2E сценария в изолированной среде |
+
+## Mercure SSE через Traefik/Nginx
+
+Для стабильных long-lived SSE-подключений (`/.well-known/mercure`) прокси-слой должен быть настроен отдельно от обычного HTTP:
+
+- в `nginx` location `/.well-known/mercure` обязательно отключать буферизацию и кэш:
+  `proxy_buffering off`, `proxy_request_buffering off`, `proxy_cache off`, `X-Accel-Buffering: no`;
+- для SSE-запроса использовать `proxy_http_version 1.1` и `proxy_set_header Connection ""`;
+- увеличивать stream таймауты для Mercure location (`proxy_read_timeout`, `proxy_send_timeout`);
+- скрывать upstream `Alt-Svc` от Mercure (`proxy_hide_header Alt-Svc`) и отдавать `Alt-Svc: clear`,
+  чтобы браузер не пытался переключать SSE на `h3` через внешний прокси-контур;
+- в `traefik` для dev entrypoints (`devhttp`, `devhttps`) не использовать короткие default responding timeouts для SSE.
+
+Если в браузере периодически появляется `net::ERR_NETWORK_CHANGED` при `200 (OK)` на `/.well-known/mercure`,
+в первую очередь нужно проверить именно этот proxy-контур (Traefik -> Nginx -> Mercure), а не frontend-шаблоны.

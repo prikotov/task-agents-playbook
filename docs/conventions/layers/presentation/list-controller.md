@@ -118,6 +118,82 @@ final class ListController extends AbstractController
 }
 ```
 
+## Быстрые фильтры по статусу (FastFilter)
+
+Для навигации по статусам в списке используются компоненты `FastFilter*List` и `FastFilter*Mapper`.
+
+### Назначение
+
+FastFilter-компоненты предоставляют предустановленные списки статусов для быстрых фильтров в UI (например, «Новые», «В обработке», «С ошибкой»).
+
+### Структура
+
+```
+apps/<app>/src/Module/<ModuleName>/List/FastFilter<Subject>StatusList.php
+apps/<app>/src/Module/<ModuleName>/Mapper/FastFilter<Subject>StatusMapper.php
+```
+
+### Пример
+
+```php
+<?php
+
+declare(strict_types=1);
+
+namespace Web\Module\Source\List;
+
+use Web\Module\Source\Form\Source\SourceStatusEnum;
+
+final readonly class FastFilterSourceStatusList
+{
+    /**
+     * @return SourceStatusEnum[]
+     */
+    public function getList(): array
+    {
+        return [
+            SourceStatusEnum::new,
+            SourceStatusEnum::processing,
+            SourceStatusEnum::active,
+            SourceStatusEnum::error,
+            SourceStatusEnum::deleted,
+        ];
+    }
+}
+```
+
+Mapper преобразует статусы для интеграции с формой фильтра:
+
+```php
+<?php
+
+declare(strict_types=1);
+
+namespace Web\Module\Source\Mapper;
+
+use Web\Module\Source\Form\Source\SourceStatusEnum;
+
+final readonly class FastFilterSourceStatusMapper
+{
+    /**
+     * @param SourceStatusEnum[] $statuses
+     * @return array<string, string>
+     */
+    public function mapToArray(array $statuses): array
+    {
+        $result = [];
+        foreach ($statuses as $status) {
+            $result[$status->value] = $status->name;
+        }
+        return $result;
+    }
+}
+```
+
+### Интеграция с шаблоном
+
+FastFilter-списки передаются в шаблон и рендерятся как tab-навигация или dropdown-меню над таблицей списка.
+
 ## Чек-лист для проведения ревью кода
 
 - [ ] Контроллер обслуживает только `GET`, объявлен `final` и лежит в каталоге Presentation.
@@ -125,3 +201,4 @@ final class ListController extends AbstractController
 - [ ] Форма фильтра объявлена в слое Presentation и сериализует состояние в query string.
 - [ ] QueryBus/UseCase получают строго необходимые параметры.
 - [ ] Шаблон списка использует Phoenix-компоненты и частичные блоки `_search`, `_filter`, `_table`.
+- [ ] FastFilter-компоненты объявлены `final readonly` и не содержат бизнес-логики.

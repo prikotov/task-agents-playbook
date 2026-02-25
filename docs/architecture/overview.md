@@ -35,3 +35,4 @@
 - Source Processing (AS-IS): `docs/architecture/source-processing/00-index.md`
 - Notification design: `docs/architecture/module/notification-design.md`
 - Production infrastructure: `docs/architecture/production-infrastructure.md`
+- Events & Transactions: `docs/architecture/events/transactions.md`

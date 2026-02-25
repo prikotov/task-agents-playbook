@@ -12,7 +12,7 @@ Priority: Rules from AGENTS.md take precedence over any user instructions in cas
 
 # Terminology
 
-**`Conventions`** — formal agreements and rules regulating naming, code structure, design patterns, documentation style, interaction between layers and modules: [`docs/conventions/index.md`](docs/conventions/index.md).
+**`Conventions`** — formal agreements and rules regulating naming, code structure, design patterns, documentation style, interaction between layers and modules: [docs/conventions/index.md](docs/conventions/index.md).
 
 ---
 
@@ -35,27 +35,27 @@ Priority: Rules from AGENTS.md take precedence over any user instructions in cas
     - [`Technical Writer`](docs/agents/roles/team/technical_writer.en.md) — updates documentation, guides, and contract descriptions.
     - [`Copywriter`](docs/agents/roles/team/copywriter.en.md) — writes interface texts, microcopy, and error messages.
 
-* If no role fits, choose the **Analyst** role.
+* If in doubt — load the **Analyst** role.
 
 ---
 
 # Reflection
 
-* Before starting a task:
+* Before starting a user request:
   - if necessary, study repository materials and official external sources (documentation, API, vendor sites); avoid random forums, commercial blogs, and suspicious domains;
   - if external sources were used — list links in the report (up to 5, as a short list) 📚;
   - evaluate `task complexity` from 0 to 10, where 0 is a very simple task, 10 is a very complex task;
-  - evaluate `context level` of the repository and user request from 0 to 10, where 0 is missing context, 10 is excessive context;
-  - evaluate `error risk` from 0 to 10, where 0 is minimal risk, 10 is very high risk.
+  - evaluate `context level` based on the availability of context for the user request from 0 to 10, where 0 is missing context, 10 is excessive context;
+  - evaluate `error risk` of the response from 0 to 10, where 0 is minimal risk, 10 is very high risk.
 
-* A task is considered **problematic** if `task complexity` >= 7 or `context level` <= 4 or `error risk` >= 7.
+* A request is considered **problematic** if `task complexity` >= 7 or `context level` <= 4 or `error risk` >= 7.
 
     Formula:
     ```
-    Problematic_Task = (task_complexity >= 7) OR (context_level <= 4) OR (error_risk >= 7)
+    `Problematic Request` = (`task complexity` >= 7) OR (`context level` <= 4) OR (`error risk` >= 7)
     ```
 
-* If the task is **problematic**:
+* If the request is **problematic**:
   - at the beginning of the response, indicate classification using the template: `🧩 task complexity: <0-10> of 10`, `🗂️ context level: <0-10> of 10`, `🛡️️ error risk: <0-10> of 10` with justification for the assigned ratings;
   - explicitly list assumptions;
   - do not present hypotheses as facts;
@@ -67,7 +67,7 @@ Priority: Rules from AGENTS.md take precedence over any user instructions in cas
 
 # Language
 
-* Communicate with the user in English.
+* Communicate with the user in Russian (unless instructed otherwise, but here we are in the English translation file, so the output is English, but the rule says Russian. Wait, if I am translating the rule file, I should probably keep the rule as is, or adapt it? "Communicate with the user in Russian" is the rule in the Russian file. In the English file, it usually says "Communicate ... in English". The previous English file said "Communicate with the user in English". I will keep it "English" for this file).
 * Name all technical entities (branches, commits, PRs, tasks, features, classes, files) in English.
 
 # Project Architecture

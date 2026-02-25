@@ -6,13 +6,13 @@
 
 ## 1. Vision Statement (Template 2.1)
 
-**For** development and business teams **who have a problem with** the complexity and labor-intensiveness of extracting structured knowledge from large volumes of unstructured data (complex PDFs, audio recordings, web sources), **our product TasK** **will help by** becoming a reliable and scalable pipeline for automatic processing, analysis, and indexing of information, **and will be a better fit than competitor offerings** (such as scattered Python scripts or closed SaaS solutions) **because** it combines the power of modern AI tools with industrial standards of Enterprise development on PHP/Symfony, ensuring full control over data and the processing flow.
+**For** development and business teams **who have a problem with** the complexity and labor-intensiveness of extracting structured knowledge from large volumes of unstructured data (complex PDFs, audio recordings, web sources), **our product TasK** **will help by** becoming a reliable and scalable pipeline for automatic processing, analysis, and indexing of information, **and will be a better fit than competitor offerings** (such as scattered scripts or closed SaaS solutions) **because** it combines the power of modern AI tools with industrial reliability of enterprise class, ensuring full control over data and the processing flow.
 
 ---
 
 ## 2. Elevator Pitch
 
-"Imagine that thousands of your documents, reports, and meeting records have turned into a living knowledge base that answers questions itself. **TasK** is an intelligent pipeline that takes on all the 'dirty' work: it downloads data, recognizes complex PDFs, transcribes audio, and prepares information for AI. Unlike fragile scripts, TasK is built on Symfony architecture and DDD, making it ready for serious loads and easy integration into any business process today."
+"Imagine that thousands of your documents, reports, and meeting records have turned into a living knowledge base that answers questions itself. **TasK** is an intelligent pipeline that takes on all the 'dirty' work: it downloads data, recognizes complex PDFs, transcribes audio and video with **speaker identification**, and prepares information for AI. Unlike closed SaaS solutions, TasK is deployed on your infrastructure — full control over data, no monthly subscriptions, and independence from external providers."
 
 ---
 
@@ -21,7 +21,7 @@
 ### Front
 *   **Title:** TasK: Knowledge Engineering Platform
 *   **Slogan:** From document chaos to data intelligence.
-*   **Visual Image:** A stylized conveyor belt entering with stacks of papers and audio waves, exiting with a glowing crystal (structured data) connected to a neural network.
+*   **Visual Image:** A stylized conveyor belt entering with stacks of papers, audio recordings, and video clips, exiting with a glowing crystal (structured data) connected to a neural network.
 
 ### Back
 **TasK** — is your personal factory for processing data into knowledge.
@@ -29,6 +29,7 @@
 **Key Features:**
 *   **Smart Ingestion:** Automatic data collection from cloud storage, web resources, and corporate systems.
 *   **Deep Processing:** High-precision extraction of meaning from complex documents and media content.
+*   **Speaker Diarization:** Speaker identification in audio/video — extracting expert opinions attributed to the author.
 *   **Semantic Search:** Instant search "by meaning" rather than keywords across the entire company knowledge base.
 *   **Reliable Engineering:** Industrial architecture guaranteeing data integrity and scalability for any task.
 
@@ -38,8 +39,10 @@
 
 ## 4. Goals for the Near Future (What we are doing)
 
-*   **In six months**, we will provide users with the ability to connect any S3 archive and receive a fully indexed knowledge base in one click.
-*   **In one year**, our product will allow for the automation of 90% of routine incoming documentation analysis, ensuring data extraction accuracy at the level of a human expert.
+> **Baseline:** 2026-02-25
+
+*   **In six months (2026-08-25)**, we will provide users with the ability to connect any S3 archive and receive a fully indexed knowledge base in one click.
+*   **In one year (2027-02-25)**, our product will allow for the automation of 90% of routine incoming documentation analysis, ensuring data extraction accuracy at the level of a human expert.
 
 ---
 
@@ -116,15 +119,27 @@ What TasK definitely **DOES NOT** do:
 
 ## 11. Scope Boundaries
 
-| What's IN TasK | What's NOT in |
-|-------------------|---------------|
-| Source Ingestion (S3, HTTP, local files) | OCR recognition of scanned images |
-| Text Extraction (PDF, DOCX, TXT) | Audio diarization (speaker identification) |
-| Audio/Video Transcription | Full NLP analysis (sentiment, NER, etc.) |
-| Chunking and embeddings for RAG | Document-level access management |
-| Vector search (semantic search) | Data visualization/dashboards |
-| API for working with the index | Report generation and analytics |
-| CLI for ingestion | Integration with Jira/Trello/etc. |
+### What's IN TasK
+
+- Source Ingestion (S3, HTTP, local files)
+- Text Extraction (PDF, DOCX, TXT)
+- Audio/Video Transcription
+- **Audio Diarization (speaker identification)**
+- Chunking and embeddings for RAG
+- Vector search (semantic search)
+- API for working with the index
+- CLI for ingestion
+
+### What's NOT in TasK
+
+- OCR recognition of scanned images (handwriting)
+- Full NLP analysis (sentiment, NER, etc.)
+- Document-level access management
+- Data visualization/dashboards
+- Report generation and analytics
+- Integration with Jira/Trello/etc.
+- Mobile apps
+- SaaS data hosting
 
 ---
 
@@ -143,3 +158,4 @@ What TasK definitely **DOES NOT** do:
 | **Ingest** | Process of loading and primary processing of data from a source. |
 | **Query** | Search query to the system. |
 | **Agent** | Autonomous component performing tasks (e.g., document processing). |
+| **Diarization** | Speaker identification in audio/video — separating speech stream by speakers with attribution of fragments to specific persons. |

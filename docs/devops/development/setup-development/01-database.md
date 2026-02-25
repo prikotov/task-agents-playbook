@@ -48,13 +48,40 @@ podman compose --env-file .env.dev.local exec -T database \
 
 ## Импорт дампа
 
-Для восстановления данных:
+Для `dev` окружения используйте восстановление через контейнер `database`:
+
+```bash
+make db-restore-dev DUMP=tmp/backups/task-dev.sql.gz
+```
+
+Команда перед импортом очищает `public` schema (`DROP SCHEMA ... CASCADE; CREATE SCHEMA public;`), чтобы восстановление было
+воспроизводимым даже после предыдущих миграций.
+
+Для дампов, снятых с `--clean`, в начале вывода `psql` возможны сообщения вида `ERROR: ... does not exist` на `DROP ...` операциях —
+это ожидаемо при восстановлении в пустую схему.
+
+После импорта примените миграции:
+
+```bash
+make migrate
+```
+
+Или одной командой:
+
+```bash
+make db-restore-and-migrate-dev DUMP=tmp/backups/task-dev.sql.gz
+```
+
+Почему так: в `.env.dev` по умолчанию `POSTGRES_HOST=database` (внутреннее имя compose-сети), поэтому запуск `bin/db-restore` с хоста
+может завершиться ошибкой `could not translate host name "database"`.
+
+Если у вас настроено хостовое подключение к Postgres (`POSTGRES_HOST=127.0.0.1`), можно использовать `bin/db-restore`:
 
 ```bash
 bin/db-restore tmp/test.sql.gz
 ```
 
-Скрипт:
+`bin/db-restore`:
 
 - подтягивает параметры подключения из `.env`;
 - распаковывает `.sql.gz` во временный файл `tmp/db-restore-*.sql` (добавь `--keep-temp`, чтобы оставить файл);

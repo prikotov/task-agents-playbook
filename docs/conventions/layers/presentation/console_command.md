@@ -166,6 +166,74 @@ final class DownloadCommand extends Command
 }
 ```
 
+## Оптимизации производительности
+
+Для длительных операций и обработки больших объёмов данных применяются следующие подходы.
+
+### Батч-обработка
+
+Обработка данных порциями через пагинацию:
+
+```php
+$limit = $this->parsePositiveInt($input->getOption(self::OPT_LIMIT));
+$offset = 0;
+
+do {
+    $result = $this->queryBus->query(new GetBatchQuery(
+        pagination: new PaginationDto(limit: $limit ?? 100, offset: $offset),
+    ));
+
+    foreach ($result->items as $item) {
+        $this->commandBus->execute(new ProcessCommand($item->uuid));
+    }
+
+    $offset += $limit ?? 100;
+} while (count($result->items) > 0);
+```
+
+### Паузы между обработками
+
+Для снижения нагрузки на внешние сервисы:
+
+```php
+foreach ($result->items as $item) {
+    $this->commandBus->execute(new ProcessCommand($item->uuid));
+    usleep(100000); // 100ms пауза
+}
+```
+
+### Обработка исключений
+
+Локальная обработка с продолжением цикла:
+
+```php
+foreach ($result->items as $item) {
+    try {
+        $this->commandBus->execute(new ProcessCommand($item->uuid));
+        $io->text(sprintf('✓ %s', $item->uuid->toString()));
+    } catch (Exception $e) {
+        $io->error(sprintf('✗ %s: %s', $item->uuid->toString(), $e->getMessage()));
+        // Продолжаем обработку следующего элемента
+    }
+}
+```
+
+### Режим dry-run
+
+Предпросмотр без выполнения:
+
+```php
+$dryRun = (bool)$input->getOption(self::OPT_DRY_RUN);
+
+foreach ($result->items as $item) {
+    if ($dryRun) {
+        $io->text(sprintf('[DRY-RUN] Would process: %s', $item->uuid->toString()));
+        continue;
+    }
+    $this->commandBus->execute(new ProcessCommand($item->uuid));
+}
+```
+
 ## Чек-лист для ревью
 
 - [ ] Файл расположен в каталоге Presentation и объявлен `final`, используется `#[AsCommand]`.
@@ -177,3 +245,4 @@ final class DownloadCommand extends Command
 - [ ] Возвращаются корректные коды завершения (`SUCCESS`/`FAILURE`).
 - [ ] Обработка ошибок локальная (try/catch), фатальные ошибки не скрываются.
 - [ ] Команда подходит для cron: детерминированный вывод, без лишнего шума.
+- [ ] Для длительных операций применяются батч-обработка и паузы.

@@ -30,10 +30,27 @@ A bridge between the Product Owner and the development team. If the PO says "Wha
 *   Architectural constraints from System Architect in [`src/AGENTS.md`](../../../../src/AGENTS.md), [`docs/architecture/overview.md`](../../../../docs/architecture/overview.md), and [`Conventions`](../../../../docs/conventions/index.md).
 *   Task formatting rules from [`todo/AGENTS.md`](../../../../todo/AGENTS.md).
 
+## Task Setting Rules
+When formulating technical tasks, it is **mandatory** to provide links to conventions when mentioning class types:
+
+*   **Principle:** If a class type (Entity, DTO, Use Case, Repository, Controller, etc.) is mentioned in the task, a link to the corresponding convention must be provided nearby.
+*   **Why:** AI agents do not always follow conventions automatically. An explicit link ensures that the implementer finds and applies the necessary rules.
+*   **Examples:**
+    *   `Entity` → [`Entity`](../../../../docs/conventions/layers/domain/entity.md)
+    *   `DTO` → [`DTO`](../../../../docs/conventions/core_patterns/dto.md)
+    *   `Use Case` → [`Use Case`](../../../../docs/conventions/layers/application/use_case.md)
+    *   `Repository` → [`Repository`](../../../../docs/conventions/layers/domain/repository.md)
+    *   `Controller` → [`Controller`](../../../../docs/conventions/layers/presentation/controller.md)
+    *   `Command Handler` → [`Command Handler`](../../../../docs/conventions/layers/application/command_handler.md)
+    *   `Value Object` → [`Value Object`](../../../../docs/conventions/core_patterns/value-object.md)
+    *   `Service` → [`Service`](../../../../docs/conventions/core_patterns/service.md)
+    *   `Factory` → [`Factory`](../../../../docs/conventions/core_patterns/factory.md)
+*   **Full list:** See [Convention Index](../../../../docs/conventions/index.md).
+
 ## Output Data
 *   Detailed SRS (System Requirements Specification).
 *   Technical tasks in [`todo/`](../../../../todo/), ready for execution.
-*   Diagrams in Mermaid format ([`docs/architecture/diagrams/`](../../../../docs/architecture/diagrams/)).
+*   Diagrams in Mermaid format ([`docs/architecture/`](../../../../docs/architecture/)).
 *   Draft API contracts.
 *   Test scenarios (Gherkin) for QA.
 

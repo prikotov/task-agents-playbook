@@ -134,6 +134,9 @@ ID должен быть уникальным.
 
 3. **Шаг 3 — задать контекст и границы**
    - Где менять (пути/модули/классы).
+   - **При упоминании типа класса** обязательно указывать ссылку на соответствующую конвенцию из [`docs/conventions/`](../../docs/conventions/index.md).
+     - Примеры: `Entity` → [`Entity`](../../docs/conventions/layers/domain/entity.md), `DTO` → [`DTO`](../../docs/conventions/core_patterns/dto.md), `Use Case` → [`Use Case`](../../docs/conventions/layers/application/use_case.md), `Repository` → [`Repository`](../../docs/conventions/layers/domain/repository.md).
+     - Полный список конвенций см. в [содержании](../../docs/conventions/index.md).
    - Что не трогать (контракты, модули, миграции, зависимости).
 
 4. **Шаг 4 — ограничить объём через MoSCoW**

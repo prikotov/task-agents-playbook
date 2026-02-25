@@ -12,6 +12,8 @@ To provide individuals and teams with digital sovereignty: full control over dat
 
 TasK transforms the chaos of unstructured data into a manageable knowledge base, accessible for search and analysis.
 
+**Key Focus:** Delivering AI (LLM) value to the user in the most convenient way possible — making the capabilities of modern language models accessible through a simple and intuitive interface.
+
 ---
 
 ## Principles

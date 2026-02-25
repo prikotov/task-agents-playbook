@@ -9,6 +9,7 @@ sequenceDiagram
     autonumber
     participant PO as Product Owner
     participant SA as System Analyst
+    participant UX as UI/UX Designer
     participant Arch as Architect
     participant Lead as Team Lead
     participant Dev as Developer
@@ -23,6 +24,8 @@ sequenceDiagram
     PO->>PO: Backlog: Новая Story / Идея
     
     SA->>PO: Pull Story: Анализ и декомпозиция
+    SA->>UX: Request: UI/UX дизайн
+    UX-->>SA: Макеты / Прототипы
     SA->>Arch: Request: Архитектурный фильтр
     Arch-->>SA: ADR / Constraints
     SA->>QA: Push: Сценарии тестирования (Gherkin)
@@ -48,6 +51,7 @@ sequenceDiagram
     QA-->>Dev: Если баг: Bug Report
     QA->>Lead: Статус: Ready for Release
     
+    Lead->>Lead: E2E тесты пройдены (make tests-e2e)
     Lead->>PO: Signal: Technical Acceptance (Ready)
     PO->>PO: Решение о релизе (Business Value)
     
@@ -73,7 +77,7 @@ sequenceDiagram
 Процесс визуализирован через статусы задач в `todo/`:
 
 1.  **Backlog:** Идеи от **Product Owner**.
-2.  **Analysis:** Работа **System Analyst** и **Architect**.
+2.  **Analysis:** Работа **System Analyst**, **UI/UX Designer** и **Architect**.
 3.  **Ready for Dev/Infra:** Проверено **Team Lead**. Очередь исполнения.
 4.  **In Progress:** Активная работа (**Dev** или **DevOps**).
 5.  **Review:** Аудит от **Reviewer**.

@@ -38,6 +38,7 @@
 
 ## Слои Архитектуры
 
+- [Взаимодействие слоёв (Layer Interaction)](layers/layers.md)
 - [Слой Приложения (Application)](layers/application.md)
     - [Сценарий использования (Use Case)](layers/application/use_case.md)
     - [Обработчик Команд (Command Handler)](layers/application/command_handler.md)
@@ -50,6 +51,7 @@
     - [Спецификация (Specification)](layers/domain/specification.md)
     - [Калькулятор (Calculator)](layers/domain/calculator.md)
 - [Слой Инфраструктуры (Infrastructure)](layers/infrastructure.md)
+    - [CriteriaMapper](layers/infrastructure/criteria-mapper.md)
     - [Репозиторий (Repository)](layers/infrastructure/repository.md)
 - [Слой интеграций (Integration)](layers/integration.md)
     - [Слушатель Событий (Event Listener)](layers/integration/listener.md)

@@ -888,31 +888,104 @@ make audit
 5. **Не используйте реальные внешние сервисы или секретные данные в тестах.**
 6. **Соблюдайте общие правила из корневого [`AGENTS.md`](../../AGENTS.md) по стилю кода и покрытию тестами.**
 
-### Unit-тесты
+### Структура тестов (AAA + BDD)
 
-**Структура теста (AAA - Arrange, Act, Assert):**
+#### Паттерн AAA (Arrange-Act-Assert)
+
+Все unit-тесты **обязаны** следовать паттерну AAA для организации кода:
+
+1. **Arrange** — подготовка данных, создание моков, настройка окружения
+2. **Act** — выполнение тестируемого действия (вызов метода, обработчика)
+3. **Assert** — проверка результатов (assertion-методы)
 
 ```php
-public function testSomeScenario(): void
+public function testInvokeValidDataReturnsUserUuid(): void
 {
-    // Arrange: подготовка данных и моков
-    $mockService = $this->createMock(SomeServiceInterface::class);
-    $mockService->expects(self::once())->method('doSomething')->willReturn('result');
+    // Arrange: подготовка моков и данных
+    $repository = $this->createMock(UserRepositoryInterface::class);
+    $repository->method('exists')->willReturn(false);
+
+    $handler = new CreateCommandHandler($repository, ...);
 
     // Act: выполнение тестируемого действия
-    $result = $testedService->execute($mockService);
+    $result = $handler(new CreateCommand(
+        email: 'test@example.com',
+        username: 'testuser',
+        // ...
+    ));
 
     // Assert: проверка результатов
-    self::assertSame('expected', $result);
+    self::assertInstanceOf(IdDto::class, $result);
+    self::assertTrue($result->uuid->equals($expectedUuid));
 }
 ```
+
+**Правила AAA:**
+- Разделяйте секции пустой строкой
+- Секция может содержать несколько строк кода
+- Избегайте логики в Arrange (кроме настройки моков)
+- Act должен быть одной строкой (или минимальным количеством)
+- Assert группируйте по логическому смыслу
+
+#### BDD-стиль именования тестов
+
+Имя теста должно описывать **поведение** системы в camelCase:
+
+```
+test{WhatIsBeingTested}{Scenario}{ExpectedResult}
+```
+
+**Примеры:**
+- `testRegistrationWithoutInviteCreatesInactiveUser`
+- `testProjectCreationAuthorizedUserReturns201Created`
+- `testApiRequestInvalidJsonReturns400BadRequest`
+
+#### Соответствие AAA и BDD
+
+| BDD (поведение) | AAA (структура) |
+|-----------------|-----------------|
+| **Given** (контекст) | **Arrange** |
+| **When** (действие) | **Act** |
+| **Then** (результат) | **Assert** |
+
+Для сложных E2E-сценариев используйте `@scenario` в PHPDoc:
+
+```php
+/**
+ * @scenario Создание проекта авторизованным пользователем
+ *
+ * Given: пользователь авторизован с валидным JWT токеном
+ * When: отправляется POST /v1/projects с корректными данными
+ * Then: возвращается 201 CREATED с UUID проекта
+ */
+public function testProjectCreationAuthorizedUserReturns201Created(): void
+{
+    // Arrange (Given)
+    $client = self::createClient();
+    $token = $this->getMainJwtToken();
+
+    // Act (When)
+    $client->request(
+        method: 'POST',
+        uri: '/v1/projects',
+        server: ['HTTP_AUTHORIZATION' => 'Bearer ' . $token],
+        content: JsonHelper::encode(['title' => 'Test Project']),
+    );
+
+    // Assert (Then)
+    self::assertEquals(Response::HTTP_CREATED, $client->getResponse()->getStatusCode());
+}
+```
+
+### Unit-тесты
 
 **Правила:**
 - Наследуйтесь от `PHPUnit\Framework\TestCase`
 - Используйте `createMock()` для создания моков
 - Используйте `self::assertSame()`, `self::assertNotNull()` и другие assert-методы
 - Один тест проверяет один сценарий
-- Название теста должно описывать сценарий: `test{WhatIsBeingTested}_{Scenario}_{ExpectedResult}`
+- **Обязательно следуйте паттерну AAA** (см. выше)
+- Название теста должно описывать сценарий в camelCase: `test{WhatIsBeingTested}{Scenario}{ExpectedResult}`
 
 ### Integration-тесты и функциональные тесты
 
