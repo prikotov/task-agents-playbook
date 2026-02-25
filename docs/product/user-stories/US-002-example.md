@@ -78,6 +78,56 @@
 
 ---
 
+## BDD Scenarios
+
+### Scenario 1: Create new project
+**Given** пользователь на странице `/projects`
+**When** он нажимает "Create Project" и вводит название "Team Knowledge Base"
+**Then** проект создаётся с уникальным ID и slug `team-knowledge-base`
+**And** пользователь перенаправляется на `/projects/team-knowledge-base`
+**And** проект отображается в списке проектов
+
+### Scenario 2: Upload text file via drag-and-drop
+**Given** пользователь на странице проекта `/projects/team-knowledge-base`
+**When** он перетаскивает файл `meeting-notes.txt` в зону загрузки
+**Then** файл загружается и появляется в списке sources
+**And** source status = "processing"
+**And** прогресс отображается в real-time (Turbo)
+
+### Scenario 3: File processing completes
+**Given** source в статусе "processing"
+**When** обработка завершается успешно
+**Then** source status обновляется до "indexed" (без перезагрузки страницы)
+**And** отображается количество chunks
+
+### Scenario 4: Semantic search via web UI
+**Given** проект содержит 3 проиндексированных source
+**When** пользователь вводит "roadmap приоритеты" в search bar
+**Then** выполняется semantic search по всем sources проекта
+**And** результаты отображаются списком с highlight релевантных фрагментов
+**And** каждый результат показывает source filename и relevance score
+**And** search latency < 2 секунд
+
+### Scenario 5: View chunk details
+**Given** пользователь видит результаты поиска
+**When** он кликает на результат
+**Then** открывается диалог/модальное окно с полным содержимым chunk
+**And** отображается ссылка на оригинальный source
+
+### Scenario 6: Delete source
+**Given** source в статусе "indexed"
+**When** пользователь нажимает "Delete" и подтверждает
+**Then** source удаляется из списка
+**And** связанные chunks и vectors удаляются из индекса
+
+### Scenario 7: Re-index source
+**Given** source в статусе "failed" или "indexed"
+**When** пользователь нажимает "Re-index"
+**Then** source status становится "processing"
+**And** pipeline запускается заново
+
+---
+
 ## Non-Goals
 
 - ❌ Пользовательская аутентификация и авторизация (MVP — internal use only)

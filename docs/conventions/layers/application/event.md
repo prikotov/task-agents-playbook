@@ -13,7 +13,9 @@
 * Имя класса события должно быть **с существительным + глагол в прошедшем времени + постфикс `Event`**.
   Пример: `ChatMessageReceivedEvent`, `SmsCreatedEvent`.
 * Событие может реализовывать интерфейс, если необходимо объединить обработку нескольких однотипных событий одним
-  Listener’ом. Пример: `ChatMessageReceivedEventInterface`.
+  Listener'ом. Пример: `ChatMessageReceivedEventInterface`.
+* События должны **dispatch'ся ПОСЛЕ `flush()`**, когда данные уже записаны в БД.
+  Подробнее: [Events & Transactions — взаимодействие событий и транзакций БД](../../../architecture/events/transactions.md).
 
 ## Расположение
 
@@ -139,3 +141,4 @@ final readonly class ReceivedEvent extends Event implements ChatMessageEventInte
 * [ ] Нет бизнес-логики в событии (только DTO).
 * [ ] Для кросс-событий допускается реализация интерфейса.
 * [ ] События выбрасываются только своим модулем.
+* [ ] События dispatch'ся **после** `flush()`, а не внутри транзакции.

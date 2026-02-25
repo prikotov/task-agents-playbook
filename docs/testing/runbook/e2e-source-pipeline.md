@@ -54,9 +54,7 @@ E2E окружение использует `APP_ENV=e2e` и загружает 
 - `E2E_SOURCE_POLL_MAX_RETRIES` — лимит попыток (0 = без лимита).
 - `PANTHER_ERROR_SCREENSHOT_DIR=/var/www/html/var/e2e-screenshots` — путь для скриншотов (локально `./var/e2e-screenshots`).
 - `SOURCE_STATUS_LIVE_DEGRADATION_UI` — режим live-updates payload contract (`off`, `limited`, `on`).
-- `E2E_EXPECTED_LIVE_DEGRADATION_MODE` — ожидаемый режим для E2E assertions (обычно равен `SOURCE_STATUS_LIVE_DEGRADATION_UI`).
 - `MERCURE_WORKER_PUBLISH_URL` — worker-side publish endpoint для source-status live updates.
-- `E2E_FORCE_MERCURE_UNAVAILABLE` — включает non-blocking outage сценарий (значение `1`).
 
 По умолчанию тестовые файлы лежат в `./apps/web/tests/E2E/Source/files` и монтируются в контейнер как
 `/var/www/task/apps/web/tests/E2E/Source/files`. Если переменная `E2E_SOURCE_FILES_DIR_HOST` не задана,
@@ -112,7 +110,7 @@ make tests-e2e-source-pipeline
 - запускает `phpunit` с группой `e2e-source-pipeline` в окружении `e2e`;
 - проверяет, что очереди `source_*` пустые.
 
-Live-updates полный прогон (`smoke` + `matrix` + `outage`):
+Live-updates полный прогон (`matrix` + `outage`, shared bootstrap):
 ```bash
 make tests-e2e-source-status-live-updates
 ```
@@ -212,6 +210,39 @@ podman compose -p task-e2e exec rabbitmq rabbitmqctl -p task_e2e list_queues
 - `var/containers/e2e/worker-cli/log/e2e.log`
 - `var/containers/e2e/worker-cli/log/worker-cli/source_status_live_updates.log`
 - `var/containers/e2e/worker-cli/log/worker-cli/source_status_live_updates.error.log`
+
+## Диагностика shared storage permissions
+Симптомы инцидента:
+- в `var/containers/e2e/php-fpm/log/web/e2e.log` появляется `Unable to list files for mask ...`;
+- nested cause содержит `Permission denied` при доступе к `var/storage/source/<prefix>`;
+- чаще всего это происходит после операций worker в split-node runtime (`php-fpm` + `worker-cli`).
+
+Подтвержденная root-cause:
+- в e2e `worker-cli` запускался через `supervisord` от `root`;
+- часть source prefix директорий создавалась с владельцем `root:root` и маской `770` (например, `drwxrwx--- root root`);
+- web-контекст (`apache` в `php-fpm`) не мог читать такие директории.
+
+Принятый фикс (KISS):
+- `worker-cli` запускается через `supervisord -u apache`;
+- cache/home для `worker-cli` перенесены в `/tmp` (`APP_CACHE_DIR=/tmp/task-cache`, `HOME=/tmp/task-home`);
+- в `compose.e2e.yaml` убраны дополнительные prepare-операции для `var/cache` (`mkdir/chmod`);
+- для выравнивания прав в shared storage используем ручной repair через `chmod -R a+rwX` на хосте.
+
+Проверки и triage:
+```bash
+# Проверка effective user и прав shared storage
+podman compose --project-name task-e2e --env-file ./.env.e2e --env-file ./.env.e2e.local -f compose.e2e.yaml --profile e2e exec -T worker-cli sh -lc 'id && ls -ld /var/www/task/var/storage /var/www/task/var/storage/source'
+
+# Mitigation/repair прав на хосте
+podman unshare sh -lc 'chmod -R a+rwX ./var/containers/e2e/shared/storage'
+```
+
+Rollback/Mitigation:
+1. Перезапустить e2e окружение с очисткой storage: `make e2e-bootstrap-runtime`.
+2. Если проблема повторилась, проверить effective user процессов и права shared storage вручную:
+   `podman compose --project-name task-e2e --env-file ./.env.e2e --env-file ./.env.e2e.local -f compose.e2e.yaml --profile e2e exec -T worker-cli sh -lc 'id && ls -ld /var/www/task/var/storage /var/www/task/var/storage/source'`.
+3. Временный mitigation до фикса конфигурации: выровнять права вручную
+   `podman unshare sh -lc 'chmod -R a+rwX ./var/containers/e2e/shared/storage'`.
 
 ## Остановка окружения
 ```bash

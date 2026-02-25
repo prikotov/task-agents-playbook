@@ -1,5 +1,3 @@
-[![Read in English](https://img.shields.io/badge/Lang-English-blue)](technical_writer.en.md)
-
 # Technical Writer (`Технический писатель`)
 
 # Поведенческий профиль

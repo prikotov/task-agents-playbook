@@ -7,6 +7,9 @@
 ### Development
 - [Настройка development окружения](development/setup-development/) — инструкции по настройке локального окружения для разработки
 
+### Sandbox
+- [Песочницы (Sandbox)](sandbox.md) — техническая документация по созданию, запуску и изоляции sandbox-окружений
+
 ### Production
 - [Настройка production окружения](production/setup-production/) — инструкции по настройке production окружения
 - [Настройка worker-production](production/setup-worker-production/) — инструкции по настройке worker для production

@@ -86,6 +86,52 @@
 
 ---
 
+## BDD Scenarios
+
+### Scenario 1: Successful PDF upload via CLI
+**Given** разработчик имеет валидный PDF-файл размером < 50MB
+**When** он выполняет `bin/console app:source:ingest /path/to/file.pdf`
+**Then** команда возвращает `source_id` в формате UUID
+**And** source status становится "processing"
+**And** задача обработки добавлена в очередь
+
+### Scenario 2: PDF upload with invalid file
+**Given** разработчик указывает путь к несуществующему файлу
+**When** он выполняет `bin/console app:source:ingest /nonexistent.pdf`
+**Then** команда возвращает ошибку с кодом 1
+**And** сообщение об ошибке содержит "File not found"
+
+### Scenario 3: Successful semantic search via API
+**Given** PDF-документ успешно проиндексирован с `source_id = "abc-123"`
+**When** разработчик отправляет `POST /api/v1/search {"query": "архитектура системы", "limit": 10}`
+**Then** API возвращает 200 с массивом результатов
+**And** каждый результат содержит `chunk_id`, `content`, `score`, `source`
+**And** `score` находится в диапазоне [0, 1]
+
+### Scenario 4: Search with no results
+**Given** индекс пуст (нет проиндексированных документов)
+**When** разработчик отправляет `POST /api/v1/search {"query": "test", "limit": 10}`
+**Then** API возвращает 200 с пустым массивом `results`
+**And** `total` = 0
+
+### Scenario 5: Processing pipeline completes successfully
+**Given** источник в статусе "processing"
+**When** pipeline завершает обработку
+**Then** текст извлечён из PDF
+**And** текст разбит на chunks (~500-1000 tokens каждый)
+**And** embeddings сгенерированы для каждого chunk
+**And** вектора сохранены в PostgreSQL + pgvector
+**And** source status обновлён до "indexed"
+
+### Scenario 6: Processing pipeline fails
+**Given** источник в статусе "processing" (повреждённый PDF)
+**When** pipeline обнаруживает ошибку извлечения
+**Then** source status обновлён до "failed"
+**And** ошибка залогирована с уровнем ERROR
+**And** `error_message` содержит описание проблемы
+
+---
+
 ## Non-Goals
 
 - ❌ Валидация прав доступа (MVP — internal use only)

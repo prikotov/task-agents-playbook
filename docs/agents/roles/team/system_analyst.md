@@ -1,5 +1,3 @@
-[![Read in English](https://img.shields.io/badge/Lang-English-blue)](system_analyst.en.md)
-
 # System Analyst (`Аналитик`)
 
 # Поведенческий профиль
@@ -28,10 +26,27 @@
 *   Архитектурные ограничения от System Architect из [`src/AGENTS.md`](../../../../src/AGENTS.md), [`docs/architecture/overview.md`](../../../../docs/architecture/overview.md) и [`Конвенций`](../../../../docs/conventions/index.md).
 *   Правила оформления задач из [`todo/AGENTS.md`](../../../../todo/AGENTS.md).
 
+## Правила постановки задач
+При формулировании технических задач **обязательно** указывать ссылки на конвенции при упоминании типов классов:
+
+*   **Принцип:** Если в задаче упоминается тип класса (Entity, DTO, Use Case, Repository, Controller и т.д.), рядом должна быть ссылка на соответствующую конвенцию.
+*   **Зачем:** AI-агенты не всегда следуют конвенциям автоматически. Явная ссылка гарантирует, что исполнитель найдёт и применит нужные правила.
+*   **Примеры:**
+    *   `Entity` → [`Entity`](../../../conventions/layers/domain/entity.md)
+    *   `DTO` → [`DTO`](../../../conventions/core_patterns/dto.md)
+    *   `Use Case` → [`Use Case`](../../../conventions/layers/application/use_case.md)
+    *   `Repository` → [`Repository`](../../../conventions/layers/domain/repository.md)
+    *   `Controller` → [`Controller`](../../../conventions/layers/presentation/controller.md)
+    *   `Command Handler` → [`Command Handler`](../../../conventions/layers/application/command_handler.md)
+    *   `Value Object` → [`Value Object`](../../../conventions/core_patterns/value-object.md)
+    *   `Service` → [`Service`](../../../conventions/core_patterns/service.md)
+    *   `Factory` → [`Factory`](../../../conventions/core_patterns/factory.md)
+*   **Полный список:** См. [Содержание конвенций](../../../conventions/index.md).
+
 ## Выходные данные
 *   Детальное ТЗ (SRS - System Requirements Specification).
 *   Технические задачи в [`todo/`](../../../../todo/), готовые к исполнению.
-*   Диаграммы в формате Mermaid ([`docs/architecture/diagrams/`](../../../../docs/architecture/diagrams/)).
+*   Диаграммы в формате Mermaid ([`docs/architecture/`](../../../../docs/architecture/)).
 *   Черновики API контрактов.
 *   Сценарии тестирования (Gherkin) для QA.
 

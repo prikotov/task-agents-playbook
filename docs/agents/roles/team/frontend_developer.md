@@ -1,5 +1,3 @@
-[![Read in English](https://img.shields.io/badge/Lang-English-blue)](frontend_developer.en.md)
-
 # Frontend Developer (`Фронтендер`)
 
 # Поведенческий профиль

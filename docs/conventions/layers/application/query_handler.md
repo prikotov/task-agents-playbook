@@ -21,7 +21,7 @@ Common\Module\{ModuleName}\Application\UseCase\Query\{QueryGroup}\{QueryName}\{Q
 - Может возвращать: [DTO](../../guides/dto.md), [Enum](../../guides/enum.md), скалярное значение.
 - Входные и возвращаемые объекты должны находиться в слое Application текущего модуля.
 - Query Handler не должен изменять состояние приложения.
-- Запрещено вызывать другие UseCase внутри QueryHandler.
+- Запрещено вызывать другие UseCase внутри QueryHandler, включая вызов через `__invoke()` другого `*Handler` и запуск через `CommandBus`/`QueryBus`.
 - Название запроса должно начинаться с глагола, например: GetCustomerQuery.
 - Класс обработчика должен иметь постфикс `QueryHandler`.
 

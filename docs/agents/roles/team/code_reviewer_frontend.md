@@ -1,5 +1,3 @@
-[![Read in English](https://img.shields.io/badge/Lang-English-blue)](code_reviewer_frontend.en.md)
-
 # Frontend Code Reviewer (`Ревьювер Фронта`)
 
 # Поведенческий профиль

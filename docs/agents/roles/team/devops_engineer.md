@@ -1,5 +1,3 @@
-[![Read in English](https://img.shields.io/badge/Lang-English-blue)](devops_engineer.en.md)
-
 # DevOps Engineer (`Девопс`)
 
 # Поведенческий профиль

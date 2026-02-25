@@ -102,6 +102,84 @@ final class CreateController extends AbstractController
 }
 ```
 
+## Обработка загрузки файлов
+
+Для загрузки файлов через формы используется стандартный подход Symfony с сохранением в `var/uploads/`.
+
+### Паттерн загрузки
+
+1. FormModel содержит поле `?UploadedFile $uploadFile`.
+2. FormType использует `FileType` с валидацией MIME-type и размера.
+3. Контроллер сохраняет файл в `var/uploads/` с уникальным именем.
+4. Путь к файлу передаётся в Command для дальнейшей обработки.
+
+### Пример
+
+**FormModel:**
+
+```php
+final class CreateFormModel
+{
+    public function __construct(
+        public ?UploadedFile $uploadFile = null,
+        public ?string $textData = null,
+    ) {
+    }
+}
+```
+
+**FormType:**
+
+```php
+$builder
+    ->add('uploadFile', FileType::class, [
+        'required' => false,
+        'label' => 'source.labels.file',
+        'constraints' => [
+            new File([
+                'maxSize' => '100M',
+                'mimeTypes' => ['audio/mpeg', 'audio/wav', 'audio/ogg'],
+                'mimeTypesMessage' => 'source.constraints.invalid_mime_type',
+            ]),
+        ],
+    ]);
+```
+
+**Контроллер:**
+
+```php
+if ($formModel->uploadFile instanceof UploadedFile) {
+    $projectDir = $this->getParameter('kernel.project_dir');
+    if (!is_string($projectDir)) {
+        throw new \RuntimeException('Invalid project dir parameter');
+    }
+    
+    $uploadDir = $projectDir . '/var/uploads/';
+    if (!is_dir($uploadDir)) {
+        mkdir($uploadDir, 0777, true);
+    }
+
+    $slugger = new AsciiSlugger();
+    $originalFilename = pathinfo($formModel->uploadFile->getClientOriginalName(), PATHINFO_FILENAME);
+    $safeFilename = $slugger->slug($originalFilename);
+    $newFilename = $safeFilename->toString() . '-' . uniqid() . '.' . $formModel->uploadFile->guessExtension();
+    
+    $uploadFile = $formModel->uploadFile->move($uploadDir, $newFilename);
+    
+    $this->commandBus->execute(new CreateByFileCommand(
+        $projectUuid,
+        $uploadFile,
+        $formModel->uploadFile->getClientOriginalName(),
+    ));
+}
+```
+
+### Валидация
+
+- **Тип файла:** через `mimeTypes` в constraint `File`.
+- **Размер:** через `maxSize` (например, `100M`).
+- **Обработка ошибок:** `FileException` пробрасывается или логируется.
+
 ## Чек-лист для проведения ревью кода
 
 - [ ] Контроллер хранится в каталоге Presentation и объявлен `final`.
@@ -109,3 +187,4 @@ final class CreateController extends AbstractController
 - [ ] Внедрены только Presentation- и Application-зависимости.
 - [ ] Валидация входных данных выполняется до вызова UseCase.
 - [ ] Возврат идёт через рендер/редирект, исключения обрабатывает `ExceptionSubscriber`.
+- [ ] Загрузка файлов использует валидацию через constraints и безопасное именование.

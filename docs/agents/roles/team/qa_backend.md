@@ -1,5 +1,3 @@
-[![Read in English](https://img.shields.io/badge/Lang-English-blue)](qa_backend.en.md)
-
 # Backend QA (`Тестировщик Бэка`)
 
 # Поведенческий профиль

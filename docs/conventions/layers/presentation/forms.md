@@ -168,6 +168,70 @@ final class FilterFormType extends AbstractType
 }
 ```
 
+## Получение списков через QueryBus
+
+Для заполнения select-полей (проекты, пользователи, тарифы) FormType может внедрять `QueryBusComponentInterface`.
+
+### Когда использовать
+
+- Список значений зависит от прав текущего пользователя или других runtime-условий.
+- Список получается через Application Query (а не статический enum).
+
+### Пример
+
+```php
+<?php
+
+declare(strict_types=1);
+
+namespace Web\Module\Project\Form\Task;
+
+use Common\Application\Component\QueryBus\QueryBusComponentInterface;
+use Common\Module\Project\Application\UseCase\Query\Project\FindForSelect\FindForSelectQuery;
+use Override;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+
+/**
+ * @template-extends AbstractType<CreateFormModel>
+ */
+final class CreateFormType extends AbstractType
+{
+    public function __construct(
+        private readonly QueryBusComponentInterface $queryBus,
+    ) {
+    }
+
+    #[Override]
+    public function buildForm(FormBuilderInterface $builder, array $options): void
+    {
+        $projects = $this->queryBus->query(new FindForSelectQuery());
+
+        $builder
+            ->add('projectUuid', ChoiceType::class, [
+                'choices' => $projects->items,
+                'choice_value' => 'uuid',
+                'choice_label' => 'name',
+                'label' => 'task.labels.project',
+            ]);
+    }
+
+    #[Override]
+    public function configureOptions(OptionsResolver $resolver): void
+    {
+        $resolver->setDefaults([
+            'data_class' => CreateFormModel::class,
+        ]);
+    }
+}
+```
+
+### Кэширование списков
+
+Для часто используемых списков применяйте кэширование на уровне QueryHandler или используйте List-сервисы (см. [List-сервисы](list-controller.md)).
+
 ## Чек-лист для проведения ревью кода
 
 - [ ] FormModel и FormType лежат в каталоге `Form` и объявлены `final`.
@@ -175,3 +239,4 @@ final class FilterFormType extends AbstractType
 - [ ] Формы фильтров используют метод `GET` и сериализуют состояние в query string.
 - [ ] Контроллер получает типизированную модель и проверяет `isSubmitted()`/`isValid()`.
 - [ ] Twig-шаблон подключает тему и выключает `render_rest`, если поля рендерятся вручную.
+- [ ] QueryBus в FormType используется только для динамических списков, не для бизнес-логики.

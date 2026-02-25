@@ -60,8 +60,8 @@ E2E тесты проверяют полное поведение приложе
 | `make tests-e2e-filter TEST_FILTER=...` | Запустить по фильтру (имя теста или паттерн) через `test-runner` + `selenium` |
 | `make tests-e2e-smoke` | Запустить E2E smoke тесты для быстрой проверки e2e окружения (группа `smoke`) |
 | `make tests-e2e-source-pipeline` | Запустить E2E тесты Source pipeline (группа `e2e-source-pipeline`) |
-| `make tests-e2e-source-status-live-updates` | Запустить полный E2E live-updates suite (`smoke` + `matrix` + `outage`) |
-| `make tests-e2e-source-status-live-updates-smoke` | Запустить только E2E smoke live-updates сценарии (группа `e2e-source-status-live-updates`) |
+| `make tests-e2e-source-status-live-updates` | Запустить полный E2E live-updates suite (`matrix` + `outage`) с shared bootstrap |
+| `make tests-e2e-source-status-live-updates-smoke` | Запустить smoke-контракт live-updates (mode `limited`, один filter-сценарий) |
 | `make tests-e2e-source-status-live-updates-matrix` | Прогнать live-updates matrix `off/limited/on` для `SOURCE_STATUS_LIVE_DEGRADATION_UI` |
 | `make tests-e2e-source-status-live-updates-outage` | Проверить non-blocking pipeline при недоступном `MERCURE_WORKER_PUBLISH_URL` |
 | `make tests-e2e-landing-invite-flow` | Запустить E2E тесты landing invite funnel (группа `e2e-landing-invite-flow`) |

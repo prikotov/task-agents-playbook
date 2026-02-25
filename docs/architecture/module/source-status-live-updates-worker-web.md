@@ -4,7 +4,7 @@
 
 Текущая реализация имеет разрыв для split-node сценария (`worker-cli -> Web UI`):
 
-1. В `apps/console` для `SourceStatusBroadcasterInterface` подключен `NullSourceStatusBroadcaster`.
+1. В `apps/console` должен быть подключен рабочий `SourceStatusBroadcasterInterface` с publish в Mercure (без `Null*` в production path).
 2. В `apps/console` для `RenderSourceStatusTurboStreamServiceInterface` подключен `NullRenderSourceStatusTurboStreamService`.
 3. Shared renderer в `src/Module/Notification` зависит от Twig namespace `@web.notification/*`, который принадлежит `apps/web`.
 
@@ -174,7 +174,10 @@ Renderer TO-BE (обязательная детализация):
 
 Подписка:
 
-- Сохраняется текущая схема `TurboStreamTopicRegistry` + `<turbo-stream-source ... withCredentials: true>`.
+- Сохраняется текущая схема `TurboStreamTopicRegistry` + скрытый обычный элемент
+  (например, `<div class="d-none" ...>`) с атрибутами `turbo_stream_listen(..., { withCredentials: true })`.
+- Не использовать `<turbo-stream-source>` как носитель `turbo_stream_listen(...)`:
+  Web Component Turbo читает только `src` и может открыть `EventSource` на текущий URL страницы.
 
 Ограничения совместимости:
 
@@ -416,7 +419,7 @@ Ops rollout contract (обязательный):
 ## 14. AS-IS -> TO-BE mapping
 
 1. `apps/console/config/services.yaml`:
-   - убрать override на `NullSourceStatusBroadcaster` для production path.
+   - проверить, что `SourceStatusBroadcasterInterface` указывает на рабочий Mercure broadcaster в production path.
 2. `apps/console/src/Module/Notification/Resource/config/services.yaml`:
    - заменить `NullRenderSourceStatusTurboStreamService` на shared renderer.
 3. `src/Module/Notification/Integration/Service/Source/RenderSourceStatusTurboStreamService.php`:

@@ -30,8 +30,10 @@ Common\Module\{ModuleName}\Application\UseCase\Command\{CommandGroup}\{CommandNa
       `Common\Exception\{ExceptionName}`.
     - возвращает `void` или идентификатор созданной сущности (например, `int`, `Uuid`). DTO допустим только если нужно
       вернуть несколько связанных идентификаторов (например, пару `int id` + `uuid` через `Common\Application\Dto\IdDto`).
+    - **события должны dispatch'ся ПОСЛЕ `flush()`**, когда данные уже записаны в БД.
+      Подробнее: [Events & Transactions — взаимодействие событий и транзакций БД](../../../architecture/events/transactions.md).
 - Command Handler должен **выполнять только одну логическую транзакцию**.
-- **Запрещено** вызывать другие UseCase внутри CommandHandler.
+- **Запрещено** вызывать другие UseCase внутри CommandHandler, включая вызов через `__invoke()` другого `*Handler` и запуск через `CommandBus`/`QueryBus`.
 
 ## Пример команды
 

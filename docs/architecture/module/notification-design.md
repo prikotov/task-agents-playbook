@@ -79,7 +79,7 @@
      - `on`: badge + `source-live-health-*`.
 6. Подписка в UI:
    - `Web\EventSubscriber\MercureAuthorizationSubscriber` регистрирует source-status topic в `TurboStreamTopicRegistry`;
-   - в `apps/web/templates/base.html.twig` используется единый `<turbo-stream-source>` через `turbo_stream_listen(turbo_stream_topics(), ...)`.
+   - в `apps/web/templates/base.html.twig` используется единый скрытый элемент (например, `<div class="d-none" ...>`) с атрибутами из `turbo_stream_listen(turbo_stream_topics(), ...)`.
 
 Источник истины по контракту: `docs/architecture/module/source-status-live-updates-worker-web.md`.
 
@@ -88,6 +88,113 @@
 - Web toast уведомления получают JSON payload и рендерятся через JS (`notification-toast_controller.js`).
 - Turbo Streams применяется, когда backend публикует HTML `<turbo-stream>` и нужно автоматическое обновление DOM.
 - Для toast-уведомлений UI строится вручную (Bootstrap Toast), поэтому используется прямой EventSource, а не `turbo_stream_listen()`.
+
+### 6.4 Важная тонкость Turbo 8 для SSE-подписки
+
+- Не использовать `<turbo-stream-source {{ turbo_stream_listen(...) }}>` как носитель атрибутов Stimulus/Mercure.
+- Причина: Web Component `turbo-stream-source` из Turbo (`@hotwired/turbo`) открывает `EventSource(this.src)` и не использует `data-controller`.
+- Если у элемента нет `src`, браузер может открыть SSE на текущую страницу (`/invitations`, `/sources`, ...), что приводит к ошибке:
+  `EventSource's response has a MIME type ("text/html") that is not "text/event-stream"`.
+- Безопасный паттерн:
+  использовать обычный элемент (`div`/`span`) с атрибутами `turbo_stream_listen(...)`, чтобы подписку создавал контроллер `symfony/ux-turbo/mercure-turbo-stream`.
+
+### 6.5 Postmortem: `ERR_NETWORK_CHANGED` на `/invitations` (Mercure SSE)
+
+- Симптом:
+  в браузере периодически появлялось `GET /.well-known/mercure?... net::ERR_NETWORK_CHANGED 200 (OK)` для topic-ов `notifications/users/{uuid}` и `source-status/users/{uuid}`.
+- Диагностика по контейнерам:
+  `traefik` / `nginx` / `mercure` стабильно отдавали `200` с `text/event-stream`, но в `mercure` наблюдался цикл `Subscriber disconnected -> New subscriber` (клиентский reconnect).
+- Причина:
+  проблема была на стыке long-lived SSE и proxy-транспорта (Traefik -> Nginx -> Mercure): переключения/особенности transport layer и idle-поведение давали разрывы потока без серверной ошибки.
+
+Обязательные настройки (не откатывать):
+
+- `devops/nginx/conf.d/dev/task.conf` и `devops/nginx/conf.d/e2e/task.conf` для `location ^~ /.well-known/mercure`:
+  `proxy_http_version 1.1`, `proxy_set_header Connection ""`, `proxy_buffering off`, `proxy_request_buffering off`, `proxy_cache off`, `chunked_transfer_encoding off`, `proxy_read_timeout 1h`, `proxy_send_timeout 1h`, `add_header X-Accel-Buffering no`.
+- Там же:
+  `proxy_hide_header Alt-Svc;` и `add_header Alt-Svc "clear" always;` (не пробрасывать upstream hints браузеру для этого SSE path).
+- `compose.yaml` и `compose.e2e.yaml` (`mercure.environment.MERCURE_EXTRA_DIRECTIVES`):
+  `heartbeat 15s` и `write_timeout 0s`.
+- `devops/traefik/dynamic.yml`:
+  `tls.options.default.alpnProtocols: [http/1.1]` для dev TLS entrypoint, чтобы убрать нестабильный SSE over HTTP/2 в локальном контуре.
+
+Проверка после изменений:
+
+- Header check:
+  `/.well-known/mercure?...` должен возвращать `Content-Type: text/event-stream` и `Alt-Svc: clear`.
+- Runtime check:
+  в `make logs-traefik`, `make logs-nginx`, `make logs-mercure` не должно быть 4xx/5xx по SSE path, а длительность соединений должна быть длительной и с корректным reconnect без консольных ошибок.
+- E2E check:
+  `make tests-e2e-invitations-mercure-stability DURATION_SEC=...`.
+
+### 6.6 Production Runbook: настройка и проверка Mercure
+
+Цель: стабильный long-lived SSE без `MIME text/html` и без массовых `ERR_NETWORK_CHANGED`.
+
+#### 6.6.1 Базовая схема в production
+
+- Web app и Mercure должны быть доступны через один публичный origin (рекомендуемо):
+  `https://<app-domain>/.well-known/mercure`.
+- Внешний трафик: `Client -> Edge proxy (Traefik/Ingress/Nginx) -> Nginx app -> Mercure hub`.
+- Все прокси на SSE path должны работать в passthrough-режиме потока, без буферизации.
+
+#### 6.6.2 Обязательные настройки proxy для `/.well-known/mercure`
+
+Для каждого proxy-hop (edge и внутренний Nginx), где это применимо:
+
+- `proxy_http_version 1.1`
+- `proxy_set_header Connection ""`
+- `proxy_buffering off`
+- `proxy_request_buffering off`
+- `proxy_cache off`
+- `chunked_transfer_encoding off`
+- `proxy_read_timeout 1h` (или выше)
+- `proxy_send_timeout 1h` (или выше)
+- `add_header X-Accel-Buffering no`
+- Не пробрасывать Alt-Svc от upstream для SSE path:
+  `proxy_hide_header Alt-Svc;`
+  `add_header Alt-Svc "clear" always;`
+
+Если в контуре наблюдаются нестабильности SSE over HTTP/2, зафиксировать ALPN до HTTP/1.1 на входном TLS-роуте для app domain.
+
+#### 6.6.3 Обязательные настройки Mercure hub
+
+- `heartbeat 15s` (регулярный keepalive по потоку)
+- `write_timeout 0s` (не обрывать long-lived стрим по write timeout)
+- Корректные `publisher/subscriber` JWT key pair.
+- `CORS` и `publish_origins` только для доверенных origin.
+
+#### 6.6.4 Cookie/JWT авторизация подписчика
+
+- Cookie `mercureAuthorization` должна быть:
+  - `Path=/.well-known/mercure`
+  - `Secure`
+  - `HttpOnly`
+  - `SameSite` в соответствии с моделью доменов (для same-origin обычно `Strict`/`Lax`).
+- В браузере запрос к `/.well-known/mercure` должен уходить с этой cookie.
+
+#### 6.6.5 Проверка после deploy (smoke + stability)
+
+1. Проверить заголовки SSE endpoint:
+   `curl -k --http1.1 -I 'https://<app-domain>/.well-known/mercure?topic=<urlencoded-topic>'`
+   Ожидаемо: `200`, `Content-Type: text/event-stream`, `Alt-Svc: clear`.
+2. Проверить, что endpoint не возвращает HTML:
+   `curl -k --http1.1 -N 'https://<app-domain>/.well-known/mercure?topic=<urlencoded-topic>'`
+   Поток должен оставаться открытым и не содержать HTML-страницу приложения.
+3. В браузере (DevTools -> Network -> `mercure`):
+   - активные EventSource-запросы со статусом `200`;
+   - нет ошибок `MIME type ("text/html")`;
+   - нет повторяющихся reconnect-штормов.
+4. В приложении выполнить действие, генерирующее live update (toast/source-status), и убедиться, что событие приходит в открытый SSE stream.
+5. Наблюдать 15-30 минут:
+   - в логах edge/nginx/mercure нет 4xx/5xx на SSE path;
+   - нет массовых циклов `Subscriber disconnected -> New subscriber` без пользовательской активности.
+
+#### 6.6.6 Анти-регрессия
+
+- Не удалять и не ослаблять настройки из секции `6.5`.
+- При изменениях proxy или TLS обязательно повторять smoke + stability проверку.
+- Длинные e2e stability-тесты Mercure держать отдельным запуском (вне общего быстрого e2e-пайплайна).
 
 ## 7. Основные сущности и точки расширения
 
@@ -107,7 +214,7 @@
 
 ### Infrastructure / Integration
 - `MercureNotificationBroadcaster`, `MercureSourceStatusBroadcaster`
-- `NullNotificationBroadcaster`, `NullSourceStatusBroadcaster`
+- `NullNotificationBroadcaster`
 - `BroadcastOnSourceStatusChangedListener`
 - `RenderSourceStatusTurboStreamService`
 

@@ -1,5 +1,3 @@
-[![Read in English](https://img.shields.io/badge/Lang-English-blue)](team_lead.en.md)
-
 # Team Lead (`Лид`)
 
 # Поведенческий профиль
