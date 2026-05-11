@@ -55,11 +55,6 @@
 * `Девопс посмотри правки в devops/nginx/conf.d/dev/task.conf, всё ли нам там нужно? не переусложняем?`
 * `Фронтендер сделай ревью файлу apps/web/assets/controllers/notification-toast_controller.js`
 
-**Примеры обращения к ролям в запросе:**
-* `Бэкендер возьми в работу задачу из todo/EPIC-status-page.todo.md`
-* `Девопс посмотри правки в devops/nginx/conf.d/dev/task.conf, всё ли нам там нужно? не переусложняем?`
-* `Фронтендер сделай ревью файлу apps/web/assets/controllers/notification-toast_controller.js`
-
 ## 📝 Управление задачами (Todo)
 
 Для постановки задач используется файловая система (File-based Task Management) в директории [`todo/`](./todo/). Это позволяет давать агенту задачи как часть контекста проекта.
