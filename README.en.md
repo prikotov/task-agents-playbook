@@ -241,8 +241,8 @@ Companion packages implementing individual elements of the approach:
 |---------|----------|
 | [prikotov/coding-standard](https://github.com/prikotov/coding-standard) | Conventions — coding standards describing principles, patterns, layers, modules and structure of a Symfony application. Automated checks (PHPCS, Deptrac, PHPStan) enforce compliance with conventions |
 | [prikotov/todo-md](https://github.com/prikotov/todo-md) | Task management system: tasks stored as markdown files with YAML front matter, statuses changed by moving between folders, templates and references help AI agents create and track tasks |
-| [prikotov/task-orchestrator](https://github.com/prikotov/task-orchestrator) | Console agent orchestrator: roles with behavioral profiles (DISC, Big Five), skills, sub-agents in isolated context, step chains in YAML, role validation |
 | [prikotov/git-workflow](https://github.com/prikotov/git-workflow) | Git workflow rules: branch naming, commit format (Conventional Commits), pull request process, code review, release, deploy and secrets protection |
+| [prikotov/task-orchestrator](https://github.com/prikotov/task-orchestrator) | Console agent orchestrator: roles with behavioral profiles (DISC, Big Five), skills, sub-agents in isolated context, step chains in YAML, role validation |
 
 More about how and why I arrived at this approach — in the article: [«AI coding agents: how I prepared the project»](https://prikotov.pro/blog/ii-agenty-dlya-programmirovaniya-kak-ya-podgotovil-proekt) (in Russian).
 
