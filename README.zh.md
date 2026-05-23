@@ -241,8 +241,8 @@ flowchart LR
 |-------|----------|
 | [prikotov/coding-standard](https://github.com/prikotov/coding-standard) | 慣例——描述 Symfony 應用原則、模式、層級、模組與結構的編碼標準。自動化檢查（PHPCS、Deptrac、PHPStan）確保遵循慣例 |
 | [prikotov/todo-md](https://github.com/prikotov/todo-md) | 任務管理系統：任務以帶有 YAML front matter 的 markdown 檔案儲存，透過在資料夾間移動改變狀態，模板與參考資料協助 AI 代理建立與追蹤任務 |
-| [prikotov/task-orchestrator](https://github.com/prikotov/task-orchestrator) | 主控台代理編排器：具行為輪廓（DISC、Big Five）的角色、技能、隔離上下文子代理、YAML 步驟鏈、角色驗證 |
 | [prikotov/git-workflow](https://github.com/prikotov/git-workflow) | Git 工作流程規則：分支命名、提交格式（Conventional Commits）、拉取請求流程、程式碼審查、發布、部署與密鑰保護 |
+| [prikotov/task-orchestrator](https://github.com/prikotov/task-orchestrator) | 主控台代理編排器：具行為輪廓（DISC、Big Five）的角色、技能、隔離上下文子代理、YAML 步驟鏈、角色驗證 |
 
 關於我如何以及為何採用此方法的詳細說明，請參閱文章：[「AI 程式設計代理：我如何準備專案」](https://prikotov.pro/blog/ii-agenty-dlya-programmirovaniya-kak-ya-podgotovil-proekt)（俄文）。
 
