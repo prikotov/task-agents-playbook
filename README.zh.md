@@ -233,7 +233,7 @@ flowchart LR
 
 此指南的方法論已實作為一組 Composer 套件——每個套件分別實現了方法的特定元素（慣例、任務、角色、git 工作流程）。在此基礎上組成了可直接使用的專案骨架：
 
-**[prikotov/symfony-ddd-ai-skeleton](https://github.com/prikotov/symfony-ddd-ai-skeleton)** —— 可重複使用的 Symfony 8 / PHP 8.4 骨架，具備模組化 DDD/CQRS、多應用核心、適應 AI 代理的工作流程（`AGENTS.md`、角色、慣例、todo-md）及內建自動化品質檢查（`make check`）。適合作為領域複雜、模組化架構與 DDD 有助於管理複雜度的專案起點。
+**[prikotov/symfony-ddd-ai-skeleton](https://github.com/prikotov/symfony-ddd-ai-skeleton)** —— 以 Symfony 8 / PHP 8.4 為基礎的專案範本，具備模組化 DDD/CQRS、多應用核心、適應 AI 代理的工作流程（`AGENTS.md`、角色、慣例、todo-md）及內建自動化品質檢查（`make check`）。適合作為領域複雜、模組化架構與 DDD 有助於管理複雜度的專案起點。
 
 實現方法各元素的配套套件：
 

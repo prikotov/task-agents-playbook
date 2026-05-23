@@ -233,7 +233,7 @@ To better understand how these rules work in practice, you can examine real arti
 
 This guide's methodology is implemented as a set of Composer packages — each one instrumentally embodies a specific element of the approach (conventions, tasks, roles, git workflow). Together they form a ready-to-use project skeleton:
 
-**[prikotov/symfony-ddd-ai-skeleton](https://github.com/prikotov/symfony-ddd-ai-skeleton)** — a reusable Symfony 8 / PHP 8.4 skeleton with modular DDD/CQRS, multi-app kernel, AI-agent-friendly workflow (`AGENTS.md`, roles, conventions, todo-md) and built-in automated quality checks (`make check`). Suitable as a starting point for projects with a complex domain where modular architecture and DDD help manage complexity.
+**[prikotov/symfony-ddd-ai-skeleton](https://github.com/prikotov/symfony-ddd-ai-skeleton)** — a project boilerplate on Symfony 8 / PHP 8.4 with modular DDD/CQRS, multi-app kernel, AI-agent-friendly workflow (`AGENTS.md`, roles, conventions, todo-md) and built-in automated quality checks (`make check`). Suitable as a starting point for projects with a complex domain where modular architecture and DDD help manage complexity.
 
 Companion packages implementing individual elements of the approach:
 
