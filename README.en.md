@@ -170,6 +170,20 @@ flowchart LR
 
 The value of this process is in separating stages. The agent doesn't do everything in one jump: first it implements, then checks itself, then passes the result to another role, and only then hands it to the human for final review. This separation of stages, combined with preliminary task planning, improves implementation quality and reduces the time the human spends on final review.
 
+### Final Review
+
+At final review I look not so much at the implementation itself, but at whether the code follows project rules: conventions, module isolation, `High cohesion, low coupling`, bounded contexts and ubiquitous language of the domain.
+
+I also check what hasn't yet been moved into deterministic tools: strange decisions, unnecessary complexity, security violations and obvious nonsense. If something seems off, I usually ask the agent why it did it that way. Then I either agree or the agent reworks it.
+
+I barely look at test code: I open it rarely, when I need to verify a specific scenario or a test failure cause.
+
+I separately check PR formatting. For example, I want the agent to label its PRs — these labels feed into reports on the share of agent work.
+
+I read changes to agent rules more carefully than regular code. A good rule pays off greatly, but agents don't always write good rules for themselves: often verbose and off-point. I think this can be improved by spending time teaching agents to write such rules better. For now I prefer to proofread these changes by hand.
+
+At final review I also capture recurring agent mistakes. These later become new rules, checks and process refinements.
+
 ### Continuous Improvement Process (Retrospective)
 
 This process aims to continuously increase the agent's autonomy and work quality. It closes the development loop by transforming identified problems into updated standards and automated checks.
