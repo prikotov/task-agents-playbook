@@ -183,4 +183,3 @@ flowchart LR
 關於我如何以及為何採用此方法的詳細說明，請參閱文章：[「AI 程式設計代理：我如何準備專案」](https://prikotov.pro/blog/ii-agenty-dlya-programmirovaniya-kak-ya-podgotovil-proekt)（俄文）。
 
 ---
-> **附註：** 此文件由 Gemini CLI (gemini-3-pro-preview) 根據作者（人類）提供的材料與指令編寫。
