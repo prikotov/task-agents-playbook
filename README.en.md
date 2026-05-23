@@ -75,26 +75,45 @@ I no longer write code by hand — only minor edits and markdown documents. But 
 
 ### Task Setting Process
 
-1. **Request.** I make a request to the AI agent. Example: `Take on the role of an analyst. I need a status page for the project, create an epic for this task.`
-2. **Generation.** The agent loads the role, task setting requirements, and templates — and generates the task text.
-3. **Self-review.** I ask the agent to check itself. If a specific direction (architect, devops, frontend/backend developer) needs work, I ask it to take the corresponding role.
-4. **Refinement.** If there are comments, I ask for corrections and we return to step 2.
-5. **PR Creation.** If everything is fine, I ask the agent to create a PR.
-6. **Final Review.** I check the task setting myself, going through "comment — correction" iterations with the agent.
-7. **Closing.** I merge the PR and inform the agent. It deletes the branch, switches to master, selects the next task, and proposes to start.
+Work usually begins with setting a task or epic. Code comes next.
+
+Example request:
+
+```
+Take on the role of an analyst. I need a status page for the project. Create an epic for this task.
+```
+
+The process is as follows:
+
+1. **Request.** I assign a role and a goal.
+2. **Generation.** The agent loads the role, task setting rules, templates and writes the epic.
+3. **Self-check.** I ask the agent to double-check itself and fix weak spots.
+4. **Review.** I ask another role to review the task: architect, reviewer, QA, devops.
+5. **PR Creation.** The agent puts changes on a separate branch and creates a PR.
+6. **Final Review.** I read the task myself and provide feedback.
+7. **Closing.** The agent merges the PR, deletes the branch, returns to master and waits for the next command.
 
 ```mermaid
 flowchart LR
-    A[Request] --> B[Generation]
-    B --> C[Self review]
-    C --> D{Any comments?}
-    D -->|Yes| B
-    D -->|No| E[Create PR]
-    E --> F[Final Review]
-    F --> G{Comments?}
-    G -->|Yes| F
-    G -->|No| H[Close]
+    A["Request"] --> B["Generation"]
+    B --> C["Self-check"]
+
+    C --> D["Review"]
+    C -.-> C1["Refinement"]
+    C1 -.-> C
+
+    D --> E["Create PR"]
+    D -.-> D1["Refinement"]
+    D1 -.-> D
+
+    E --> F["Final Review"]
+
+    F --> G["Closing"]
+    F -.-> F1["Refinement"]
+    F1 -.-> F
 ```
+
+A bad task almost guarantees a bad solution. A good task doesn't guarantee a perfect solution, but it reduces the "check → fix" cycle at final review.
 
 ### Task Implementation Process
 
