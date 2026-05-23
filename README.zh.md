@@ -209,7 +209,6 @@ flowchart LR
 
 > 遵循隔離變更原則很重要。不要一次改變所有內容——這樣無法追蹤特定修改的影響。改進應以小增量引入，並立即驗證效果。
 
-真實史詩與結果範例：[status page 史詩](https://github.com/prikotov/task-agents-playbook/blob/main/todo/EPIC-status-page.todo.md)及其在 [task.ai-aid.pro 上的實作](https://task.ai-aid.pro/status)。
 
 ## 📂 實作範例 (Implementation Examples)
 

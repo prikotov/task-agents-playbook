@@ -209,7 +209,6 @@ flowchart LR
 
 > It's important to follow the principle of isolated changes. Don't change everything at once — it's impossible to track the impact of a specific edit that way. Improvements should be introduced in small increments and the effect verified immediately.
 
-Example of a real epic and result: [status page epic](https://github.com/prikotov/task-agents-playbook/blob/main/todo/EPIC-status-page.todo.md) and its [implementation on task.ai-aid.pro](https://task.ai-aid.pro/status).
 
 ## 📂 Implementation Examples
 

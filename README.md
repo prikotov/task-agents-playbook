@@ -208,7 +208,6 @@ flowchart LR
 
 > Важно соблюдать принцип изолированных изменений. Не менять всё сразу — так невозможно отследить влияние конкретной правки. Улучшения нужно внедрять малыми порциями и сразу проверять эффект.
 
-Пример реального эпика и результата: [эпик status page](https://github.com/prikotov/task-agents-playbook/blob/main/todo/EPIC-status-page.todo.md) и его [реализация на task.ai-aid.pro](https://task.ai-aid.pro/status).
 
 ## 📂 Примеры реализации
 
