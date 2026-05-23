@@ -172,7 +172,7 @@ To better understand how these rules work in practice, you can examine real arti
 
 ## 📦 Practical Implementation (May 2026)
 
-A public skeleton and a set of specialized packages have been created following this playbook's principles:
+This playbook's methodology is implemented as a set of Composer packages — each one instrumentally embodies a specific element of the approach (conventions, tasks, roles, git workflow). Together they form a ready-to-use skeleton:
 
 More about how and why I arrived at this approach — in the article: [«AI coding agents: how I prepared the project»](https://prikotov.pro/blog/ii-agenty-dlya-programmirovaniya-kak-ya-podgotovil-proekt) (in Russian).
 

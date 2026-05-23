@@ -167,7 +167,7 @@ flowchart LR
 
 ## 📦 實際實作（2026 年 5 月）
 
-基於此攻略的原則，已建立一個公開的骨架（skeleton）及一組專門的套件：
+此攻略的方法論已實作為一組 Composer 套件——每個套件分別實現了方法的特定元素（慣例、任務、角色、git 工作流程）。在此基礎上組成了可直接使用的骨架：
 
 關於我如何以及為何採用此方法的詳細說明，請參閱文章：[「AI 程式設計代理：我如何準備專案」](https://prikotov.pro/blog/ii-agenty-dlya-programmirovaniya-kak-ya-podgotovil-proekt)（俄文）。
 
