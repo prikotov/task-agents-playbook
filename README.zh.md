@@ -164,4 +164,23 @@ flowchart LR
 [在我的部落格中](https://prikotov.pro/blog/pervyi-opyt-s-glm-5-koding-cherez-kilo-code#primer-raboty-v-kilo-code) —— 一個帶有螢幕截圖的真實 AI 代理會話詳細流程：從請求到完成 PR。展示了代理如何在實踐中與此攻略協作。
 
 ---
+
+## 📦 實際實作（2026 年 5 月）
+
+基於此攻略的原則，已建立一個公開的骨架（skeleton）及一組專門的套件：
+
+關於我如何以及為何採用此方法的詳細說明，請參閱文章：[「AI 程式設計代理：我如何準備專案」](https://prikotov.pro/blog/ii-agenty-dlya-programmirovaniya-kak-ya-podgotovil-proekt)（俄文）。
+
+**[prikotov/symfony-ddd-ai-skeleton](https://github.com/prikotov/symfony-ddd-ai-skeleton)** —— 可重複使用的 Symfony 8 / PHP 8.4 骨架，具備模組化 DDD/CQRS、多應用核心、AI 友善工作流程（`AGENTS.md`、角色、慣例、todo-md）及內建品質閘門（`make check`）。可隨時複製並適用於任何專案。
+
+實作攻略中各個元素的基礎設施套件：
+
+| 套件 | 用途 |
+|-------|----------|
+| [prikotov/coding-standard](https://github.com/prikotov/coding-standard) | PHPCS 標準：VO、DTO、enum、service、command/query handler 的嗅探器；文件與慣例驗證器 |
+| [prikotov/todo-md](https://github.com/prikotov/todo-md) | 檔案式任務管理：狀態、優先級、類型、模板、驗證 |
+| [prikotov/task-orchestrator](https://github.com/prikotov/task-orchestrator) | AI 代理角色驗證與編排 |
+| [prikotov/git-workflow](https://github.com/prikotov/git-workflow) | Git 工作流程：分支、提交（Conventional Commits）、PR、發布 |
+
+---
 > **附註：** 此文件由 Gemini CLI (gemini-3-pro-preview) 根據作者（人類）提供的材料與指令編寫。
