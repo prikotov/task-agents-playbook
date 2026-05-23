@@ -167,17 +167,17 @@ flowchart LR
 
 ## 📦 實際實作（2026 年 5 月）
 
-此攻略的方法論已實作為一組 Composer 套件——每個套件分別實現了方法的特定元素（慣例、任務、角色、git 工作流程）。在此基礎上組成了可直接使用的骨架：
+此指南的方法論已實作為一組 Composer 套件——每個套件分別實現了方法的特定元素（慣例、任務、角色、git 工作流程）。在此基礎上組成了可直接使用的專案骨架：
 
-**[prikotov/symfony-ddd-ai-skeleton](https://github.com/prikotov/symfony-ddd-ai-skeleton)** —— 可重複使用的 Symfony 8 / PHP 8.4 骨架，具備模組化 DDD/CQRS、多應用核心、AI 友善工作流程（`AGENTS.md`、角色、慣例、todo-md）及內建品質閘門（`make check`）。可隨時複製並適用於任何專案。
+**[prikotov/symfony-ddd-ai-skeleton](https://github.com/prikotov/symfony-ddd-ai-skeleton)** —— 可重複使用的 Symfony 8 / PHP 8.4 骨架，具備模組化 DDD/CQRS、多應用核心、適應 AI 代理的工作流程（`AGENTS.md`、角色、慣例、todo-md）及內建自動化品質檢查（`make check`）。適合作為領域複雜、模組化架構與 DDD 有助於管理複雜度的專案起點。
 
-實作攻略中各個元素的基礎設施套件：
+實現方法各元素的配套套件：
 
 | 套件 | 用途 |
 |-------|----------|
 | [prikotov/coding-standard](https://github.com/prikotov/coding-standard) | 慣例——描述 Symfony 應用原則、模式、層級、模組與結構的編碼標準。自動化檢查（PHPCS、Deptrac、PHPStan）確保遵循慣例 |
 | [prikotov/todo-md](https://github.com/prikotov/todo-md) | 任務管理系統：任務以帶有 YAML front matter 的 markdown 檔案儲存，透過在資料夾間移動改變狀態，模板與參考資料協助 AI 代理建立與追蹤任務 |
-| [prikotov/task-orchestrator](https://github.com/prikotov/task-orchestrator) | CLI 代理編排器：具行為輪廓（DISC、Big Five）的角色、技能、乾淨上下文子代理、YAML 鏈配置、角色驗證 |
+| [prikotov/task-orchestrator](https://github.com/prikotov/task-orchestrator) | 主控台代理編排器：具行為輪廓（DISC、Big Five）的角色、技能、隔離上下文子代理、YAML 步驟鏈、角色驗證 |
 | [prikotov/git-workflow](https://github.com/prikotov/git-workflow) | Git 工作流程規則：分支命名、提交格式（Conventional Commits）、拉取請求流程、程式碼審查、發布、部署與密鑰保護 |
 
 關於我如何以及為何採用此方法的詳細說明，請參閱文章：[「AI 程式設計代理：我如何準備專案」](https://prikotov.pro/blog/ii-agenty-dlya-programmirovaniya-kak-ya-podgotovil-proekt)（俄文）。
