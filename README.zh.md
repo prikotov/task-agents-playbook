@@ -177,10 +177,10 @@ flowchart LR
 
 | 套件 | 用途 |
 |-------|----------|
-| [prikotov/coding-standard](https://github.com/prikotov/coding-standard) | PHPCS 標準：VO、DTO、enum、service、command/query handler 的嗅探器；文件與慣例驗證器 |
-| [prikotov/todo-md](https://github.com/prikotov/todo-md) | 檔案式任務管理：狀態、優先級、類型、模板、驗證 |
-| [prikotov/task-orchestrator](https://github.com/prikotov/task-orchestrator) | AI 代理角色驗證與編排 |
-| [prikotov/git-workflow](https://github.com/prikotov/git-workflow) | Git 工作流程：分支、提交（Conventional Commits）、PR、發布 |
+| [prikotov/coding-standard](https://github.com/prikotov/coding-standard) | 編碼標準：PHPCS 嗅探器（DTO、VO、Enum、CommandHandler、UseCase、QueryHandler）、Deptrac 規則（層級與模組隔離）、PHPStan 規則、配置範本與慣例文件 |
+| [prikotov/todo-md](https://github.com/prikotov/todo-md) | 檔案式看板：YAML front matter（狀態、優先級、複雜度、類型）、任務與史詩模板、驗證、AI 代理任務撰寫指南 |
+| [prikotov/task-orchestrator](https://github.com/prikotov/task-orchestrator) | CLI 代理編排器：具行為輪廓（DISC、Big Five）的角色、技能、乾淨上下文子代理、YAML 鏈配置、角色驗證 |
+| [prikotov/git-workflow](https://github.com/prikotov/git-workflow) | Git 工作流程：分支、提交（Conventional Commits）、拉取請求、程式碼審查、發布（SemVer、CHANGELOG）、部署、密鑰（Gitleaks） |
 
 ---
 > **附註：** 此文件由 Gemini CLI (gemini-3-pro-preview) 根據作者（人類）提供的材料與指令編寫。

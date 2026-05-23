@@ -182,7 +182,7 @@ Infrastructure packages implementing individual playbook elements:
 
 | Package | Purpose |
 |---------|----------|
-| [prikotov/coding-standard](https://github.com/prikotov/coding-standard) | PHPCS standard: sniffs for VO, DTO, enum, service, command/query handler; doc and convention validators |
-| [prikotov/todo-md](https://github.com/prikotov/todo-md) | File-based task management: statuses, priorities, types, templates, validation |
-| [prikotov/task-orchestrator](https://github.com/prikotov/task-orchestrator) | AI agent role validation and orchestration |
-| [prikotov/git-workflow](https://github.com/prikotov/git-workflow) | Git workflow: branches, commits (Conventional Commits), PRs, releases |
+| [prikotov/coding-standard](https://github.com/prikotov/coding-standard) | Coding standard: PHPCS sniffs (DTO, VO, Enum, CommandHandler, UseCase, QueryHandler), Deptrac rules (layer and module isolation), PHPStan rules, config templates and convention docs |
+| [prikotov/todo-md](https://github.com/prikotov/todo-md) | File-based kanban board: YAML front matter (statuses, priorities, complexity, types), task and epic templates, validation, task writing guide for AI agents |
+| [prikotov/task-orchestrator](https://github.com/prikotov/task-orchestrator) | CLI agent orchestrator: roles with behavioral profiles (DISC, Big Five), skills, sub-agents with clean context, YAML chain configs, role validation |
+| [prikotov/git-workflow](https://github.com/prikotov/git-workflow) | Git workflow: branches, commits (Conventional Commits), pull requests, code review, releases (SemVer, CHANGELOG), deploy, secrets (Gitleaks) |

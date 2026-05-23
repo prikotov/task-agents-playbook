@@ -176,10 +176,10 @@ flowchart LR
 
 | Пакет | Назначение |
 |-------|------------|
-| [prikotov/coding-standard](https://github.com/prikotov/coding-standard) | PHPCS-стандарт: сниффы для VO, DTO, enum, service, command/query handler; валидаторы документации и конвенций |
-| [prikotov/todo-md](https://github.com/prikotov/todo-md) | Файловая система управления задачами: статусы, приоритеты, типы, шаблоны, валидация |
-| [prikotov/task-orchestrator](https://github.com/prikotov/task-orchestrator) | Валидация и оркестрация ролей AI-агентов в проекте |
-| [prikotov/git-workflow](https://github.com/prikotov/git-workflow) | Git-процесс: ветки, коммиты (Conventional Commits), PR, релизы |
+| [prikotov/coding-standard](https://github.com/prikotov/coding-standard) | Стандарт кодирования: PHPCS-сниффы (DTO, VO, Enum, CommandHandler, UseCase, QueryHandler), Deptrac-правила (изоляция слоёв и модулей), PHPStan-правила, шаблоны конфигураций и документация конвенций |
+| [prikotov/todo-md](https://github.com/prikotov/todo-md) | Файловый канбан задач: YAML front matter (статусы, приоритеты, сложность, типы), шаблоны задач и эпиков, валидация, руководство по постановке задач для AI-агентов |
+| [prikotov/task-orchestrator](https://github.com/prikotov/task-orchestrator) | Оркестратор CLI-агентов: роли с поведенческими профилями (DISC, Big Five), скиллы, сабагенты в чистом контексте, YAML-конфиги цепочек, валидация ролей |
+| [prikotov/git-workflow](https://github.com/prikotov/git-workflow) | Git-процесс: ветки, коммиты (Conventional Commits), пулреквесты, кодревью, релизы (SemVer, CHANGELOG), деплой, секреты (Gitleaks) |
 
 ---
 > **Примечание:** Этот документ составлен с помощью Gemini CLI (gemini-3-pro-preview) на основе материалов и инструкций, предоставленных автором (человеком).
