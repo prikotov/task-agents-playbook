@@ -176,7 +176,7 @@ flowchart LR
 |-------|------------|
 | [prikotov/coding-standard](https://github.com/prikotov/coding-standard) | Конвенции — стандарты кодирования, описывающие принципы, паттерны, слои, модули и структуру Symfony-приложения. Автоматические проверки (PHPCS, Deptrac, PHPStan) контролируют следование конвенциям |
 | [prikotov/todo-md](https://github.com/prikotov/todo-md) | Система управления задачами: задачи хранятся как markdown-файлы с YAML front matter, статусы меняются перемещением между папками, шаблоны и справочники помогают AI-агентам ставить и вести задачи |
-| [prikotov/task-orchestrator](https://github.com/prikotov/task-orchestrator) | Оркестратор консольных агентов: роли с поведенческими профилями (DISC, Big Five), навыки, дочерние агенты в чистом контексте, цепочки шагов в YAML, проверка ролей |
+| [prikotov/task-orchestrator](https://github.com/prikotov/task-orchestrator) | Оркестратор консольных агентов: роли с поведенческими профилями (DISC, Big Five), навыки, дочерние агенты в изолированном контексте, цепочки шагов в YAML, проверка ролей |
 | [prikotov/git-workflow](https://github.com/prikotov/git-workflow) | Правила работы с Git: именование веток, формат коммитов (Conventional Commits), порядок проведения запросов на слияние, рецензирования кода, выпуска релизов, развёртывания и защиты секретов |
 
 Подробнее о том, как и почему я пришёл к этому подходу — в статье: [«AI-агенты для программирования: как я подготовил проект»](https://prikotov.pro/blog/ii-agenty-dlya-programmirovaniya-kak-ya-podgotovil-proekt).
