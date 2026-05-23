@@ -229,7 +229,7 @@ To better understand how these rules work in practice, you can examine real arti
 
 ---
 
-## 📦 Practical Implementation (May 2026)
+## 📦 Update — May 23, 2026
 
 This guide's methodology is implemented as a set of Composer packages — each one instrumentally embodies a specific element of the approach (conventions, tasks, roles, git workflow). Together they form a ready-to-use project skeleton:
 
