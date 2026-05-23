@@ -224,7 +224,7 @@ flowchart LR
 
 ### 📸 Пример работы со скриншотами
 
-[В моём блоге](https://prikotov.pro/blog/pervyi-opyt-s-glm-5-koding-cherez-kilo-code#primer-raboty-v-kilo-code) — подробный разбор реальной сессии с ИИ-агентом со скриншотами: от запроса до готового PR. Показываю, как агент работает с этим playbook на практике.
+[В моём блоге](https://prikotov.pro/blog/pervyi-opyt-s-glm-5-koding-cherez-kilo-code#primer-raboty-v-kilo-code) — подробный разбор реальной сессии с ИИ-агентом со скриншотами: от запроса до готового PR. Показываю, как агент работает с этим руководством на практике.
 
 ---
 

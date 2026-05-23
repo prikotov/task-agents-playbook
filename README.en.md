@@ -245,3 +245,5 @@ Companion packages implementing individual elements of the approach:
 | [prikotov/git-workflow](https://github.com/prikotov/git-workflow) | Git workflow rules: branch naming, commit format (Conventional Commits), pull request process, code review, release, deploy and secrets protection |
 
 More about how and why I arrived at this approach — in the article: [«AI coding agents: how I prepared the project»](https://prikotov.pro/blog/ii-agenty-dlya-programmirovaniya-kak-ya-podgotovil-proekt) (in Russian).
+
+---
