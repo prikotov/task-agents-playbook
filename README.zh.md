@@ -161,7 +161,7 @@ flowchart LR
 
 ### 📸 附帶螢幕截圖的範例
 
-[在我的部落格中](https://prikotov.pro/blog/pervyi-opyt-s-glm-5-koding-cherez-kilo-code#primer-raboty-v-kilo-code) —— 一個帶有螢幕截圖的真實 AI 代理會話詳細流程：從請求到完成 PR。展示了代理如何在實踐中與此攻略協作。
+[在我的部落格中](https://prikotov.pro/blog/pervyi-opyt-s-glm-5-koding-cherez-kilo-code#primer-raboty-v-kilo-code)（俄文） —— 一個帶有螢幕截圖的真實 AI 代理會話詳細流程：從請求到完成 PR。展示了代理如何在實踐中與此攻略協作。
 
 ---
 
