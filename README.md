@@ -166,18 +166,18 @@ flowchart LR
 
 ## 📦 Практическая реализация (май 2026)
 
-Методология этого playbook реализована в виде набора Composer-пакетов — каждый инструментально воплощает отдельный элемент подхода (конвенции, задачи, роли, git-процесс). На их основе собран готовый к использованию skeleton:
+Методология этого руководства реализована в виде набора Composer-пакетов — каждый инструментально воплощает отдельный элемент подхода (конвенции, задачи, роли, git-процесс). На их основе собран готовый к использованию каркас проекта:
 
-**[prikotov/symfony-ddd-ai-skeleton](https://github.com/prikotov/symfony-ddd-ai-skeleton)** — reusable Symfony 8 / PHP 8.4 skeleton с модульным DDD/CQRS, multi-app ядром, AI-friendly workflow (`AGENTS.md`, роли, конвенции, todo-md) и встроенным quality gate (`make check`). Готов к клонированию и адаптации под любой проект.
+**[prikotov/symfony-ddd-ai-skeleton](https://github.com/prikotov/symfony-ddd-ai-skeleton)** — повторно используемый каркас на Symfony 8 / PHP 8.4 с модульным DDD/CQRS, ядром для нескольких приложений, адаптированным под работу с ИИ-агентами рабочим процессом (`AGENTS.md`, роли, конвенции, todo-md) и встроенным автоматическим контролем качества (`make check`). Готов к клонированию и адаптации под любой проект.
 
-Инфраструктурные пакеты, реализующие отдельные элементы playbook:
+Инфраструктурные пакеты, реализующие отдельные элементы подхода:
 
 | Пакет | Назначение |
 |-------|------------|
 | [prikotov/coding-standard](https://github.com/prikotov/coding-standard) | Конвенции — стандарты кодирования, описывающие принципы, паттерны, слои, модули и структуру Symfony-приложения. Автоматические проверки (PHPCS, Deptrac, PHPStan) контролируют следование конвенциям |
 | [prikotov/todo-md](https://github.com/prikotov/todo-md) | Система управления задачами: задачи хранятся как markdown-файлы с YAML front matter, статусы меняются перемещением между папками, шаблоны и справочники помогают AI-агентам ставить и вести задачи |
-| [prikotov/task-orchestrator](https://github.com/prikotov/task-orchestrator) | Оркестратор CLI-агентов: роли с поведенческими профилями (DISC, Big Five), скиллы, сабагенты в чистом контексте, YAML-конфиги цепочек, валидация ролей |
-| [prikotov/git-workflow](https://github.com/prikotov/git-workflow) | Правила git-процесса: именование веток, формат коммитов (Conventional Commits), порядок проведения пулреквестов, кодревью, релизов, деплоя и защиты секретов |
+| [prikotov/task-orchestrator](https://github.com/prikotov/task-orchestrator) | Оркестратор консольных агентов: роли с поведенческими профилями (DISC, Big Five), навыки, дочерние агенты в чистом контексте, цепочки шагов в YAML, проверка ролей |
+| [prikotov/git-workflow](https://github.com/prikotov/git-workflow) | Правила работы с Git: именование веток, формат коммитов (Conventional Commits), порядок проведения запросов на слияние, рецензирования кода, выпуска релизов, развёртывания и защиты секретов |
 
 Подробнее о том, как и почему я пришёл к этому подходу — в статье: [«AI-агенты для программирования: как я подготовил проект»](https://prikotov.pro/blog/ii-agenty-dlya-programmirovaniya-kak-ya-podgotovil-proekt).
 
