@@ -163,4 +163,21 @@ flowchart LR
 [В моём блоге](https://prikotov.pro/blog/pervyi-opyt-s-glm-5-koding-cherez-kilo-code#primer-raboty-v-kilo-code) — подробный разбор реальной сессии с ИИ-агентом со скриншотами: от запроса до готового PR. Показываю, как агент работает с этим playbook на практике.
 
 ---
+
+## 📦 Практическая реализация (май 2026)
+
+По принципам этого playbook создан публичный skeleton и набор специализированных пакетов:
+
+**[prikotov/symfony-ddd-ai-skeleton](https://github.com/prikotov/symfony-ddd-ai-skeleton)** — reusable Symfony 8 / PHP 8.4 skeleton с модульным DDD/CQRS, multi-app ядром, AI-friendly workflow (`AGENTS.md`, роли, конвенции, todo-md) и встроенным quality gate (`make check`). Готов к клонированию и адаптации под любой проект.
+
+Инфраструктурные пакеты, реализующие отдельные элементы playbook:
+
+| Пакет | Назначение |
+|-------|------------|
+| [prikotov/coding-standard](https://github.com/prikotov/coding-standard) | PHPCS-стандарт: сниффы для VO, DTO, enum, service, command/query handler; валидаторы документации и конвенций |
+| [prikotov/todo-md](https://github.com/prikotov/todo-md) | Файловая система управления задачами: статусы, приоритеты, типы, шаблоны, валидация |
+| [prikotov/task-orchestrator](https://github.com/prikotov/task-orchestrator) | Валидация и оркестрация ролей AI-агентов в проекте |
+| [prikotov/git-workflow](https://github.com/prikotov/git-workflow) | Git-процесс: ветки, коммиты (Conventional Commits), PR, релизы |
+
+---
 > **Примечание:** Этот документ составлен с помощью Gemini CLI (gemini-3-pro-preview) на основе материалов и инструкций, предоставленных автором (человеком).

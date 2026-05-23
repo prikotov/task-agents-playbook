@@ -167,3 +167,20 @@ To better understand how these rules work in practice, you can examine real arti
 ### 📸 Example with Screenshots
 
 [In my blog](https://prikotov.pro/blog/pervyi-opyt-s-glm-5-koding-cherez-kilo-code#primer-raboty-v-kilo-code) — a detailed walkthrough of a real AI agent session with screenshots: from request to finished PR. Shows how the agent works with this playbook in practice.
+
+---
+
+## 📦 Practical Implementation (May 2026)
+
+A public skeleton and a set of specialized packages have been created following this playbook's principles:
+
+**[prikotov/symfony-ddd-ai-skeleton](https://github.com/prikotov/symfony-ddd-ai-skeleton)** — a reusable Symfony 8 / PHP 8.4 skeleton with modular DDD/CQRS, multi-app kernel, AI-friendly workflow (`AGENTS.md`, roles, conventions, todo-md) and a built-in quality gate (`make check`). Ready to clone and adapt for any project.
+
+Infrastructure packages implementing individual playbook elements:
+
+| Package | Purpose |
+|---------|----------|
+| [prikotov/coding-standard](https://github.com/prikotov/coding-standard) | PHPCS standard: sniffs for VO, DTO, enum, service, command/query handler; doc and convention validators |
+| [prikotov/todo-md](https://github.com/prikotov/todo-md) | File-based task management: statuses, priorities, types, templates, validation |
+| [prikotov/task-orchestrator](https://github.com/prikotov/task-orchestrator) | AI agent role validation and orchestration |
+| [prikotov/git-workflow](https://github.com/prikotov/git-workflow) | Git workflow: branches, commits (Conventional Commits), PRs, releases |
