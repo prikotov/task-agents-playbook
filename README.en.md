@@ -174,6 +174,8 @@ To better understand how these rules work in practice, you can examine real arti
 
 A public skeleton and a set of specialized packages have been created following this playbook's principles:
 
+More about how and why I arrived at this approach — in the article: [«AI coding agents: how I prepared the project»](https://prikotov.pro/blog/ii-agenty-dlya-programmirovaniya-kak-ya-podgotovil-proekt) (in Russian).
+
 **[prikotov/symfony-ddd-ai-skeleton](https://github.com/prikotov/symfony-ddd-ai-skeleton)** — a reusable Symfony 8 / PHP 8.4 skeleton with modular DDD/CQRS, multi-app kernel, AI-friendly workflow (`AGENTS.md`, roles, conventions, todo-md) and a built-in quality gate (`make check`). Ready to clone and adapt for any project.
 
 Infrastructure packages implementing individual playbook elements:

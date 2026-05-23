@@ -168,6 +168,8 @@ flowchart LR
 
 По принципам этого playbook создан публичный skeleton и набор специализированных пакетов:
 
+Подробнее о том, как и почему я пришёл к этому подходу — в статье: [«AI-агенты для программирования: как я подготовил проект»](https://prikotov.pro/blog/ii-agenty-dlya-programmirovaniya-kak-ya-podgotovil-proekt).
+
 **[prikotov/symfony-ddd-ai-skeleton](https://github.com/prikotov/symfony-ddd-ai-skeleton)** — reusable Symfony 8 / PHP 8.4 skeleton с модульным DDD/CQRS, multi-app ядром, AI-friendly workflow (`AGENTS.md`, роли, конвенции, todo-md) и встроенным quality gate (`make check`). Готов к клонированию и адаптации под любой проект.
 
 Инфраструктурные пакеты, реализующие отдельные элементы playbook:
