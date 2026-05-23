@@ -184,22 +184,32 @@ flowchart LR
 
 在最終審核中，我也會記錄代理重複出現的錯誤。這些後來會成為新的規則、檢查和流程改進。
 
-### 持續改進流程 (回顧 / Retrospective)
+### 持續改進流程 (回顧)
 
-此流程旨在持續提高代理的自主性與工作品質。它通過將識別出的問題轉化為更新的標準與自動化檢查，來閉合開發循環。
+回顧的目的是提高代理的自主性與工作品質。我觀察哪些問題反覆出現，並將它們轉化為規則、檢查、模板或流程改進。
 
-1. **觀察 (Observation)。** 即時監控代理的工作。記錄在審核階段出現的任何猶豫、上下文誤解或錯誤。
-2. **分析 (Analysis)。** 識別浪費資源（時間、token）的重複錯誤模式。尋求系統性解決方案：如何修改指令或工具以防止錯誤再次發生。
-3. **改進 (Improvement)。** 對 `AGENTS.md`、任務模板或 linter 配置進行針對性修改。更新專案知識庫。
+循環如下：
+
+1. **觀察。** 在過程中和審核時觀察代理的工作。記錄失敗、上下文誤解、多餘操作和錯誤。
+2. **分析。** 找出浪費時間和 token 的重複模式。尋求系統性解決方案：在指令、模板或工具中改變什麼，才能讓錯誤不再發生。
+3. **改進。** 對 `AGENTS.md`、角色、任務模板、文件、linter 配置、Deptrac 規則、嗅探器或測試進行針對性修改。
 
 ```mermaid
 flowchart LR
-    A[觀察] --> B[分析]
-    B --> C[改進]
+    A["觀察"] --> B["分析"]
+    B --> C["改進"]
     C --> A
+
+    classDef start stroke:#1565c0,stroke-width:3px;
+    classDef finish stroke:#2e7d32,stroke-width:3px;
+
+    class A start;
+    class C finish;
 ```
 
-> **重要：** 堅持隔離變更原則。不要一次改變所有內容 —— 這會導致無法追蹤特定修改的影響。分小批次實施改進並立即驗證效果。
+> 遵循隔離變更原則很重要。不要一次改變所有內容——這樣無法追蹤特定修改的影響。改進應以小增量引入，並立即驗證效果。
+
+真實史詩與結果範例：[status page 史詩](https://github.com/prikotov/task-agents-playbook/blob/main/todo/EPIC-status-page.todo.md)及其在 [task.ai-aid.pro 上的實作](https://task.ai-aid.pro/status)。
 
 ## 📂 實作範例 (Implementation Examples)
 

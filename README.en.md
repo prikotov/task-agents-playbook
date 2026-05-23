@@ -186,20 +186,30 @@ At final review I also capture recurring agent mistakes. These later become new 
 
 ### Continuous Improvement Process (Retrospective)
 
-This process aims to continuously increase the agent's autonomy and work quality. It closes the development loop by transforming identified problems into updated standards and automated checks.
+Retrospectives are needed to increase the agent's autonomy and work quality. I look at which problems recur and turn them into rules, checks, templates or process clarifications.
 
-1. **Observation.** Monitor the agent's work in real-time. Record any hesitations, context misunderstandings, or errors that surface during the review stage.
-2. **Analysis.** Identify recurring error patterns that waste resources (time, tokens). Seek a systemic solution: how to modify instructions or tools to prevent the error from recurring.
-3. **Improvement.** Apply targeted edits to `AGENTS.md`, task templates, or linter configs. Update the project knowledge base.
+The cycle:
+
+1. **Observation.** I watch the agent's work during the process and at review. I note failures, context misunderstandings, unnecessary actions and errors.
+2. **Analysis.** I identify recurring patterns that waste time and tokens. I look for a systemic solution: what to change in an instruction, template or tool so the error doesn't recur.
+3. **Improvement.** I make a targeted edit to `AGENTS.md`, a role, task template, documentation, linter config, Deptrac rule, sniff or test.
 
 ```mermaid
 flowchart LR
-    A[Observation] --> B[Analysis]
-    B --> C[Improvement]
+    A["Observation"] --> B["Analysis"]
+    B --> C["Improvement"]
     C --> A
+
+    classDef start stroke:#1565c0,stroke-width:3px;
+    classDef finish stroke:#2e7d32,stroke-width:3px;
+
+    class A start;
+    class C finish;
 ```
 
-> **Important:** Adhere to the principle of isolated changes. Do not change everything at once — this makes it impossible to track the impact of a specific edit. Implement improvements in small batches and verify the effect immediately.
+> It's important to follow the principle of isolated changes. Don't change everything at once — it's impossible to track the impact of a specific edit that way. Improvements should be introduced in small increments and the effect verified immediately.
+
+Example of a real epic and result: [status page epic](https://github.com/prikotov/task-agents-playbook/blob/main/todo/EPIC-status-page.todo.md) and its [implementation on task.ai-aid.pro](https://task.ai-aid.pro/status).
 
 ## 📂 Implementation Examples
 
