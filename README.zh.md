@@ -75,76 +75,140 @@
 
 ### 任務設定流程
 
-1. **請求 (Request)。** 我向 AI 代理提出請求。範例：`Take on the role of an analyst. I need a status page for the project, create an epic for this task.`
-2. **生成 (Generation)。** 代理載入角色、任務設定要求與模板 —— 並生成任務文本。
-3. **自我審核 (Self-review)。** 我要求代理自我檢查。如果特定方向（架構、devops、前端/後端開發者）需要加強，我會要求它承擔相應的角色。
-4. **精煉 (Refinement)。** 如果有意見，我會要求修正，然後回到第 2 步。
-5. **建立 PR (PR Creation)。** 如果一切正常，我會要求代理建立 PR。
-6. **最終審核 (Final Review)。** 我親自檢查任務設定，與代理一起進行「意見 —— 修正」的迭代。
-7. **關閉 (Closing)。** 我合併 PR 並通知代理。它刪除分支，切換到 master，選擇下一個任務並提議開始。
+工作通常從設定任務或史詩開始。程式碼是下一步的事。
+
+請求範例：
+
+```
+Take on the role of an analyst. I need a status page for the project. Create an epic for this task.
+```
+
+流程如下：
+
+1. **請求。** 我指定角色與目標。
+2. **生成。** 代理載入角色、任務設定規則、模板並撰寫史詩。
+3. **自我檢查。** 我要求代理自我複查並修正薄弱之處。
+4. **審核。** 我請另一個角色審核任務：架構師、審查者、QA、devops。
+5. **建立 PR。** 代理將更改放在獨立分支上並建立 PR。
+6. **最終審核。** 我親自閱讀任務並提供反饋。
+7. **關閉。** 代理合併 PR、刪除分支、返回 master 並等待下一個命令。
 
 ```mermaid
 flowchart LR
-    A[請求] --> B[生成]
-    B --> C[自我審核]
-    C --> D{有意見嗎?}
-    D -->|有| B
-    D -->|沒有| E[建立 PR]
-    E --> F[最終審核]
-    F --> G{有意見嗎?}
-    G -->|有| F
-    G -->|沒有| H[關閉]
+    A["請求"] --> B["生成"]
+    B --> C["自我檢查"]
+
+    C --> D["審核"]
+    C -.-> C1["修正"]
+    C1 -.-> C
+
+    D --> E["建立 PR"]
+    D -.-> D1["修正"]
+    D1 -.-> D
+
+    E --> F["最終審核"]
+
+    F --> G["關閉"]
+    F -.-> F1["修正"]
+    F1 -.-> F
+
+    classDef start stroke:#1565c0,stroke-width:3px;
+    classDef finish stroke:#2e7d32,stroke-width:3px;
+
+    class A start;
+    class G finish;
 ```
+
+> *「寧可先浪費一天，之後五分鐘就到」*<br/>
+> *— 民間諺語*
+
+糟糕的任務幾乎注定導致糟糕的解決方案。好的任務不保證完美的解決方案，但能減少最終審核中「檢查 → 修正」的循環。
 
 ### 任務實作流程
 
-流程與任務設定類似，但代理在向我展示程式碼之前會獨立執行更多檢查。
+實作與規劃類似，只是代理更改的是程式碼而非任務文本。
 
-1. **請求 (Request)。** 範例：`You are a [Backend Developer](docs/agents/roles/team/backend_developer.en.md). Take the task todo/EPIC-status-page.todo.md to work.`
-2. **實作 (Implementation)。** 代理履行任務需求並自行執行檢查：測試 (PHPUnit)、靜態分析 (PHPMD, Deptrac, Psalm)、風格驗證 (PHP_CodeSniffer)、構建 (Composer)。這建立了一個自我驗證循環 —— 代理交付的程式碼已經足夠乾淨。
-3. **自我審核 (Self-review)。** 我要求代理檢查解決方案。我可以要求它承擔特定角色（架構師、devops、前端/後端開發者）並依序執行檢查。
-4. **精煉 (Refinement)。** 如果有意見，我會要求修正，然後回到第 2 步。
-5. **建立 PR (PR Creation)。** 如果一切正常，我會要求代理建立 PR。
-6. **最終審核 (Final Review)。** 我親自檢查程式碼，與代理一起進行「意見 —— 修正」的迭代。
-7. **關閉 (Closing)。** 我合併 PR 並通知代理。它刪除分支，切換到 master，選擇下一個任務。
-8. **積累 (Accumulation)。** 任務積累以進行發佈。
-9. **發佈準備 (Release Preparation)。** 我要求代理執行 e2e 測試並準備發佈：標籤 (tag)、變更日誌 (changelog)、在 GitHub 上發佈。
-10. **發佈 (Release)。** 我將其部署到生產環境 (prod)：配置、依賴項、遷移、重新啟動 supervisor。然後 —— 進行後期檢查。
+請求範例：
 
-```mermaid
-flowchart LR
-    A[請求] --> B[實作]
-    B --> C[自我審核]
-    C --> D{有意見嗎?}
-    D -->|有| B
-    D -->|沒有| E[建立 PR]
-    E --> F[最終審核]
-    F --> G{有意見嗎?}
-    G -->|有| F
-    G -->|沒有| H[關閉]
-    H --> I[積累]
-    I --> J{發佈?}
-    J -->|否| A
-    J -->|是| K[準備發佈]
-    K --> L[發佈]
+```
+後端開發者，請將 todo/EPIC-status-page.todo.md 中的任務拿來執行。
 ```
 
-### 持續改進流程 (回顧 / Retrospective)
+流程如下：
 
-此流程旨在持續提高代理的自主性與工作品質。它通過將識別出的問題轉化為更新的標準與自動化檢查，來閉合開發循環。
-
-1. **觀察 (Observation)。** 即時監控代理的工作。記錄在審核階段出現的任何猶豫、上下文誤解或錯誤。
-2. **分析 (Analysis)。** 識別浪費資源（時間、token）的重複錯誤模式。尋求系統性解決方案：如何修改指令或工具以防止錯誤再次發生。
-3. **改進 (Improvement)。** 對 `AGENTS.md`、任務模板或 linter 配置進行針對性修改。更新專案知識庫。
+1. **請求。** 我指定角色並指向任務檔案。
+2. **實作。** 代理撰寫程式碼、測試、遷移、文件。
+3. **檢查。** 執行 PHPUnit、PHPCS、Psalm、Deptrac、PHPMD、Composer 或 `make check`。
+4. **自我檢查。** 審查自己的解決方案。
+5. **角色審核。** 另一個角色檢視架構、測試、UX 或基礎設施。
+6. **PR。** 代理建立拉取請求。
+7. **最終審核。** 我閱讀結果，與代理進行「反饋 → 修正」的循環。
+8. **合併。** 代理合併、刪除分支、返回 master。
+9. **發布。** 發布前代理執行 e2e、準備變更日誌與標籤。生產環境由我自行部署。
 
 ```mermaid
 flowchart LR
-    A[觀察] --> B[分析]
-    B --> C[改進]
+    A["請求"] --> B["實作"]
+    B --> C["自我檢查"]
+    C --> D["審核"]
+    D --> E["建立 PR"]
+    E --> F["最終審核"]
+    F --> G["關閉"]
+
+    G -.->|"下一個任務"| A
+
+    G --> H["積累任務"]
+    H --> I["發布準備"]
+    I --> J["發布"]
+
+    classDef start stroke:#1565c0,stroke-width:3px;
+    classDef release stroke:#2e7d32,stroke-width:3px;
+
+    class A start;
+    class J release;
+```
+
+此流程的價值在於階段的分離。代理不會一次性完成所有事情：先實作，再自我檢查，然後將結果交給另一個角色，最後才交給人類進行最終審核。這種階段分離配合前置的任務規劃，提升了實作品質，並減少了人類在最終審核上花費的時間。
+
+### 最終審核
+
+在最終審核中，我關注的不是實作本身，而是程式碼是否遵循專案規則：慣例、模組隔離、`High cohesion, low coupling` 原則、限界上下文以及領域的統一語言。
+
+我也會檢查尚未轉移到確定性工具中的內容：奇怪的決策、多餘的複雜度、安全漏洞和明顯的荒謬之處。如果某個地方看起來不對，我通常會問代理為什麼這樣做。然後我要麼同意，要麼代理重新做。
+
+我幾乎不看測試程式碼：只有在需要驗證特定場景或測試失敗原因時才會打開。
+
+我會特別檢查 PR 的格式。例如，我要求代理在 PR 上標記自己的標籤——這些標籤後來用於建立代理工作佔比的報告。
+
+我比閱讀普通程式碼更仔細地閱讀代理規則的修改。一條好規則能帶來很大回報，但代理並不總是能為自己寫出好規則：通常冗長且不切要點。我認為這可以通過花時間教導代理更好地撰寫此類規則來改善。目前我更傾向於手動校對這些修改。
+
+在最終審核中，我也會記錄代理重複出現的錯誤。這些後來會成為新的規則、檢查和流程改進。
+
+### 持續改進流程 (回顧)
+
+回顧的目的是提高代理的自主性與工作品質。我觀察哪些問題反覆出現，並將它們轉化為規則、檢查、模板或流程改進。
+
+循環如下：
+
+1. **觀察。** 在過程中和審核時觀察代理的工作。記錄失敗、上下文誤解、多餘操作和錯誤。
+2. **分析。** 找出浪費時間和 token 的重複模式。尋求系統性解決方案：在指令、模板或工具中改變什麼，才能讓錯誤不再發生。
+3. **改進。** 對 `AGENTS.md`、角色、任務模板、文件、linter 配置、Deptrac 規則、嗅探器或測試進行針對性修改。
+
+```mermaid
+flowchart LR
+    A["觀察"] --> B["分析"]
+    B --> C["改進"]
     C --> A
+
+    classDef start stroke:#1565c0,stroke-width:3px;
+    classDef finish stroke:#2e7d32,stroke-width:3px;
+
+    class A start;
+    class C finish;
 ```
 
-> **重要：** 堅持隔離變更原則。不要一次改變所有內容 —— 這會導致無法追蹤特定修改的影響。分小批次實施改進並立即驗證效果。
+> 遵循隔離變更原則很重要。不要一次改變所有內容——這樣無法追蹤特定修改的影響。改進應以小增量引入，並立即驗證效果。
+
 
 ## 📂 實作範例 (Implementation Examples)
 
@@ -161,7 +225,25 @@ flowchart LR
 
 ### 📸 附帶螢幕截圖的範例
 
-[在我的部落格中](https://prikotov.pro/blog/pervyi-opyt-s-glm-5-koding-cherez-kilo-code#primer-raboty-v-kilo-code) —— 一個帶有螢幕截圖的真實 AI 代理會話詳細流程：從請求到完成 PR。展示了代理如何在實踐中與此攻略協作。
+[在我的部落格中](https://prikotov.pro/blog/pervyi-opyt-s-glm-5-koding-cherez-kilo-code#primer-raboty-v-kilo-code)（俄文） —— 一個帶有螢幕截圖的真實 AI 代理會話詳細流程：從請求到完成 PR。展示了代理如何在實踐中與此攻略協作。
 
 ---
-> **附註：** 此文件由 Gemini CLI (gemini-3-pro-preview) 根據作者（人類）提供的材料與指令編寫。
+
+## 📦 實際實作（2026 年 5 月）
+
+此指南的方法論已實作為一組 Composer 套件——每個套件分別實現了方法的特定元素（慣例、任務、角色、git 工作流程）。在此基礎上組成了可直接使用的專案骨架：
+
+**[prikotov/symfony-ddd-ai-skeleton](https://github.com/prikotov/symfony-ddd-ai-skeleton)** —— 可重複使用的 Symfony 8 / PHP 8.4 骨架，具備模組化 DDD/CQRS、多應用核心、適應 AI 代理的工作流程（`AGENTS.md`、角色、慣例、todo-md）及內建自動化品質檢查（`make check`）。適合作為領域複雜、模組化架構與 DDD 有助於管理複雜度的專案起點。
+
+實現方法各元素的配套套件：
+
+| 套件 | 用途 |
+|-------|----------|
+| [prikotov/coding-standard](https://github.com/prikotov/coding-standard) | 慣例——描述 Symfony 應用原則、模式、層級、模組與結構的編碼標準。自動化檢查（PHPCS、Deptrac、PHPStan）確保遵循慣例 |
+| [prikotov/todo-md](https://github.com/prikotov/todo-md) | 任務管理系統：任務以帶有 YAML front matter 的 markdown 檔案儲存，透過在資料夾間移動改變狀態，模板與參考資料協助 AI 代理建立與追蹤任務 |
+| [prikotov/task-orchestrator](https://github.com/prikotov/task-orchestrator) | 主控台代理編排器：具行為輪廓（DISC、Big Five）的角色、技能、隔離上下文子代理、YAML 步驟鏈、角色驗證 |
+| [prikotov/git-workflow](https://github.com/prikotov/git-workflow) | Git 工作流程規則：分支命名、提交格式（Conventional Commits）、拉取請求流程、程式碼審查、發布、部署與密鑰保護 |
+
+關於我如何以及為何採用此方法的詳細說明，請參閱文章：[「AI 程式設計代理：我如何準備專案」](https://prikotov.pro/blog/ii-agenty-dlya-programmirovaniya-kak-ya-podgotovil-proekt)（俄文）。
+
+---
