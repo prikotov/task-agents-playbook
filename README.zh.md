@@ -244,6 +244,6 @@ flowchart LR
 | [prikotov/git-workflow](https://github.com/prikotov/git-workflow) | Git 工作流程規則：分支命名、提交格式（Conventional Commits）、拉取請求流程、程式碼審查、發布、部署與密鑰保護 |
 | [prikotov/task-orchestrator](https://github.com/prikotov/task-orchestrator) | 主控台代理編排器：具行為輪廓（DISC、Big Five）的角色、技能、隔離上下文子代理、YAML 步驟鏈、角色驗證 |
 
-關於我如何以及為何採用此方法的詳細說明，請參閱文章：[「AI 程式設計代理：我如何準備專案」](https://prikotov.pro/blog/ii-agenty-dlya-programmirovaniya-kak-ya-podgotovil-proekt)（俄文）。
+關於我如何以及為何採用此方法的詳細說明，請參閱文章：[「AI 程式設計代理：我如何準備專案」](https://prikotov.pro/articles/ai-coding-agents-how-i-prepared-my-project-zh)。
 
 ---
