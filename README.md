@@ -168,8 +168,6 @@ flowchart LR
 
 Методология этого playbook реализована в виде набора Composer-пакетов — каждый инструментально воплощает отдельный элемент подхода (конвенции, задачи, роли, git-процесс). На их основе собран готовый к использованию skeleton:
 
-Подробнее о том, как и почему я пришёл к этому подходу — в статье: [«AI-агенты для программирования: как я подготовил проект»](https://prikotov.pro/blog/ii-agenty-dlya-programmirovaniya-kak-ya-podgotovil-proekt).
-
 **[prikotov/symfony-ddd-ai-skeleton](https://github.com/prikotov/symfony-ddd-ai-skeleton)** — reusable Symfony 8 / PHP 8.4 skeleton с модульным DDD/CQRS, multi-app ядром, AI-friendly workflow (`AGENTS.md`, роли, конвенции, todo-md) и встроенным quality gate (`make check`). Готов к клонированию и адаптации под любой проект.
 
 Инфраструктурные пакеты, реализующие отдельные элементы playbook:
@@ -180,6 +178,8 @@ flowchart LR
 | [prikotov/todo-md](https://github.com/prikotov/todo-md) | Система управления задачами: задачи хранятся как markdown-файлы с YAML front matter, статусы меняются перемещением между папками, шаблоны и справочники помогают AI-агентам ставить и вести задачи |
 | [prikotov/task-orchestrator](https://github.com/prikotov/task-orchestrator) | Оркестратор CLI-агентов: роли с поведенческими профилями (DISC, Big Five), скиллы, сабагенты в чистом контексте, YAML-конфиги цепочек, валидация ролей |
 | [prikotov/git-workflow](https://github.com/prikotov/git-workflow) | Правила git-процесса: именование веток, формат коммитов (Conventional Commits), порядок проведения пулреквестов, кодревью, релизов, деплоя и защиты секретов |
+
+Подробнее о том, как и почему я пришёл к этому подходу — в статье: [«AI-агенты для программирования: как я подготовил проект»](https://prikotov.pro/blog/ii-agenty-dlya-programmirovaniya-kak-ya-podgotovil-proekt).
 
 ---
 > **Примечание:** Этот документ составлен с помощью Gemini CLI (gemini-3-pro-preview) на основе материалов и инструкций, предоставленных автором (человеком).

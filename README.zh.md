@@ -169,8 +169,6 @@ flowchart LR
 
 此攻略的方法論已實作為一組 Composer 套件——每個套件分別實現了方法的特定元素（慣例、任務、角色、git 工作流程）。在此基礎上組成了可直接使用的骨架：
 
-關於我如何以及為何採用此方法的詳細說明，請參閱文章：[「AI 程式設計代理：我如何準備專案」](https://prikotov.pro/blog/ii-agenty-dlya-programmirovaniya-kak-ya-podgotovil-proekt)（俄文）。
-
 **[prikotov/symfony-ddd-ai-skeleton](https://github.com/prikotov/symfony-ddd-ai-skeleton)** —— 可重複使用的 Symfony 8 / PHP 8.4 骨架，具備模組化 DDD/CQRS、多應用核心、AI 友善工作流程（`AGENTS.md`、角色、慣例、todo-md）及內建品質閘門（`make check`）。可隨時複製並適用於任何專案。
 
 實作攻略中各個元素的基礎設施套件：
@@ -181,6 +179,8 @@ flowchart LR
 | [prikotov/todo-md](https://github.com/prikotov/todo-md) | 任務管理系統：任務以帶有 YAML front matter 的 markdown 檔案儲存，透過在資料夾間移動改變狀態，模板與參考資料協助 AI 代理建立與追蹤任務 |
 | [prikotov/task-orchestrator](https://github.com/prikotov/task-orchestrator) | CLI 代理編排器：具行為輪廓（DISC、Big Five）的角色、技能、乾淨上下文子代理、YAML 鏈配置、角色驗證 |
 | [prikotov/git-workflow](https://github.com/prikotov/git-workflow) | Git 工作流程規則：分支命名、提交格式（Conventional Commits）、拉取請求流程、程式碼審查、發布、部署與密鑰保護 |
+
+關於我如何以及為何採用此方法的詳細說明，請參閱文章：[「AI 程式設計代理：我如何準備專案」](https://prikotov.pro/blog/ii-agenty-dlya-programmirovaniya-kak-ya-podgotovil-proekt)（俄文）。
 
 ---
 > **附註：** 此文件由 Gemini CLI (gemini-3-pro-preview) 根據作者（人類）提供的材料與指令編寫。

@@ -174,8 +174,6 @@ To better understand how these rules work in practice, you can examine real arti
 
 This playbook's methodology is implemented as a set of Composer packages — each one instrumentally embodies a specific element of the approach (conventions, tasks, roles, git workflow). Together they form a ready-to-use skeleton:
 
-More about how and why I arrived at this approach — in the article: [«AI coding agents: how I prepared the project»](https://prikotov.pro/blog/ii-agenty-dlya-programmirovaniya-kak-ya-podgotovil-proekt) (in Russian).
-
 **[prikotov/symfony-ddd-ai-skeleton](https://github.com/prikotov/symfony-ddd-ai-skeleton)** — a reusable Symfony 8 / PHP 8.4 skeleton with modular DDD/CQRS, multi-app kernel, AI-friendly workflow (`AGENTS.md`, roles, conventions, todo-md) and a built-in quality gate (`make check`). Ready to clone and adapt for any project.
 
 Infrastructure packages implementing individual playbook elements:
@@ -186,3 +184,5 @@ Infrastructure packages implementing individual playbook elements:
 | [prikotov/todo-md](https://github.com/prikotov/todo-md) | Task management system: tasks stored as markdown files with YAML front matter, statuses changed by moving between folders, templates and references help AI agents create and track tasks |
 | [prikotov/task-orchestrator](https://github.com/prikotov/task-orchestrator) | CLI agent orchestrator: roles with behavioral profiles (DISC, Big Five), skills, sub-agents with clean context, YAML chain configs, role validation |
 | [prikotov/git-workflow](https://github.com/prikotov/git-workflow) | Git workflow rules: branch naming, commit format (Conventional Commits), pull request process, code review, release, deploy and secrets protection |
+
+More about how and why I arrived at this approach — in the article: [«AI coding agents: how I prepared the project»](https://prikotov.pro/blog/ii-agenty-dlya-programmirovaniya-kak-ya-podgotovil-proekt) (in Russian).
