@@ -126,36 +126,49 @@ A bad task almost guarantees a bad solution. A good task doesn't guarantee a per
 
 ### Task Implementation Process
 
-The process is similar to task setting, but the agent performs more checks independently before showing me the code.
+Implementation is similar to planning, only instead of task text the agent changes code.
 
-1. **Request.** Example: `You are a [Backend Developer](docs/agents/roles/team/backend_developer.en.md). Take the task todo/EPIC-status-page.todo.md to work.`
-2. **Implementation.** The agent fulfills the task requirements and runs checks itself: tests (PHPUnit), static analysis (PHPMD, Deptrac, Psalm), style validation (PHP_CodeSniffer), build (Composer). This creates a self-validation cycle — the agent delivers code that is already clean enough.
-3. **Self-review.** I ask the agent to check the solution. I can ask it to take a role (architect, devops, frontend/backend developer) and run checks sequentially.
-4. **Refinement.** If there are comments, I ask for corrections and we return to step 2.
-5. **PR Creation.** If everything is fine, I ask the agent to create a PR.
-6. **Final Review.** I check the code myself, going through "comment — correction" iterations with the agent.
-7. **Closing.** I merge the PR and inform the agent. It deletes the branch, switches to master, selects the next task.
-8. **Accumulation.** Tasks accumulate for the release.
-9. **Release Preparation.** I ask the agent to run e2e tests and prepare the release: tag, changelog, publication on GitHub.
-10. **Release.** I deploy to prod: configurations, dependencies, migrations, supervisor restart. Then — post-checks.
+Example request:
+
+```
+Backend developer, take the task from todo/EPIC-status-page.todo.md to work.
+```
+
+The process:
+
+1. **Request.** I assign a role and point to the task file.
+2. **Implementation.** The agent writes code, tests, migrations, documentation.
+3. **Checks.** Runs PHPUnit, PHPCS, Psalm, Deptrac, PHPMD, Composer or `make check`.
+4. **Self-check.** Reviews its own solution.
+5. **Role review.** Another role examines architecture, tests, UX or infrastructure.
+6. **PR.** The agent creates a pull request.
+7. **Final Review.** I read the result and go through "feedback → fix" cycles with the agent.
+8. **Merge.** The agent merges, deletes the branch, returns to master.
+9. **Release.** Before release the agent runs e2e, prepares changelog and tag. I deploy to prod myself.
 
 ```mermaid
 flowchart LR
-    A[Request] --> B[Implementation]
-    B --> C[Self review]
-    C --> D{Any comments?}
-    D -->|Yes| B
-    D -->|No| E[Create PR]
-    E --> F[Final Review]
-    F --> G{Comments?}
-    G -->|Yes| F
-    G -->|No| H[Close]
-    H --> I[Accumulation]
-    I --> J{Release?}
-    J -->|No| A
-    J -->|Yes| K[Prep Release]
-    K --> L[Release]
+    A["Request"] --> B["Implementation"]
+    B --> C["Self-check"]
+    C --> D["Review"]
+    D --> E["Create PR"]
+    E --> F["Final Review"]
+    F --> G["Close"]
+
+    G -.->|"next task"| A
+
+    G --> H["Accumulate tasks"]
+    H --> I["Release prep"]
+    I --> J["Release"]
+
+    classDef start stroke:#1565c0,stroke-width:3px;
+    classDef release stroke:#2e7d32,stroke-width:3px;
+
+    class A start;
+    class J release;
 ```
+
+The value of this process is in separating stages. The agent doesn't do everything in one jump: first it implements, then checks itself, then passes the result to another role, and only then hands it to the human for final review. This separation of stages, combined with preliminary task planning, improves implementation quality and reduces the time the human spends on final review.
 
 ### Continuous Improvement Process (Retrospective)
 

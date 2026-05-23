@@ -126,36 +126,49 @@ flowchart LR
 
 ### 任務實作流程
 
-流程與任務設定類似，但代理在向我展示程式碼之前會獨立執行更多檢查。
+實作與規劃類似，只是代理更改的是程式碼而非任務文本。
 
-1. **請求 (Request)。** 範例：`You are a [Backend Developer](docs/agents/roles/team/backend_developer.en.md). Take the task todo/EPIC-status-page.todo.md to work.`
-2. **實作 (Implementation)。** 代理履行任務需求並自行執行檢查：測試 (PHPUnit)、靜態分析 (PHPMD, Deptrac, Psalm)、風格驗證 (PHP_CodeSniffer)、構建 (Composer)。這建立了一個自我驗證循環 —— 代理交付的程式碼已經足夠乾淨。
-3. **自我審核 (Self-review)。** 我要求代理檢查解決方案。我可以要求它承擔特定角色（架構師、devops、前端/後端開發者）並依序執行檢查。
-4. **精煉 (Refinement)。** 如果有意見，我會要求修正，然後回到第 2 步。
-5. **建立 PR (PR Creation)。** 如果一切正常，我會要求代理建立 PR。
-6. **最終審核 (Final Review)。** 我親自檢查程式碼，與代理一起進行「意見 —— 修正」的迭代。
-7. **關閉 (Closing)。** 我合併 PR 並通知代理。它刪除分支，切換到 master，選擇下一個任務。
-8. **積累 (Accumulation)。** 任務積累以進行發佈。
-9. **發佈準備 (Release Preparation)。** 我要求代理執行 e2e 測試並準備發佈：標籤 (tag)、變更日誌 (changelog)、在 GitHub 上發佈。
-10. **發佈 (Release)。** 我將其部署到生產環境 (prod)：配置、依賴項、遷移、重新啟動 supervisor。然後 —— 進行後期檢查。
+請求範例：
+
+```
+後端開發者，請將 todo/EPIC-status-page.todo.md 中的任務拿來執行。
+```
+
+流程如下：
+
+1. **請求。** 我指定角色並指向任務檔案。
+2. **實作。** 代理撰寫程式碼、測試、遷移、文件。
+3. **檢查。** 執行 PHPUnit、PHPCS、Psalm、Deptrac、PHPMD、Composer 或 `make check`。
+4. **自我檢查。** 審查自己的解決方案。
+5. **角色審核。** 另一個角色檢視架構、測試、UX 或基礎設施。
+6. **PR。** 代理建立拉取請求。
+7. **最終審核。** 我閱讀結果，與代理進行「反饋 → 修正」的循環。
+8. **合併。** 代理合併、刪除分支、返回 master。
+9. **發布。** 發布前代理執行 e2e、準備變更日誌與標籤。生產環境由我自行部署。
 
 ```mermaid
 flowchart LR
-    A[請求] --> B[實作]
-    B --> C[自我審核]
-    C --> D{有意見嗎?}
-    D -->|有| B
-    D -->|沒有| E[建立 PR]
-    E --> F[最終審核]
-    F --> G{有意見嗎?}
-    G -->|有| F
-    G -->|沒有| H[關閉]
-    H --> I[積累]
-    I --> J{發佈?}
-    J -->|否| A
-    J -->|是| K[準備發佈]
-    K --> L[發佈]
+    A["請求"] --> B["實作"]
+    B --> C["自我檢查"]
+    C --> D["審核"]
+    D --> E["建立 PR"]
+    E --> F["最終審核"]
+    F --> G["關閉"]
+
+    G -.->|"下一個任務"| A
+
+    G --> H["積累任務"]
+    H --> I["發布準備"]
+    I --> J["發布"]
+
+    classDef start stroke:#1565c0,stroke-width:3px;
+    classDef release stroke:#2e7d32,stroke-width:3px;
+
+    class A start;
+    class J release;
 ```
+
+此流程的價值在於階段的分離。代理不會一次性完成所有事情：先實作，再自我檢查，然後將結果交給另一個角色，最後才交給人類進行最終審核。這種階段分離配合前置的任務規劃，提升了實作品質，並減少了人類在最終審核上花費的時間。
 
 ### 持續改進流程 (回顧 / Retrospective)
 
