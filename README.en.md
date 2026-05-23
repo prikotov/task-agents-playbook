@@ -119,6 +119,9 @@ flowchart LR
     class G finish;
 ```
 
+> *"Better to lose a day, then fly there in five minutes"*<br/>
+> *— folk wisdom*
+
 A bad task almost guarantees a bad solution. A good task doesn't guarantee a perfect solution, but it reduces the "check → fix" cycle at final review.
 
 ### Task Implementation Process
