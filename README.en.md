@@ -182,7 +182,7 @@ Infrastructure packages implementing individual playbook elements:
 
 | Package | Purpose |
 |---------|----------|
-| [prikotov/coding-standard](https://github.com/prikotov/coding-standard) | Coding standard: PHPCS sniffs (DTO, VO, Enum, CommandHandler, UseCase, QueryHandler), Deptrac rules (layer and module isolation), PHPStan rules, config templates and convention docs |
-| [prikotov/todo-md](https://github.com/prikotov/todo-md) | File-based kanban board: YAML front matter (statuses, priorities, complexity, types), task and epic templates, validation, task writing guide for AI agents |
+| [prikotov/coding-standard](https://github.com/prikotov/coding-standard) | Conventions — coding standards describing principles, patterns, layers, modules and structure of a Symfony application. Automated checks (PHPCS, Deptrac, PHPStan) enforce compliance with conventions |
+| [prikotov/todo-md](https://github.com/prikotov/todo-md) | Task management system: tasks stored as markdown files with YAML front matter, statuses changed by moving between folders, templates and references help AI agents create and track tasks |
 | [prikotov/task-orchestrator](https://github.com/prikotov/task-orchestrator) | CLI agent orchestrator: roles with behavioral profiles (DISC, Big Five), skills, sub-agents with clean context, YAML chain configs, role validation |
-| [prikotov/git-workflow](https://github.com/prikotov/git-workflow) | Git workflow: branches, commits (Conventional Commits), pull requests, code review, releases (SemVer, CHANGELOG), deploy, secrets (Gitleaks) |
+| [prikotov/git-workflow](https://github.com/prikotov/git-workflow) | Git workflow rules: branch naming, commit format (Conventional Commits), pull request process, code review, release, deploy and secrets protection |

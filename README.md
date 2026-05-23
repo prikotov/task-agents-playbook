@@ -176,10 +176,10 @@ flowchart LR
 
 | Пакет | Назначение |
 |-------|------------|
-| [prikotov/coding-standard](https://github.com/prikotov/coding-standard) | Стандарт кодирования: PHPCS-сниффы (DTO, VO, Enum, CommandHandler, UseCase, QueryHandler), Deptrac-правила (изоляция слоёв и модулей), PHPStan-правила, шаблоны конфигураций и документация конвенций |
-| [prikotov/todo-md](https://github.com/prikotov/todo-md) | Файловый канбан задач: YAML front matter (статусы, приоритеты, сложность, типы), шаблоны задач и эпиков, валидация, руководство по постановке задач для AI-агентов |
+| [prikotov/coding-standard](https://github.com/prikotov/coding-standard) | Конвенции — стандарты кодирования, описывающие принципы, паттерны, слои, модули и структуру Symfony-приложения. Автоматические проверки (PHPCS, Deptrac, PHPStan) контролируют следование конвенциям |
+| [prikotov/todo-md](https://github.com/prikotov/todo-md) | Система управления задачами: задачи хранятся как markdown-файлы с YAML front matter, статусы меняются перемещением между папками, шаблоны и справочники помогают AI-агентам ставить и вести задачи |
 | [prikotov/task-orchestrator](https://github.com/prikotov/task-orchestrator) | Оркестратор CLI-агентов: роли с поведенческими профилями (DISC, Big Five), скиллы, сабагенты в чистом контексте, YAML-конфиги цепочек, валидация ролей |
-| [prikotov/git-workflow](https://github.com/prikotov/git-workflow) | Git-процесс: ветки, коммиты (Conventional Commits), пулреквесты, кодревью, релизы (SemVer, CHANGELOG), деплой, секреты (Gitleaks) |
+| [prikotov/git-workflow](https://github.com/prikotov/git-workflow) | Правила git-процесса: именование веток, формат коммитов (Conventional Commits), порядок проведения пулреквестов, кодревью, релизов, деплоя и защиты секретов |
 
 ---
 > **Примечание:** Этот документ составлен с помощью Gemini CLI (gemini-3-pro-preview) на основе материалов и инструкций, предоставленных автором (человеком).
