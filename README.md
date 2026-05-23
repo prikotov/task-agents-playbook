@@ -110,6 +110,12 @@ flowchart LR
     F --> G["Закрытие"]
     F -.-> F1["Доработка"]
     F1 -.-> F
+
+    classDef start stroke:#1565c0,stroke-width:3px;
+    classDef finish stroke:#2e7d32,stroke-width:3px;
+
+    class A start;
+    class G finish;
 ```
 
 Плохая постановка задачи почти гарантирует плохое решение. Хорошая постановка не гарантирует идеальное решение, но уменьшает цикл «проверка → правка» на финальном ревью.

@@ -111,6 +111,12 @@ flowchart LR
     F --> G["Closing"]
     F -.-> F1["Refinement"]
     F1 -.-> F
+
+    classDef start stroke:#1565c0,stroke-width:3px;
+    classDef finish stroke:#2e7d32,stroke-width:3px;
+
+    class A start;
+    class G finish;
 ```
 
 A bad task almost guarantees a bad solution. A good task doesn't guarantee a perfect solution, but it reduces the "check → fix" cycle at final review.

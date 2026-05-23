@@ -111,6 +111,12 @@ flowchart LR
     F --> G["關閉"]
     F -.-> F1["修正"]
     F1 -.-> F
+
+    classDef start stroke:#1565c0,stroke-width:3px;
+    classDef finish stroke:#2e7d32,stroke-width:3px;
+
+    class A start;
+    class G finish;
 ```
 
 糟糕的任務幾乎注定導致糟糕的解決方案。好的任務不保證完美的解決方案，但能減少最終審核中「檢查 → 修正」的循環。
